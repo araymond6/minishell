@@ -6,12 +6,11 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/01 14:43:49 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:08:00 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/main.h"
-#include "../include/parsing.h"
+#include "../include/minishell.h"
 
 void	save_path(t_minishell *mini, char **envp)
 {

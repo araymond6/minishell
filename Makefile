@@ -19,7 +19,8 @@ VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
 OBJ_PRE = $(addprefix $(OBJ_DIR), $(OBJS))
-DEP = $(SRCS:%.c=%.h)
+
+DEP = minishell.h
 DEP_PRE = $(addprefix $(INC_DIR), $(DEP))
 
 # Colors

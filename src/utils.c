@@ -6,11 +6,11 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:29:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/01 14:30:36 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:07:46 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/main.h"
+#include "../include/minishell.h"
 
 void	free_mini(t_minishell *mini)
 {
