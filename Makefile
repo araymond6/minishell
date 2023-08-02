@@ -14,7 +14,9 @@ INC_DIR = include/
 LIB_DIR = libft
 
 SRCS =	main.c \
-		parsing.c
+		parsing.c \
+		utils.c \
+		exit.c
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
