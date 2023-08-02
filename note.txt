@@ -1,0 +1,7 @@
+brew install readline -dev
+
+PATH=/Users/araymond/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin
+
+
+IMPORTANT: Bash Reference Manual
+https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
