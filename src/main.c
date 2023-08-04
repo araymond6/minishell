@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/02 14:08:00 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:41:37 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	save_path(t_minishell *mini, char **envp)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	t_minishell mini;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_minishell mini;
 
-	ft_bzero(&mini, sizeof(mini));
-	save_path(&mini, envp);
-	read_input(&mini);
-}
+// 	ft_bzero(&mini, sizeof(mini));
+// 	save_path(&mini, envp);
+// 	read_input(&mini);
+// }

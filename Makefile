@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -lncurses #-Wall -Werror -Wextra
+CFLAGS = -lncurses -g #-Wall -Werror -Wextra
 
 LIBRLINE = readline-8.2
 LIBRLINE_DIR = ./libs/readline/
@@ -16,7 +16,8 @@ LIB_DIR = libft
 SRCS =	main.c \
 		parsing.c \
 		utils.c \
-		exit.c
+		exit.c \
+		exec.c
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)

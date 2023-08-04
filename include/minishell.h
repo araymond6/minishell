@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/02 14:05:24 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:57:40 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,28 @@
 
 typedef struct s_cmd
 {
+	char			*redir;
 	char			*cmd;
-	char			**arg;
-	char			*infile;
-	char			*outfile;
+	char			*path;
+	char			**cmd_arg;
+	char			**file;	//tableaux de redirection d'entrée et sortie?
+	struct s_cmd	*next; // le prochain block
+	char			**delimiter; //tableaux de redirection here_doc ?
+	int				nb_redir; 
 }	t_cmd;
 
-typedef struct s_minishell
+typedef struct s_minishell // ce que je vais recevoir en parametre
 {
-	char	*path_envp;
-	char	*arg;
-	char	**cmd;
+	char			*path_envp;
+	char			*arg;	// pas important
+	char			**cmd;  //tableaux des commandes par bloc
+	struct s_cmd	*struct_cmd;
 }	t_minishell;
 
 //parsing
 int	read_input(t_minishell *mini);
 
+void	save_path(t_minishell *mini, char **envp);
 //execution
 
 #endif
