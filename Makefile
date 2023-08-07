@@ -17,7 +17,15 @@ SRCS =	main.c \
 		parsing.c \
 		utils.c \
 		exit.c \
-		exec.c
+		exec.c \
+		append.c \
+		here_doc.c \
+		std_entry.c \
+		std_exit.c \
+		utils_exec.c \
+		utils_exec2.c \
+		redir.c 
+		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
