@@ -6,13 +6,13 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:34:51 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/07 16:48:03 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:03:07 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//function qui free un arrayleaux
+//function qui free un array
 void	free_array(char **array)
 {
 	int	index_array;
@@ -28,7 +28,7 @@ void	free_array(char **array)
 	array = NULL;
 }
 
-//function qui malloc le arrayleaux des redirection redir, mais aussi le char **file qui va contenir le nom du fichier lie a la redirection
+//function qui malloc les array des redirections redir, mais aussi le char **file qui va contenir le nom du fichier lie a la redirection
 void create_tab_file(t_minishell *mini)
 {
 	int i;
@@ -65,25 +65,26 @@ int	entry_redirection(t_minishell *mini, int i, int j)
 	if(mini->cmd[i][j] == '<')
 		here_doc_func(mini, i, j + 1);
 	else if(mini->cmd[i][j] == ' ')
-		j = std_entry_redirection(mini, i, j + 1);
+		j = redirection13(mini, i, j + 1, '1');
 	else if(mini->cmd[i][j] == '>')
 		error(mini, i, j);
-	else
-		std_entry_redirection(mini, i, j);
+	else 
+		j = redirection13(mini, i, j, '1');
 	return(j);
 }
 
 //function qui va assigner les chose en cas de >> ou de >
-void	exit_redirection(t_minishell *mini, int i, int j)
+int	exit_redirection(t_minishell *mini, int i, int j)
 	{
 		if(mini->cmd[i][j] == '>')
 			append_redirection(mini, i, j + 1);
 		else if(mini->cmd[i][j] == ' ')
-			std_exit_redirection(mini, i, j + 1);
+			j = redirection13(mini, i, j + 1, '3');
 		else if(mini->cmd[i][j] == '<')
 			error(mini, i, j);
 		else
-			std_exit_redirection(mini, i, j);
+			j = redirection13(mini, i, j, '3');
+		return(j);
 	}
 
 
@@ -154,6 +155,19 @@ int find_path(t_minishell *mini)
 	return(0);
 }
 
+int ft_strjcpy(char *dst, char *src, int max, int j)
+{
+	int i;
+
+	i = 0;
+	while(i < max)
+	{
+		dst[i] = src[j + i];
+		i++;
+	}
+	return (j + i);
+}
+
 //function qui va assigner les chose quand il trouve la commande
 //peut recevoir le path absolue, mais aussi le path relatif ou bien encore seulement le nom de la commande 
 //utiliser acces pou verifier comment elle fonctionne.
@@ -161,32 +175,28 @@ int find_path(t_minishell *mini)
 int check_command(t_minishell *mini, int i, int j)
 {
 	int len_cmd;
-	int r;
 	int len;
 	int len_redir;
-	int a;
 
-	r = 0;
 	len_cmd = len_until_space(mini, i, j);
 	mini->struct_cmd->cmd = ft_calloc(len_cmd + 1, sizeof(char));
-	while(r < len_cmd)
-	{
-		mini->struct_cmd->cmd[r] = mini->cmd[i][j + r];
-		r++;
-	}
-	j = j + r;
+	j = ft_strjcpy(mini->struct_cmd->cmd, mini->cmd[i], len_cmd, j);
 	if(mini->cmd[i][j] == ' ')
 		j++;
 	if(find_path(mini) == -1)
 		return(error(mini, i, j), -1);
 	len = ft_strlen(mini->struct_cmd->path);
-	mini->struct_cmd->cmd_arg = ft_calloc((len + 1), sizeof(char*));
+	mini->struct_cmd->cmd_arg = ft_calloc(3, sizeof(char*));
 	if (!mini->struct_cmd->cmd_arg)
 		return (-1);
-	printf("strlcpy -> a : %s\n", mini->struct_cmd->path);
-	a = ft_strlcpy(mini->struct_cmd->cmd_arg[0], mini->struct_cmd->path, len + 1);
-	printf("strlcpy -> a : %d", a);
+	mini->struct_cmd->cmd_arg[0] = ft_calloc(len + 1, sizeof(char));
+	if (!mini->struct_cmd->cmd_arg[0])
+		return (-1);
+	ft_strlcpy(mini->struct_cmd->cmd_arg[0], mini->struct_cmd->path, len + 1);
 	len_redir = len_until_redirections(mini, i, j);
-	//alloue la memoire selon len_redir et attribuer la suite de la commande avec strlcpy
-	return(0);
+	mini->struct_cmd->cmd_arg[1] = ft_calloc(len_redir + 1, sizeof(char));
+	if (!mini->struct_cmd->cmd_arg[1])
+		return (-1);
+	j = ft_strjcpy(mini->struct_cmd->cmd_arg[1], mini->cmd[i], len_redir, j);
+	return(j);
 }

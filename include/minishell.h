@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/07 16:10:05 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:04:25 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ void	assign_redir_values(t_minishell *mini, char c);
 	//function qui va assigner les chose en cas de >> ou de >
 int		entry_redirection(t_minishell *mini, int i, int j);
 	//function qui va assigner les chose en cas de >> ou de >
-void	exit_redirection(t_minishell *mini, int i, int j);
+int	exit_redirection(t_minishell *mini, int i, int j);
 	//function qui va assigner les chose quand il trouve la commande
 int		check_command(t_minishell *mini, int i, int j);
 	//function qui va assigner les chose en cas de <
-int		std_entry_redirection(t_minishell *mini, int i, int j);
+int		redirection13(t_minishell *mini, int i, int j, char c);
 	//function qui initilaize la struct cmd
 void	initialize_struct_cmd(t_cmd *struct_cmd);
 	//function qui compte le nb de caractere avant la prochaine espace
@@ -88,8 +88,6 @@ void	parsing_command(t_minishell *mini, int i);
 void	append_redirection(t_minishell *mini, int i, int j);
 //function qui va assigner les chose en cas de <<
 void	here_doc_func(t_minishell *mini, int i, int j);
-//function qui va assigner les chose en cas de >
-void	std_exit_redirection(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);
 
 #endif

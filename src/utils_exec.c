@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:30:12 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/07 16:34:13 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:04:49 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int len_until_space(t_minishell *mini, int i, int j)
 	int len;
 	
 	len = 0;
-	while(mini->cmd[i][j+ len] != ' ')
+	while(mini->cmd[i][j+ len] != ' ' && mini->cmd[i][j+ len] != '>'
+		&& mini->cmd[i][j+ len] != '<')
 		len++;
 	return(len);
 }
@@ -92,12 +93,19 @@ void parsing_command(t_minishell *mini, int i)
 	while(mini->cmd[i][j])
 	{
 		if(mini->cmd[i][j] == '<')
-			j = entry_redirection(mini, i, j + 1);
+			{j = entry_redirection(mini, i, j + 1);
+			write(1, "allo", 4);}
 		else if(mini->cmd[i][j] == '>')
-			exit_redirection(mini, i, j + 1);
+			{j = exit_redirection(mini, i, j + 1);
+		write(1, "allo", 4);}
 		else if(mini->cmd[i][j] == ' ')
 			j++;
+		else if(mini->cmd[i][j] == '\n')
+		{
+			i++;
+			j = 0;
+		}
 		else 
-			check_command(mini, i, j);
+			j = check_command(mini, i, j);
 	}
 }
