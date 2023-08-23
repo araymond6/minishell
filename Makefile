@@ -2,11 +2,10 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -lncurses #-Wall -Werror -Wextra
+CFLAGS = #-Wall -Werror -Wextra
 
-LIBRLINE = readline-8.2
-LIBRLINE_DIR = ./libs/readline/
-RLINE = $(LIBRLINE_DIR)libreadline.a
+LFLAGS = -lreadline
+RLINE_DIR = -L${HOME}/.brew/opt/readline/lib
 
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -16,7 +15,9 @@ LIB_DIR = libft
 SRCS =	main.c \
 		parsing.c \
 		utils.c \
-		error.c
+		error.c \
+		quote.c \
+		doublequote.c
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
@@ -30,7 +31,7 @@ RESET = \033[0m
 GREEN = \033[92m
 MAGENTA = \033[95m
 
-all: readline lib $(NAME)
+all: lib $(NAME)
 
 run: all
 	./philo 5 800 200 200
@@ -43,7 +44,7 @@ $(OBJ_DIR)%.o: %.c $(DEP_PRE)
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Compiling minishell..$(GREEN)----$(RESET)"
-	$(CC) $(CFLAGS) $(RLINE) $(LIBFT) -o $@ $^
+	$(CC) $(CFLAGS) $(RLINE_DIR) $(LFLAGS) $(LIBFT) -o $@ $^
 	@echo "$(GREEN)-----$(MAGENTA)Minishell compiled!$(GREEN)-----$(RESET)"
 
 clean:
@@ -60,16 +61,7 @@ fclean: clean
 	@echo "$(GREEN)------$(MAGENTA)  Program removed!  $(GREEN)------$(RESET)"
 
 readline: 
-	@if [ ! -f ./libs/readline/libreadline.a ]; then \
-		mkdir -p $(LIBRLINE_DIR); \
-		curl -O https://ftp.gnu.org/gnu/readline/$(LIBRLINE).tar.gz; \
-		tar -xf $(LIBRLINE).tar.gz; \
-		rm -rf $(LIBRLINE).tar.gz; \
-		cd $(LIBRLINE) && bash configure && make; \
-		mv ./libreadline.a ../libs/readline; \
-		rm -rf ../$(LIBRLINE); \
-		echo "${GREEN}READLINE INSTALLED${RESET}"; \
-		fi
+	brew install readline
 
 lib: 
 	@make -C $(LIB_DIR)

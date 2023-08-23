@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/22 15:44:55 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:47:01 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/stat.h>
 # include <term.h>
 # include <termios.h>
+# include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
 # include "readline/readline.h"
@@ -45,8 +46,11 @@ typedef struct s_minishell
 	char	*path_envp;
 	char	*arg;
 	char	**cmd;
-	char	**envp;
+	struct sigaction sigact;
 }	t_minishell;
+
+//global exit status, for the $? exception
+int		EXIT_CODE;
 
 //parsing
 int		read_input(t_minishell *mini);
@@ -56,6 +60,8 @@ void	quote_parse(t_minishell *mini, int *i);
 //execution
 
 //utils
+void	initialize_mini(t_minishell *mini);
+void	free_mini(t_minishell *mini);
 void	parsing_error(t_minishell *mini);
 
 #endif

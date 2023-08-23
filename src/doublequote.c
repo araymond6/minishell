@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:47:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/22 15:41:50 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:40:27 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	substitute_dollar(t_minishell *mini, int *i, int *j)
 	char	*var;
 
 	k = (*j);
-	while (mini->arg[*i + k] )
+	while (mini->arg[*i + k] != ' ' && mini->arg[*i + k])
+	{
+		printf("hi");
+	}
 }
 
 void	doublequote_parse(t_minishell *mini, int *i)
@@ -29,10 +32,9 @@ void	doublequote_parse(t_minishell *mini, int *i)
 	(*i)++;
 	while (mini->arg[*i + j] && mini->arg[*i + j] != '\"')
 	{
-		if (mini->arg[*i + j] == '$')
+		if (mini->arg[*i + j] == '$' && mini->arg[*i + j + 1] == '?')
 		{
 			j++;
-			substitute_dollar(mini, i, &j);
 		}
 		j++;
 	}
