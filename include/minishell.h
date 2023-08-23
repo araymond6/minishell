@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/02 14:05:24 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:44:55 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,17 @@ typedef struct s_minishell
 	char	*path_envp;
 	char	*arg;
 	char	**cmd;
+	char	**envp;
 }	t_minishell;
 
 //parsing
-int	read_input(t_minishell *mini);
+int		read_input(t_minishell *mini);
+void	doublequote_parse(t_minishell *mini, int *i);
+void	quote_parse(t_minishell *mini, int *i);
 
 //execution
+
+//utils
+void	parsing_error(t_minishell *mini);
 
 #endif

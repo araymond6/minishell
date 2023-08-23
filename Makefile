@@ -16,7 +16,7 @@ LIB_DIR = libft
 SRCS =	main.c \
 		parsing.c \
 		utils.c \
-		exit.c
+		error.c
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)

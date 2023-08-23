@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:29:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/02 14:07:46 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:30:27 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,5 @@
 
 void	free_mini(t_minishell *mini)
 {
-	if (mini)
-	{
-		free(mini);
-	}
+	
 }
