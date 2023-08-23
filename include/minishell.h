@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/08 16:04:25 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:00:30 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_cmd
 	char			**file;		// tableaux de redirection d'entrée et sortie + Delimiter
 	struct s_cmd	*next;		// le prochain block
 	int				nb_redir;	// le nb de redirection au total
+	struct s_cmd	*prev;
 }	t_cmd;
 
 typedef struct s_minishell		// ce que je vais recevoir en parametre
