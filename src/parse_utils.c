@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/01 14:29:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/23 16:47:24 by araymond         ###   ########.fr       */
+/*   Created: 2023/08/24 13:48:30 by araymond          #+#    #+#             */
+/*   Updated: 2023/08/24 14:44:08 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	free_mini(t_minishell *mini)
+void	parse_exit(t_minishell *mini)
 {
-	
-}
-
-void	initialize_mini(t_minishell *mini)
-{
-	ft_bzero(mini, sizeof(t_minishell));
+	perror("Error");
+	exit_program(mini);
 }

@@ -6,30 +6,51 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/23 16:48:11 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:51:41 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	exit_program(t_minishell *mini)
+void	sub_dollar(t_minishell *mini, int *i)
 {
-	rl_clear_history();
+	
 }
 
-void	parse(t_minishell *mini)
+void	count_sub_dollar(t_minishell *mini, int *i)
+{
+	(*i)++;
+	mini->parse.sub--;
+	while ((mini->arg[*i] != ' ' || mini->arg[*i] != '$') && mini->arg[*i])
+	{
+		mini->parse.sub--;
+		(*i)++;
+	}
+	if (mini->arg[*i] == '$')
+	{
+		mini->parse.sub--;
+		(*i)++;
+		count_sub_dollar(mini, i);
+	}
+}
+
+static void	parse(t_minishell *mini)
 {
 	int	i;
 
 	i = 0;
 	while (mini->arg[i])
 	{
-		if (mini->arg[i] == '\\' || mini->arg[i] == ';')
-			parsing_error(mini);
-		else if (mini->arg[i] == '\'')
+		if (mini->arg[i] == '\'')
 			quote_parse(mini, &i);
 		else if (mini->arg[i] == '\"')
 			doublequote_parse(mini, &i);
+		else if (mini->arg[i] == '$')
+			count_sub_dollar(mini, &i);
+		else if (mini->arg[i] == '|')
+		{
+			
+		}
 		i++;
 	}
 }

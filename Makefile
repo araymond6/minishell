@@ -12,13 +12,14 @@ OBJ_DIR = obj/
 INC_DIR = include/
 LIB_DIR = libft
 
+VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 SRCS =	main.c \
 		parsing.c \
-		utils.c \
+		parse_utils.c \
+		init_utils.c \
 		error.c \
 		quote.c \
 		doublequote.c
-VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
 OBJ_PRE = $(addprefix $(OBJ_DIR), $(OBJS))
@@ -50,7 +51,6 @@ $(NAME): $(OBJ_PRE)
 clean:
 	@echo "$(GREEN)-----$(MAGENTA) Cleaning project...  $(GREEN)-----$(RESET)"
 	rm -rf $(OBJ_DIR)
-	rm -rf $(LIBRLINE_DIR)
 	make clean -C $(LIB_DIR)
 	@echo "$(GREEN)------$(MAGENTA)  Project cleaned!  $(GREEN)------$(RESET)"
 
