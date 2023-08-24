@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:30:12 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/23 17:59:54 by valerie          ###   ########.fr       */
+/*   Updated: 2023/08/24 11:35:20 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,10 @@ int ft_strjcpy(char *dst, char *src, int max, int j)
 		i++;
 	}
 	return (j + i);
+}
+
+int	message_perror(char *str)
+{
+	perror(str);
+	return (EXIT_FAILURE);
 }

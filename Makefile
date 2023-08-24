@@ -13,18 +13,11 @@ OBJ_DIR = obj/
 INC_DIR = include/
 LIB_DIR = libft
 
-SRCS =	main.c \
-		parsing.c \
-		utils.c \
-		exit.c \
+SRCS =	command.c \
 		exec.c \
-		append.c \
-		here_doc.c \
-		std_entry.c \
-		std_exit.c \
-		utils_exec.c \
-		utils_exec2.c \
-		redir.c 
+		main.c \
+		redirections.c \
+		utils_exec.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
@@ -40,9 +33,6 @@ GREEN = \033[92m
 MAGENTA = \033[95m
 
 all: readline lib $(NAME)
-
-run: all
-	./philo 5 800 200 200
 
 $(OBJ_DIR)%.o: %.c $(DEP_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Creating folder...$(GREEN)----$(RESET)"

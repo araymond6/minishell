@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/23 18:00:30 by valerie          ###   ########.fr       */
+/*   Updated: 2023/08/24 11:38:39 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	save_path(t_minishell *mini, char **envp);
 //function exec -> val
 
 	//function qui malloc le tableaux des redirection redir, mais aussi le char **file qui va contenir le nom du fichier lie a la redirection
-void	create_tab_file(t_minishell *mini);
+void	create_redir_file(t_minishell *mini);
 	//function qui va mettre dans char *redir la sorte de redirection
 void	assign_redir_values(t_minishell *mini, char c);
 	//function qui va assigner les chose en cas de >> ou de >
@@ -74,21 +74,17 @@ int	exit_redirection(t_minishell *mini, int i, int j);
 	//function qui va assigner les chose quand il trouve la commande
 int		check_command(t_minishell *mini, int i, int j);
 	//function qui va assigner les chose en cas de <
-int		redirection13(t_minishell *mini, int i, int j, char c);
+int		redirection1234(t_minishell *mini, int i, int j, char c);
 	//function qui initilaize la struct cmd
 void	initialize_struct_cmd(t_cmd *struct_cmd);
 	//function qui compte le nb de caractere avant la prochaine espace
 int		len_until_space(t_minishell *mini, int i, int j);
-	//function qui gere les erreurs
-void	error(t_minishell *mini, int i, int j);
 	//function qui compte le nb de redirection quil y aura
 int		redir_count(char *cmd);
 	//function qui parse la commande afin doute les commandes de mini dans la structure cmd
 void	parsing_command(t_minishell *mini, int i);
-//function qui va assigner les chose en cas de >>
-void	append_redirection(t_minishell *mini, int i, int j);
-//function qui va assigner les chose en cas de <<
-void	here_doc_func(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);
-
+void	free_array(char **array);
+int 	ft_strjcpy(char *dst, char *src, int max, int j);
+int		message_perror(char *str);
 #endif

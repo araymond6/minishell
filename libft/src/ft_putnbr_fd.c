@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 14:36:59 by araymond          #+#    #+#             */
-/*   Updated: 2023/01/20 14:13:50 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:32:28 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ static char	*ft_itoa2(int n, char *number)
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned int	i;
 	char			nb[12];
 
 	ft_itoa2(n, nb);
-	i = write(fd, nb, ft_strlen(nb));
+	write(fd, nb, ft_strlen(nb));
 }

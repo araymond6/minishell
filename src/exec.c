@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/23 17:44:05 by valerie          ###   ########.fr       */
+/*   Updated: 2023/08/24 11:37:50 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	message_perror_b(char *str)
 	return (EXIT_FAILURE);
 }
 
-void execution(t_cmd *cmd)
+int execution(t_cmd *cmd)
 {
 	pid_t pid;
 	int status;
@@ -112,7 +112,7 @@ void execution(t_cmd *cmd)
 					else     // append
 					{
 						file = open(cmd->file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-						if (pipex->outfile == -1)
+						if (file == -1)
 							return (message_perror_b("ERROR"));
 					}
 				}
@@ -129,6 +129,7 @@ void execution(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	waitpid(pid, &status, 0);
+	return(0);
 }
 
 //cd echo pwd export unset env exit build-in a re-coder !!!
@@ -152,5 +153,5 @@ int main(int argc, char **argv, char **envp)
 	mini->cmd[3] = NULL;
 	mini->struct_cmd = NULL;
 	create_list(mini);
-	execution(mini->struct_cmd);
+	//execution(mini->struct_cmd);
 }
