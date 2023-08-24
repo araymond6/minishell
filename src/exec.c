@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/24 11:37:50 by valerie          ###   ########.fr       */
+/*   Updated: 2023/08/24 14:50:40 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,76 @@ int	message_perror_b(char *str)
 	return (EXIT_FAILURE);
 }
 
+int change_inf(t_cmd *cmd, char c, char *file)
+{
+	int fd;
+	
+	if(c == '1')
+	{
+		fd = open(file, O_RDONLY);
+		if(fd == -1)
+			return(message_perror_b("ERROR"));
+		dup2(fd, STDIN_FILENO);
+	}
+	else if(c == '2')     //TODO changer pour un here doc et non une entree standard
+	{
+		fd = open(file, O_RDONLY);
+		if(fd == -1)
+			return(message_perror_b("ERROR"));
+		dup2(fd, STDIN_FILENO);
+	}
+	close(fd);
+	return(0);
+}
+
+int change_out(t_cmd *cmd, char c, char *file)
+{
+	
+	int fd;
+
+	if(c == '3')
+	{
+		fd = open(file, O_WRONLY, O_CREAT, O_TRUNC, 0644);
+		if(fd == -1)
+			return(message_perror_b("ERROR"));
+		dup2(fd, STDOUT_FILENO);
+	}
+	else if(c == '4')
+	{
+		fd = open(file, O_WRONLY, O_CREAT, O_APPEND, 0644);
+		if(fd == -1)
+			return(message_perror_b("ERROR"));
+		dup2(fd, STDOUT_FILENO);
+	}
+	close(fd);
+	return(0);
+}
+
+int execute_buildin()
+{
+	
+}
+
+int execute_execve()
+{
+	
+}
+
+int execute_cmd_buildin(t_cmd *cmd)
+{
+	if(isbuildin(cmd->cmd_arg[0]) == 0)
+		execute_buildin();
+	else 
+		execute_execve();
+	return(0);
+}
+
 int execution(t_cmd *cmd)
 {
 	pid_t pid;
 	int status;
 	int	fd_pipe[2];
 	int i;
-	int file;
 	
 	pid = 1;
 	status = 0;
@@ -89,44 +152,24 @@ int execution(t_cmd *cmd)
 			pid = fork();
 			if (pid == -1)
 				exit(message_perror_b("Error"));
+			i = 0;
 			if (pid == 0)
 			{
-				while (i < cmd->nb_redir)
+				if(cmd->prev->cmd != NULL)
+					dup2(fd_pipe[0], STDIN_FILENO);
+				if(cmd->next->cmd != NULL)
+					dup2(fd_pipe[1], STDOUT_FILENO);
+				while(cmd->redir[i])
 				{
-					if( cmd->redir[i] == '1')  //normal
-					{
-						file = open(cmd->file[i], O_RDONLY);
-						if (file == -1)
-							return (message_perror_b("ERROR"));
-					}
-					else if( cmd->redir[i] == '2')  //HERE_DOC
-					{
-						
-					}
-					else if(cmd->redir[i] == '3')   //trunc
-					{
-						file = open(cmd->file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-						if (file == -1)
-							return (message_perror_b("ERROR"));
-					}
-					else     // append
-					{
-						file = open(cmd->file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-						if (file == -1)
-							return (message_perror_b("ERROR"));
-					}
+					change_inf(cmd, cmd->redir[i], cmd->file[i]);
+					change_out(cmd, cmd->redir[i], cmd->file[i]);
+					i++;
 				}
+				execute_cmd_buildin(cmd);
 			}
-			else if (pid != 0)
-			{
-				if (dup2(fd_pipe[0], STDIN_FILENO) == -1)
-					exit(EXIT_FAILURE);
-				close(fd_pipe[0]);
-				close(fd_pipe[1]);
-			}
+			printf("pid -> %d cmd -> %s\n", pid, cmd->cmd);
+			cmd = cmd->next;
 		}
-		printf("pid -> %d cmd -> %s\n", pid, cmd->cmd);
-		cmd = cmd->next;
 	}
 	waitpid(pid, &status, 0);
 	return(0);
@@ -153,5 +196,5 @@ int main(int argc, char **argv, char **envp)
 	mini->cmd[3] = NULL;
 	mini->struct_cmd = NULL;
 	create_list(mini);
-	//execution(mini->struct_cmd);
+	execution(mini->struct_cmd);
 }

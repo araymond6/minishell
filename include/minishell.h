@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/24 11:38:39 by valerie          ###   ########.fr       */
+/*   Updated: 2023/08/24 14:47:55 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,5 @@ int		len_until_redirections(t_minishell *mini, int i, int j);
 void	free_array(char **array);
 int 	ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
+int		isbuildin(char *isbuildin);
 #endif
