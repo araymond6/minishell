@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/24 14:50:40 by valerie          ###   ########.fr       */
+/*   Updated: 2023/08/24 15:29:35 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,15 @@ int change_out(t_cmd *cmd, char c, char *file)
 
 int execute_buildin()
 {
-	
+	return(0);
 }
 
-int execute_execve()
+int execute_execve(t_cmd *cmd)
 {
-	
+	printf("%d\n", access(cmd->path, X_OK));
+	if (execve(cmd->path, cmd->cmd_arg, NULL) == -1)
+		return (message_perror("ERROR")); 
+	return (0);
 }
 
 int execute_cmd_buildin(t_cmd *cmd)
@@ -129,7 +132,7 @@ int execute_cmd_buildin(t_cmd *cmd)
 	if(isbuildin(cmd->cmd_arg[0]) == 0)
 		execute_buildin();
 	else 
-		execute_execve();
+		execute_execve(cmd);
 	return(0);
 }
 
@@ -159,6 +162,8 @@ int execution(t_cmd *cmd)
 					dup2(fd_pipe[0], STDIN_FILENO);
 				if(cmd->next->cmd != NULL)
 					dup2(fd_pipe[1], STDOUT_FILENO);
+				close(fd_pipe[0]);		//on a plus besoin des pipes apres 
+				close(fd_pipe[1]);		//on a plus besoin des pipes apres 
 				while(cmd->redir[i])
 				{
 					change_inf(cmd, cmd->redir[i], cmd->file[i]);
@@ -166,11 +171,13 @@ int execution(t_cmd *cmd)
 					i++;
 				}
 				execute_cmd_buildin(cmd);
+				
 			}
-			printf("pid -> %d cmd -> %s\n", pid, cmd->cmd);
+			printf("pid -> %d path -> %s\n", pid, cmd->path);
 			cmd = cmd->next;
 		}
 	}
+	//on free le contenu de toutes les nodes et les nodes
 	waitpid(pid, &status, 0);
 	return(0);
 }
@@ -191,7 +198,7 @@ int main(int argc, char **argv, char **envp)
 	mini->cmd[1] = ft_calloc(16, sizeof(char));
 	mini->cmd[1] = "echo allo";
 	mini->cmd[2] = ft_calloc(15, sizeof(char));
-	mini->cmd[2] = "wc -l > test.txt";
+	mini->cmd[2] = "wc > test.txt";
 	mini->cmd[3] = ft_calloc(1, sizeof(char));
 	mini->cmd[3] = NULL;
 	mini->struct_cmd = NULL;
