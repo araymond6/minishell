@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/24 14:48:22 by araymond         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:16:13 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,28 @@ typedef struct s_cmd
 
 typedef struct s_parse
 {
-	int		sub;
+	int		block_count;
+	int		inquote;
+	int		cmd1;
+	int		cmd2;
+	int		cmd3;
 }	t_parse;
 
 typedef struct s_minishell
 {
-	char				*path_envp;
 	char				*arg;
-	char				**cmd;
+	char				***cmd;
 	char				**envp;
 	struct s_parse		parse;
 	struct sigaction	sigact;
+	int					exit_code;
 }	t_minishell;
-
-//global exit status, for the $? exception and more
-int		EXIT_CODE;
 
 //parsing
 int		read_input(t_minishell *mini);
+void	end_doublequote(t_minishell *mini, int *i);
 void	doublequote_parse(t_minishell *mini, int *i);
+void	end_quote(t_minishell *mini, int *i);
 void	quote_parse(t_minishell *mini, int *i);
 void	count_sub_dollar(t_minishell *mini, int *i);
 void	parsing_error(t_minishell *mini);

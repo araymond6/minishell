@@ -5,3 +5,15 @@ PATH=/Users/$USER/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/lo
 
 IMPORTANT: Bash Reference Manual
 https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
+
+ERROR CODES: 
+0 = successful
+1 = general error (malloc, command error, etc.)
+2 = syntax error (parsing)
+126 = (...) is a directory
+127 = command not found (after parsing)
+130 = CTRL+C
+131 = CTRL+\
+
+builtins
+exit (int): adds or subtracts [int] from exit code
