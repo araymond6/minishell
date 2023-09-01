@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/24 15:29:35 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/01 13:22:14 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 //function qui parse la ligne de commande
 void parsing_command(t_minishell *mini, int i)
 {
-	//t_cmd *command;
 	int j;
 	t_cmd *command;
 	j = 0;
@@ -63,12 +62,6 @@ void create_list(t_minishell *mini)
 		mini->struct_cmd = mini->struct_cmd->prev;
 }
 
-int	message_perror_b(char *str)
-{
-	perror(str);
-	return (EXIT_FAILURE);
-}
-
 int change_inf(t_cmd *cmd, char c, char *file)
 {
 	int fd;
@@ -77,14 +70,14 @@ int change_inf(t_cmd *cmd, char c, char *file)
 	{
 		fd = open(file, O_RDONLY);
 		if(fd == -1)
-			return(message_perror_b("ERROR"));
+			return(message_perror("1"));
 		dup2(fd, STDIN_FILENO);
 	}
 	else if(c == '2')     //TODO changer pour un here doc et non une entree standard
 	{
 		fd = open(file, O_RDONLY);
 		if(fd == -1)
-			return(message_perror_b("ERROR"));
+			return(message_perror("2"));
 		dup2(fd, STDIN_FILENO);
 	}
 	close(fd);
@@ -100,14 +93,14 @@ int change_out(t_cmd *cmd, char c, char *file)
 	{
 		fd = open(file, O_WRONLY, O_CREAT, O_TRUNC, 0644);
 		if(fd == -1)
-			return(message_perror_b("ERROR"));
+			return(message_perror("3"));
 		dup2(fd, STDOUT_FILENO);
 	}
 	else if(c == '4')
 	{
 		fd = open(file, O_WRONLY, O_CREAT, O_APPEND, 0644);
 		if(fd == -1)
-			return(message_perror_b("ERROR"));
+			return(message_perror("4"));
 		dup2(fd, STDOUT_FILENO);
 	}
 	close(fd);
@@ -121,9 +114,8 @@ int execute_buildin()
 
 int execute_execve(t_cmd *cmd)
 {
-	printf("%d\n", access(cmd->path, X_OK));
 	if (execve(cmd->path, cmd->cmd_arg, NULL) == -1)
-		return (message_perror("ERROR")); 
+		return (message_perror("EXECVE")); 
 	return (0);
 }
 
@@ -145,16 +137,15 @@ int execution(t_cmd *cmd)
 	
 	pid = 1;
 	status = 0;
-	// dans pipex j'avais mis pipe() dans le while. pourquoi? est-ce mieux?
-	if (pipe(fd_pipe) == -1)
-		exit(message_perror_b("Problem "));
 	while (cmd->next)
 	{
+		if (pipe(fd_pipe) == -1)
+		exit(message_perror("Pipe"));
 		if(pid != 0)
 		{
 			pid = fork();
 			if (pid == -1)
-				exit(message_perror_b("Error"));
+				exit(message_perror("Fork"));
 			i = 0;
 			if (pid == 0)
 			{
@@ -162,23 +153,33 @@ int execution(t_cmd *cmd)
 					dup2(fd_pipe[0], STDIN_FILENO);
 				if(cmd->next->cmd != NULL)
 					dup2(fd_pipe[1], STDOUT_FILENO);
-				close(fd_pipe[0]);		//on a plus besoin des pipes apres 
-				close(fd_pipe[1]);		//on a plus besoin des pipes apres 
-				while(cmd->redir[i])
+				if(cmd->redir)
 				{
-					change_inf(cmd, cmd->redir[i], cmd->file[i]);
-					change_out(cmd, cmd->redir[i], cmd->file[i]);
-					i++;
+					while(cmd->redir[i])
+					{
+						change_inf(cmd, cmd->redir[i], cmd->file[i]);
+						change_out(cmd, cmd->redir[i], cmd->file[i]);
+						i++;
+					}
 				}
+				close(fd_pipe[0]);
+				close(fd_pipe[1]);
 				execute_cmd_buildin(cmd);
-				
 			}
-			printf("pid -> %d path -> %s\n", pid, cmd->path);
+			if (pid != 0)
+			{
+				if (dup2(fd_pipe[0], STDIN_FILENO) == -1)
+					exit(EXIT_FAILURE);
+				close(fd_pipe[0]);
+				close(fd_pipe[1]);
+			}
 			cmd = cmd->next;
 		}
 	}
 	//on free le contenu de toutes les nodes et les nodes
 	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) == 1)
+		message_perror("WEXITSTATUS");
 	return(0);
 }
 
@@ -194,13 +195,9 @@ int main(int argc, char **argv, char **envp)
 	mini->arg = NULL;
 	mini->cmd = ft_calloc(4, sizeof(char*));
 	mini->cmd[0] = ft_calloc(28, sizeof(char));
-	mini->cmd[0] = "< Makefile /bin/ls -la";
-	mini->cmd[1] = ft_calloc(16, sizeof(char));
-	mini->cmd[1] = "echo allo";
-	mini->cmd[2] = ft_calloc(15, sizeof(char));
-	mini->cmd[2] = "wc > test.txt";
-	mini->cmd[3] = ft_calloc(1, sizeof(char));
-	mini->cmd[3] = NULL;
+	mini->cmd[0] = "wc Makefile";
+	mini->cmd[1] = ft_calloc(1, sizeof(char));
+	mini->cmd[1] = NULL;
 	mini->struct_cmd = NULL;
 	create_list(mini);
 	execution(mini->struct_cmd);

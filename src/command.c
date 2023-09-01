@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:34:51 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/08/23 17:55:08 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/01 13:08:59 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,32 +94,116 @@ int find_path(t_minishell *mini)
 	return(0);
 }
 
-//function qui va assigner dans la structure t_cmd les don/es lies a la commande pour le processus
-int check_command(t_minishell *mini, int i, int j)
+int nbr_arg(t_minishell *mini, int i, int j)
+{
+	int space;
+	int k;
+	
+	space = 0;
+	k = 0;
+	while(mini->cmd[i][j+ k] && mini->cmd[i][j+ k] != '>' && mini->cmd[i][j+ k] != '<')
+	{	
+		if(mini->cmd[i][j+ k] == ' ' && mini->cmd[i][j+ k + 1] != '>' && mini->cmd[i][j+ k + 1] != '<')
+			space++;
+		k++;
+	}
+	return(space);
+}
+
+int cmd_to_struct_cmd_cmd(t_minishell *mini, int i, int j)
 {
 	int len_cmd;
-	int len;
-	int len_redir;
-
+	
 	len_cmd = len_until_space(mini, i, j);
 	mini->struct_cmd->cmd = ft_calloc(len_cmd + 1, sizeof(char));
 	j = ft_strjcpy(mini->struct_cmd->cmd, mini->cmd[i], len_cmd, j);
-	if(mini->cmd[i][j] == ' ')
-		j++;
-	if(find_path(mini) == -1)
-		return(-1);
+	return(j);
+}
+
+int cmd_to_struct_cmd_arg_cmd_first(t_minishell *mini, int i, int j)
+{
+	int len;
+	
 	len = ft_strlen(mini->struct_cmd->path);
-	mini->struct_cmd->cmd_arg = ft_calloc(3, sizeof(char*));
-	if (!mini->struct_cmd->cmd_arg)
-		return (-1);
 	mini->struct_cmd->cmd_arg[0] = ft_calloc(len + 1, sizeof(char));
 	if (!mini->struct_cmd->cmd_arg[0])
 		return (-1);
 	ft_strlcpy(mini->struct_cmd->cmd_arg[0], mini->struct_cmd->path, len + 1);
-	len_redir = len_until_redirections(mini, i, j);
-	mini->struct_cmd->cmd_arg[1] = ft_calloc(len_redir + 1, sizeof(char));
-	if (!mini->struct_cmd->cmd_arg[1])
+	return(0);
+}
+
+
+int cmd_to_struct_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
+{
+	int len;
+	
+	len = len_until_space(mini, i, j);
+	printf("char : %c\n", mini->cmd[i][j]);
+	printf("char : %d\n", j);
+	mini->struct_cmd->cmd_arg[k] = ft_calloc(len + 1, sizeof(char));
+	if (!mini->struct_cmd->cmd_arg[k])
 		return (-1);
-	j = ft_strjcpy(mini->struct_cmd->cmd_arg[1], mini->cmd[i], len_redir, j);
+	j = ft_strjcpy(mini->struct_cmd->cmd_arg[k], mini->cmd[i], len, j);
+	if(mini->cmd[i][j] == ' ')
+		j++;
 	return(j);
 }
+
+int cmd_to_struct_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
+{
+	int len_space;
+	int len_redirection;
+	int len;
+
+	len_space = len_until_space(mini, i, j);
+	len_redirection = len_until_redirections(mini, i, j);
+	if(len_space < len_redirection)
+		len = len_space;
+	else
+		len = len_redirection;
+	mini->struct_cmd->cmd_arg[k] = ft_calloc(len + 1, sizeof(char));
+	if (!mini->struct_cmd->cmd_arg[k])
+		return (-1);
+	j = ft_strjcpy(mini->struct_cmd->cmd_arg[k], mini->cmd[i], len, j);
+	if(mini->cmd[i][j] == ' ')
+		j++;
+	return(j);
+}
+
+
+//function qui va assigner dans la structure t_cmd les donns lies a la commande pour le processus
+int check_command(t_minishell *mini, int i, int j)
+{
+	int nbr_of_arg;
+	int k;
+	
+	j = cmd_to_struct_cmd_cmd(mini, i, j);
+	if(find_path(mini) == -1)
+		return(-1);
+	nbr_of_arg = nbr_arg(mini, i, j);
+	mini->struct_cmd->cmd_arg = ft_calloc(nbr_of_arg + 2, sizeof(char*));
+	if(mini->cmd[i][j] == ' ')
+		j++;
+	if (!mini->struct_cmd->cmd_arg)
+		return (-1);
+	if(cmd_to_struct_cmd_arg_cmd_first(mini, i, j) == -1)
+		return(-1);
+	k = 1;
+	if(nbr_of_arg > 0)
+	{
+		while( k < nbr_of_arg)
+		{
+			j = cmd_to_struct_cmd_arg_cmd_middle(mini, i, j, k);
+			if(j == -1)
+				return(-1);
+			k++;
+		}
+		j = cmd_to_struct_cmd_arg_cmd_end(mini, i, j, k);
+		if(j == -1)
+			return(-1);
+	}
+	printf("%s\n", mini->struct_cmd->cmd_arg[0]);
+	printf("%s\n", mini->struct_cmd->cmd_arg[1]);
+	return(j);
+}
+
