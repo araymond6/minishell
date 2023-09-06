@@ -1,19 +1,21 @@
 brew install readline -dev
 
-PATH=/Users/$USER/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin
-
-
 IMPORTANT: Bash Reference Manual
 https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
 
 ERROR CODES: 
 0 = successful
-1 = general error (malloc, command error, etc.)
+1 = general error (command error, etc.)
 2 = syntax error (parsing)
 126 = (...) is a directory
-127 = command not found (after parsing)
+127 = command not found (after parsing) or CTRL+D
 130 = CTRL+C
 131 = CTRL+\
 
+On malloc error, exit program.
+
 builtins
-exit (int): adds or subtracts [int] from exit code
+exit: adds or subtracts [int] from exit code
+
+plan for parsing: start with $ exceptions, first count the amount of characters to subtracts and store 
+the argument in a char *, then check if the env variable exists. if yes, add to char count, otherwise do nothing

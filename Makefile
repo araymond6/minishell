@@ -19,7 +19,9 @@ SRCS =	main.c \
 		init_utils.c \
 		error.c \
 		quote.c \
-		doublequote.c
+		doublequote.c \
+		dollarsign.c \
+		parsing2.c
 
 OBJS = $(SRCS:%.c=%.o)
 OBJ_PRE = $(addprefix $(OBJ_DIR), $(OBJS))

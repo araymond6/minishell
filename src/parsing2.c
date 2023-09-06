@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/24 13:48:30 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/04 09:23:55 by araymond         ###   ########.fr       */
+/*   Created: 2023/09/04 09:24:44 by araymond          #+#    #+#             */
+/*   Updated: 2023/09/04 12:53:47 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	parse_exit(t_minishell *mini)
+char	*get_block(t_minishell *mini, int *i, int *count)
 {
-	perror("Error");
-	exit_program(mini);
-}
+	int	j;
 
-void	parsing_error(t_minishell *mini)
-{
-	mini->parse.block_count = 0;
-	mini->exit_code = 2;
-	if (write(STDOUT_FILENO, "parse error\n", 12) == -1)
-		parse_exit(mini);
+	j = 0;
+	while (j != *i)
+	{
+		
+		mini->cmd[*count][j] = mini->arg[j];
+	}
 }

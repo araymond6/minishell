@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:29:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/08/29 14:18:06 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/04 10:56:57 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,11 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	sigaction(SIGQUIT, &mini->sigact, NULL);
 }
 
-void	free_triple(char ***arr)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
-	{
-		while (arr[i][j])
-		{
-			free(arr[i][j]);
-			j++;
-		}
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
 // will need at some point
 void	free_mini(t_minishell *mini)
 {
 	if (mini->cmd)
-	printf("mini is freed\n");
+		printf("mini is freed\n");
 }
 
 // clears history, frees mini's uses and exits program with exit_code depending on the error seen or not seen
@@ -57,7 +35,6 @@ void	exit_program(t_minishell *mini)
 {
 	int exit_code;
 
-	exit_code = 0;
 	exit_code = mini->exit_code;
 	printf("exit code: %d\n", mini->exit_code);	
 	clear_history();
