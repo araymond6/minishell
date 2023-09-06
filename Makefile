@@ -78,4 +78,4 @@ debug: all
 
 re: fclean all
 
-.PHONY: re debug fclean clean all run readline lib
+.PHONY: re debug fclean clean all run readline libfile
