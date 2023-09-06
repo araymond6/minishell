@@ -19,3 +19,8 @@ exit: adds or subtracts [int] from exit code
 
 plan for parsing: start with $ exceptions, first count the amount of characters to subtracts and store 
 the argument in a char *, then check if the env variable exists. if yes, add to char count, otherwise do nothing
+
+POUR SEMAINE DE LA PISCINE::::
+Implémenter le check_env(double check it pls) avec le compte de mini->parse.sub
+Implémenter les substitutions
+S'assurer que les quote_cmd sont bien écrit avec les bonnes variables

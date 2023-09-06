@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:29:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/04 10:56:57 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:04:27 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,16 @@ void	initialize_mini(t_minishell *mini, char **envp)
 // will need at some point
 void	free_mini(t_minishell *mini)
 {
+	int	i;
+
+	i = -1;
 	if (mini->cmd)
-		printf("mini is freed\n");
+	{
+		while (mini->cmd[++i])
+			free(mini->cmd[i]);
+		free(mini->cmd);
+	}
+	printf("mini is freed!\n");
 }
 
 // clears history, frees mini's uses and exits program with exit_code depending on the error seen or not seen
@@ -42,19 +50,46 @@ void	exit_program(t_minishell *mini)
 	exit(exit_code);
 }
 
-// checks our minishell's envp for the environment variable.
-int	check_env(t_minishell *mini, char *arg)
+static char	*while_env(t_minishell *mini, int *i, int *k, char *new)
 {
-	int	i;
-
-	i = 0;
-	while (mini->envp[i])
+	while (mini->envp[*i])
 	{
-		if (ft_strncmp(mini->envp[i], ft_strjoin(arg, "="), ft_strlen(arg)) == 0)
-			return (SUCCESS);
-		i++;
+		if (ft_strncmp(mini->envp[*i], new, ft_strlen(new)) == 0)
+		{
+			free(new);
+			new = ft_calloc((ft_strlen(mini->envp[*i]) + 1), sizeof(char));
+			if (!new)
+				return (NULL);
+			while (mini->envp[*i][*k])
+			{
+				new[*k] = mini->envp[*i][*k];
+				(*k)++;
+			}
+			return (new);
+		}
+		(*i)++;
 	}
-	return (ERROR);
+	return (NULL);
+}
+
+// checks our minishell's envp for the env variable, returns char *;
+char	*check_env(t_minishell *mini, char *arg)
+{
+	int		i;
+	int		k;
+	char	*new;
+	
+	i = 0;
+	k = 0;
+	if (!arg || arg[0] == '\0')
+		return (1);
+	new = ft_strjoin(arg, "=");
+	if (!new)
+	return (NULL);
+	new = while_env(mini, &i, &k, new);
+	if (new)
+		return (new);
+	return (NULL);
 }
 
 void	signal_handler(int signal)

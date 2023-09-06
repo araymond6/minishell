@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/04 12:41:17 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:04:39 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ typedef struct s_cmd
 typedef struct s_parse
 {
 	int		block_count;
-	int		count;
+	int		c; // holds current count from parse->cmd[c] during parsing
 	int		sub;
+	int		start_block;
+	int		end_block;
 }	t_parse;
 
 typedef struct s_minishell
 {
 	char				*arg;
-	char				***cmd;
+	char				**cmd;
 	char				**envp;
 	struct s_parse		parse;
 	struct sigaction	sigact;
@@ -65,20 +67,22 @@ int		end_quote(t_minishell *mini, int *i);
 void	doublequote_parse(t_minishell *mini, int *i);
 void	quote_parse(t_minishell *mini, int *i);
 void	count_sub_dollar(t_minishell *mini, int *i);
-char	*get_block(t_minishell *mini, int *i, int *count);
-void	parsing_error(t_minishell *mini);
+void	get_block(t_minishell *mini);
+void	doublequote_cmd(t_minishell *mini, int *i, int *j);
+void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
 
 //execution
 
 //errors
+void	parsing_error(t_minishell *mini);
 void	malloc_error(t_minishell *mini);
 
 //utils
 void	initialize_mini(t_minishell *mini, char **envp);
 void	free_mini(t_minishell *mini);
 void	exit_program(t_minishell *mini);
-int		check_env(t_minishell *mini, char *arg);
+char	*check_env(t_minishell *mini, char *arg)
 void	signal_handler(int signal);
 
 #endif

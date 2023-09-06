@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:44:50 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 09:32:47 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:02:27 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,22 @@
 void	count_sub_env(t_minishell *mini, char *arg)
 {
 	int	i;
-	int	j;
+	int *new;
 
 	i = 0;
 	if (!arg || arg[0] == '\0')
 		return ;
-	while (mini->envp[i])
+	new = check_env(mini, arg);
+	if (!new)
+		return ;
+	while (new[i] )
 	{
-		if (ft_strncmp(mini->envp[i], ft_strjoin(arg, "="), \
-		(ft_strlen(arg) + 1)) == 0)
-		{
-			while (mini->envp[i][j] != '=')
-				j++;
-			j++;
-			while (mini->envp[i][j])
-			{
-				j++;
-				mini->parse.sub++;
-			}
-			return ;
-		}
-		i++;
+		
 	}
 }
 
-// substitutes the $ARG in mini->arg and puts it into mini->cmd[count]
-void	sub_dollar(t_minishell *mini, int *i)
+// substitutes the $ARG in mini->arg[i] and puts it into mini->cmd[c][j]
+void	sub_dollar(t_minishell *mini, int *i, int *j)
 {
 	
 }
@@ -61,8 +51,7 @@ void	count_sub_dollar(t_minishell *mini, int *i)
 	{
 		if (!ft_isalnum(mini->arg[*i]))
 			break ;
-		arg[j] = mini->arg[*i];
-		(*i)++;
+		arg[j++] = mini->arg[(*i)++];
 		mini->parse.sub--;
 	}
 	if (mini->arg[*i] == '?' && mini->arg[*i - 1] == '$')

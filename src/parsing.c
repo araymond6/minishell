@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 09:27:14 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:31:28 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	quote_check(t_minishell *mini, int *i)
 	return (1);
 }
 
-int	special_char_check(t_minishell *mini, int *i, int *count)
+static void	special_char_check(t_minishell *mini, int *i)
 {
 	if (mini->arg[*i] == '\'')
 		quote_parse(mini, i);
@@ -43,9 +43,23 @@ int	special_char_check(t_minishell *mini, int *i, int *count)
 		count_sub_dollar(mini, i);
 	else if (mini->arg[*i] == '|')
 	{
-		mini->cmd[*count] = calloc((*i + mini->parse.sub + 1), sizeof(char));
-		get_block(mini, i, count);
-		(*count)++;
+		mini->cmd[mini->parse.c] = calloc((*i + mini->parse.sub + 2), sizeof(char));
+		mini->parse.end_block = *i;
+		get_block(mini);
+		mini->parse.start_block = *i + 1;
+		mini->parse.sub = 0;
+		mini->parse.sub -= *i + 1;
+		mini->parse.c++;
+	}
+	else if (mini->arg[*i] == ' ')
+	{
+		(*i)++;
+		while (mini->arg[*i] == ' ')
+		{
+			(*i)++;
+			mini->parse.sub--;
+		}
+		(*i)--;
 	}
 }
 
@@ -74,17 +88,14 @@ static int	count_blocks(t_minishell *mini)
 static int	allocate_cmd(t_minishell *mini)
 {
 	int	i;
-	int	count;
 
 	i = 0;
-	count = 0;
 	mini->cmd = calloc((mini->parse.block_count + 1), sizeof(char *));
 	if (!mini->cmd)
 		malloc_error(mini);
 	while (mini->arg[i])
 	{
-		if (!special_char_check(mini, &i, &count))
-			return (1);
+		special_char_check(mini, &i);
 		i++;
 	}
 	return (1);
@@ -92,6 +103,16 @@ static int	allocate_cmd(t_minishell *mini)
 
 static void	parse(t_minishell *mini)
 {
+	char	*arg;
+	
+	arg = ft_strtrim(mini->arg, " ");
+	if (!arg)
+	{
+		free(mini->arg);
+		malloc_error(mini);
+	}
+	free(mini->arg);
+	mini->arg = arg;
 	if (!count_blocks(mini))
 		return ;
 	if (!allocate_cmd(mini))

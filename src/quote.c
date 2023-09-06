@@ -6,11 +6,18 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:47:13 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/04 11:56:06 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/06 12:46:25 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	quote_cmd(t_minishell *mini, int *i, int *j)
+{
+	mini->cmd[mini->parse.c][(*j)++] = mini->arg[(*i)++];
+	while (mini->arg[*i] && mini->arg[*i] != '\'')
+		mini->cmd[mini->parse.c][(*j)++] = mini->arg[(*i)++];
+}
 
 int	end_quote(t_minishell *mini, int *i)
 {
