@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/06 15:46:50 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/07 16:49:07 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,21 @@ void	create_list(t_minishell *mini)
 int	here_doc(t_cmd *cmd, char *delimiter)
 {
 	int	fd;
-	char *new_line;
-	
+	char	*new_line;
+	int i;
+
+	i = 0;
 	new_line = NULL;
 	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (message_perror("2"));
-	while(1)
+	while ( i == 0)
 	{
 		new_line = readline("\033[92mHERE_DOC > % \033[0m");
 		if (!new_line)
 			return (message_perror("2.1"));
 		else if (ft_strncmp(delimiter, new_line, ft_strlen(delimiter)) == 0)
-		{	
-			free(new_line);
-			break;
-		}
+			i = 1 ;
 		else
 		{
 			write(fd, new_line, strlen(new_line));
@@ -107,13 +106,13 @@ int	change_inf(t_cmd *cmd, char c, char *file)
 		if (fd == -1)
 			return (message_perror("1"));
 		dup2(fd, STDIN_FILENO);
+		close(fd);
 	}
 	else if (c == '2')
 	{
-		if(here_doc(cmd, file) == -1)
+		if (here_doc(cmd, file) == -1)
 			return (message_perror("2"));
 	}
-	close(fd);
 	return (0);
 }
 
@@ -127,6 +126,7 @@ int	change_out(t_cmd *cmd, char c, char *file)
 		if (fd == -1)
 			return (message_perror("3"));
 		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	else if (c == '4')
 	{
@@ -134,8 +134,8 @@ int	change_out(t_cmd *cmd, char c, char *file)
 		if (fd == -1)
 			return (message_perror("4"));
 		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
-	close(fd);
 	return (0);
 }
 
@@ -164,14 +164,13 @@ int	execution(t_cmd *cmd)
 {
 	pid_t	pid;
 	int		status;
-	int		fd_pipe[2];
 	int		i;
 
 	pid = 1;
 	status = 0;
 	while (cmd->next)
 	{
-		if (pipe(fd_pipe) == -1)
+		if (pipe(cmd->pipe_fd) == -1)
 			exit(message_perror("Pipe"));
 		if (pid != 0)
 		{
@@ -182,9 +181,20 @@ int	execution(t_cmd *cmd)
 			if (pid == 0)
 			{
 				if (cmd->prev->cmd != NULL)
-					dup2(fd_pipe[0], STDIN_FILENO);
+				{
+					if (dup2(cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
+						exit(EXIT_FAILURE);
+				}
 				if (cmd->next->cmd != NULL)
-					dup2(fd_pipe[1], STDOUT_FILENO);
+				{
+					if (dup2(cmd->pipe_fd[1], STDOUT_FILENO) == -1)
+						exit(EXIT_FAILURE);	
+				}
+				if (cmd->prev->cmd != NULL)
+					close(cmd->prev->pipe_fd[0]);
+				if (cmd->next->cmd == NULL)
+					close(cmd->pipe_fd[0]);
+				close(cmd->pipe_fd[1]);
 				if (cmd->redir)
 				{
 					while (cmd->redir[i])
@@ -194,16 +204,20 @@ int	execution(t_cmd *cmd)
 						i++;
 					}
 				}
-				close(fd_pipe[0]);
-				close(fd_pipe[1]);
 				execute_cmd_buildin(cmd);
 			}
 			if (pid != 0)
 			{
-				if (dup2(fd_pipe[0], STDIN_FILENO) == -1)
-					exit(EXIT_FAILURE);
-				close(fd_pipe[0]);
-				close(fd_pipe[1]);
+				if (cmd->prev->cmd != NULL)
+				{
+					if (dup2(cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
+						exit(EXIT_FAILURE);
+				}
+				if (cmd->prev->cmd != NULL)
+					close(cmd->prev->pipe_fd[0]);
+				if (cmd->next->cmd == NULL)
+					close(cmd->pipe_fd[0]);
+				close(cmd->pipe_fd[1]);
 			}
 			cmd = cmd->next;
 		}
@@ -227,9 +241,13 @@ int	main(int argc, char **argv, char **envp)
 	mini->arg = NULL;
 	mini->cmd = ft_calloc(4, sizeof(char *));
 	mini->cmd[0] = ft_calloc(28, sizeof(char));
-	mini->cmd[0] = "<< END wc -l";
-	mini->cmd[1] = ft_calloc(1, sizeof(char));
-	mini->cmd[1] = NULL;
+	mini->cmd[0] = "< Makefile cat";
+	mini->cmd[1] = ft_calloc(28, sizeof(char));
+	mini->cmd[1] = "grep NAME";
+	mini->cmd[2] = ft_calloc(28, sizeof(char));
+	mini->cmd[2] = "wc";
+	mini->cmd[3] = ft_calloc(1, sizeof(char));
+	mini->cmd[3] = NULL;
 	mini->struct_cmd = NULL;
 	create_list(mini);
 	execution(mini->struct_cmd);

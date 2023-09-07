@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:30:12 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/05 15:45:54 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/07 16:07:39 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	initialize_struct_cmd(t_cmd *struct_cmd)
 	struct_cmd->next = NULL;
 	struct_cmd->nb_redir = 0;
 	struct_cmd->prev = ft_calloc(1, sizeof(t_cmd));
+	struct_cmd->redir = NULL;
 }
 
 //function qui compte le nb de caractere avant la prochaine espace

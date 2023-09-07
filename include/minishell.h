@@ -6,7 +6,7 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/05 15:42:04 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/07 16:34:29 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	int				nb_redir;
 	struct s_cmd	*prev;
+	int				pipe_fd[2];
 }	t_cmd;
 
 typedef struct s_minishell
