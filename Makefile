@@ -13,11 +13,19 @@ OBJ_DIR = obj/
 INC_DIR = include/
 LIB_DIR = libft
 
-SRCS =	command.c \
+SRCS =	build-in.c \
+		change_fd.c \
+		command.c \
 		exec.c \
-		main.c \
+		here_doc.c \
+		main_val.c \
+		parsing_exec.c \
+		path.c \
 		redirections.c \
-		utils_exec.c 
+		s_cmd_attribution.c \
+		save_path_aurelia.c \
+		utils_exec_2.c \
+		utils_exec.c
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 

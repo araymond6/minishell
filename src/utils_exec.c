@@ -6,13 +6,13 @@
 /*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:30:12 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/07 16:07:39 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/07 17:58:45 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//function qui free un array
+//free an array
 void	free_array(char **array)
 {
 	int	index_array;
@@ -28,21 +28,7 @@ void	free_array(char **array)
 	array = NULL;
 }
 
-//function qui initilaize la struct cmd
-void	initialize_struct_cmd(t_cmd *struct_cmd)
-{
-	struct_cmd->redir = NULL;
-	struct_cmd->cmd = NULL;
-	struct_cmd->path = NULL;
-	struct_cmd->cmd_arg = NULL;
-	struct_cmd->file = NULL;
-	struct_cmd->next = NULL;
-	struct_cmd->nb_redir = 0;
-	struct_cmd->prev = ft_calloc(1, sizeof(t_cmd));
-	struct_cmd->redir = NULL;
-}
-
-//function qui compte le nb de caractere avant la prochaine espace
+//count the nbr of char before the next space
 int	len_until_space(t_minishell *mini, int i, int j)
 {
 	int	len;
@@ -54,7 +40,7 @@ int	len_until_space(t_minishell *mini, int i, int j)
 	return (len);
 }
 
-//function qui compte le nb de caractere avant la prochaine redirection
+//count the nbr of char before the next redirection < or >
 int	len_until_redirections(t_minishell *mini, int i, int j)
 {
 	int	len;
@@ -66,7 +52,7 @@ int	len_until_redirections(t_minishell *mini, int i, int j)
 	return (len);
 }
 
-//copie mini->cmd a partir de j pour max caracteres
+//copy from the position j for maximum max char
 int	ft_strjcpy(char *dst, char *src, int max, int j)
 {
 	int	i;
@@ -80,6 +66,7 @@ int	ft_strjcpy(char *dst, char *src, int max, int j)
 	return (j + i);
 }
 
+//write the error code after str
 int	message_perror(char *str)
 {
 	perror(str);
