@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:47:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 12:46:17 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:57:57 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	doublequote_cmd(t_minishell *mini, int *i, int *j)
 	while (mini->arg[*i] && mini->arg[*i] != '\"')
 	{
 		if (mini->arg[*i] == '$')
-			sub_dollar(mini, i);
+			sub_dollar(mini, i, j);
 		mini->cmd[mini->parse.c][(*j)++] = mini->arg[(*i)++];
 	}
 }

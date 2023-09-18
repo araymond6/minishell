@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 11:31:28 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:07:39 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	quote_check(t_minishell *mini, int *i)
 {
 	if (mini->arg[*i] == '\'')
 	{
-		if (!end_quote(mini, i))
+		if (end_quote(mini, i))
 		{
 			parsing_error(mini);
 			return (0);
@@ -98,6 +98,9 @@ static int	allocate_cmd(t_minishell *mini)
 		special_char_check(mini, &i);
 		i++;
 	}
+	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
+	mini->parse.end_block = i - 1;
+	get_block(mini);
 	return (1);
 }
 
@@ -122,6 +125,8 @@ static void	parse(t_minishell *mini)
 // reads user input w/ readline
 int	read_input(t_minishell *mini)
 {
+	int	i;
+	
 	while(1)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
@@ -129,6 +134,9 @@ int	read_input(t_minishell *mini)
 			break ;
 		add_history(mini->arg);
 		parse(mini);
+		i = -1;
+		while (mini->cmd[++i] != NULL)
+			printf("cmd %d: %s\n", mini->cmd[i]);
 		free(mini->arg);
 	}
 }

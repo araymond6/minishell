@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 14:04:39 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:57:38 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	get_block(t_minishell *mini);
 void	doublequote_cmd(t_minishell *mini, int *i, int *j);
 void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
+void	sub_dollar(t_minishell *mini, int *i, int *j);
 
 //execution
 
@@ -82,7 +83,7 @@ void	malloc_error(t_minishell *mini);
 void	initialize_mini(t_minishell *mini, char **envp);
 void	free_mini(t_minishell *mini);
 void	exit_program(t_minishell *mini);
-char	*check_env(t_minishell *mini, char *arg)
+char	*check_env(t_minishell *mini, char *arg);
 void	signal_handler(int signal);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:29:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 14:04:27 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:35:11 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ char	*check_env(t_minishell *mini, char *arg)
 	if (!new)
 	return (NULL);
 	new = while_env(mini, &i, &k, new);
-	if (new)
-		return (new);
-	return (NULL);
+	if (!new || new[0] == '\0')
+		return (NULL);
+	return (new);
 }
 
 void	signal_handler(int signal)

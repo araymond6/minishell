@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:24:44 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/06 14:32:11 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:45:25 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	special_check(t_minishell *mini, int *i, int *j)
 	else if (mini->arg[*i] == '\"')
 		doublequote_cmd(mini, i, j);
 	else if (mini->arg[*i] == '$')
-		sub_dollar(mini, i);
+		sub_dollar(mini, i, j);
 	else if (mini->arg[*i] == '|')
 	{
 		mini->cmd[mini->parse.c][*j] = mini->arg[*j];
@@ -42,7 +42,7 @@ void	get_block(t_minishell *mini)
 
 	i = mini->parse.start_block;
 	j = 0;
-	while (j <= mini->parse.end_block)
+	while (i <= mini->parse.end_block)
 	{
 		if (special_check(mini, &i, &j))
 			return ;
