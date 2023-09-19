@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/11 16:40:31 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/19 10:53:29 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@
 
 typedef struct s_cmd
 {
-	char			*redir;
+	char			*redir;			//ok
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
-	char			**file;
+	char			**file;			//ok
 	struct s_cmd	*next;
-	int				nredir;
+	int				nredir;			//ok
 	struct s_cmd	*prev;
-	int				pipe_fd[2];
-	int				narg;
-	int				status;
+	int				pipe_fd[2];		//ok
+	int				narg;			//ok
+	int				status;			//ok
 }	t_cmd;
 
 typedef struct s_minishell

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/11 16:40:44 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/19 11:16:00 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	child(t_cmd *cmd)
 	if (cmd->next->cmd == NULL)
 		close(cmd->pipe_fd[0]);
 	close(cmd->pipe_fd[1]);
+	//free(cmd->pipe_fd);
 	if (cmd->redir)
 	{
 		while (cmd->redir[i])
@@ -66,6 +67,8 @@ int	child(t_cmd *cmd)
 			change_out(cmd, cmd->redir[i], cmd->file[i]);
 			i++;
 		}
+		//free(cmd->redir);
+		//free_array(cmd->file);
 	}
 	execute_cmd_buildin(cmd);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_path_aurelia.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/11 15:57:24 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/19 13:46:09 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	save_path(t_minishell *mini, char **envp)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
+			mini->path_envp = NULL;
 			mini->path_envp = ft_calloc(ft_strlen(envp[i] - 4), sizeof(char));
 			mini->path_envp = envp[i] + 5;
 		}
