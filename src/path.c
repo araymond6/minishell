@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:38:43 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/11 16:16:12 by valerie          ###   ########.fr       */
+/*   Updated: 2023/09/21 16:55:22 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	find_path(t_minishell *mini)
 	}
 	else
 	{
-		path = ft_split(mini->path_envp, ':');
+		path = mini->envp;
 		join_path_command(path, mini->s_cmd->cmd);
 		mini->s_cmd->path = test_path(path);
 		free_array(path);

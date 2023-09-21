@@ -22,13 +22,9 @@ SRCS =	build-in.c \
 		path.c \
 		redirections.c \
 		s_cmd_attribution.c \
-		save_path_aurelia.c \
 		utils_exec_2.c \
-		utils_exec.c
-		
-VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
-VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
-SRCS =	main.c \
+		utils_exec.c \
+		main.c \
 		parsing.c \
 		parse_utils.c \
 		init_utils.c \
@@ -37,6 +33,8 @@ SRCS =	main.c \
 		doublequote.c \
 		dollarsign.c \
 		parsing2.c
+		
+VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
 OBJ_PRE = $(addprefix $(OBJ_DIR), $(OBJS))
@@ -49,7 +47,7 @@ RESET = \033[0m
 GREEN = \033[92m
 MAGENTA = \033[95m
 
-all: readline lib $(NAME)
+all: lib $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(DEP_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Creating folder...$(GREEN)----$(RESET)"

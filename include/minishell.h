@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 16:40:49 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:58:00 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,7 @@ int		len_until_space(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
+
+int	x_comm(t_minishell *mini);
 
 #endif
