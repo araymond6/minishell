@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:44:50 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/20 13:57:52 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:24:51 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void	count_sub_dollar(t_minishell *mini, int *i)
 		free(exception);
 		return ;
 	}
-	printf("hi\n");
 	add_sub_env(mini, arg);
 	if (mini->arg[*i] == '$')
 		count_sub_dollar(mini, i);
