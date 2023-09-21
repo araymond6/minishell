@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 14:23:04 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:40:49 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MAIN_H
 # define ERROR 1
 # define SUCCESS 0
-# define READLINE_LIBRARY
 
 # include <stdio.h>
 # include <unistd.h>
@@ -26,6 +25,7 @@
 # include <sys/stat.h>
 # include <term.h>
 # include <termios.h>
+# include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
 # include "readline/readline.h"
@@ -47,12 +47,24 @@ typedef struct s_cmd
 	int				status;	
 }	t_cmd;
 
+typedef struct s_parse
+{
+	int		block_count;
+	int		c; // holds current count from parse->cmd[c] during parsing
+	int		sub;
+	int		start_block;
+	int		end_block;
+}	t_parse;
+
 typedef struct s_minishell
 {
-	char			*path_envp;
-	char			*arg;
-	char			**cmd;
-	struct s_cmd	*s_cmd;
+	char				*arg;
+	char				**cmd;
+	char				**envp;
+	struct s_parse		parse;
+	struct sigaction	sigact;
+	struct s_cmd		*s_cmd;
+	int					exit_code;
 }	t_minishell;
 
 //build-in.c
@@ -107,7 +119,33 @@ void	save_path(t_minishell *mini, char **envp);
 int		nbr_arg(t_minishell *mini, int i, int j);
 
 //utils_exec.c
+//parsing
+int		read_input(t_minishell *mini);
+int		quote_check(t_minishell *mini, int *i);
+int		end_doublequote(t_minishell *mini, int *i);
+int		end_quote(t_minishell *mini, int *i);
+void	doublequote_parse(t_minishell *mini, int *i);
+void	quote_parse(t_minishell *mini, int *i);
+void	count_sub_dollar(t_minishell *mini, int *i);
+void	get_block(t_minishell *mini);
+void	doublequote_cmd(t_minishell *mini, int *i, int *j);
+void	quote_cmd(t_minishell *mini, int *i, int *j);
+void	parse_exit(t_minishell *mini);
+void	sub_dollar(t_minishell *mini, int *i, int *j);
 
+//execution
+
+//errors
+void	parsing_error(t_minishell *mini);
+void	malloc_error(t_minishell *mini);
+
+//utils
+void	initialize_mini(t_minishell *mini, char **envp);
+void	free_mini(t_minishell *mini);
+void	clear_mini(t_minishell *mini);
+void	exit_program(t_minishell *mini);
+char	*check_env(t_minishell *mini, char *arg);
+void	signal_handler(int signal);
 void	free_array(char **array);
 int		len_until_space(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);

@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_path_aurelia.c                                :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/19 13:46:09 by vst-pier         ###   ########.fr       */
+/*   Created: 2023/08/24 13:48:30 by araymond          #+#    #+#             */
+/*   Updated: 2023/09/04 09:23:55 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	save_path(t_minishell *mini, char **envp)
+void	parse_exit(t_minishell *mini)
 {
-	int	i;
+	perror("Error");
+	exit_program(mini);
+}
 
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			mini->path_envp = NULL;
-			mini->path_envp = ft_calloc(ft_strlen(envp[i] - 4), sizeof(char));
-			mini->path_envp = envp[i] + 5;
-		}
-		i++;
-	}
+void	parsing_error(t_minishell *mini)
+{
+	mini->parse.block_count = 0;
+	mini->exit_code = 2;
+	if (write(STDOUT_FILENO, "parse error\n", 12) == -1)
+		parse_exit(mini);
 }
