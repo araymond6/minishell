@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:30:21 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/19 13:55:49 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:57:39 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ int	redirection(t_minishell *mini, int i, int j, char c)
 	r = 0;
 	index = -1;
 	if (!mini->s_cmd->file)
-	{
-		
 		mini->s_cmd->file = ft_calloc(mini->s_cmd->nredir + 1, sizeof(char *));
-	}
 	if (!mini->s_cmd->redir)
-	
 		mini->s_cmd->redir = ft_calloc(mini->s_cmd->nredir + 1, sizeof(char));
 	assign_redir_values(mini, c);
 	if (mini->cmd[i][j] == ' ')

@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/19 10:53:29 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:23:04 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@
 
 typedef struct s_cmd
 {
-	char			*redir;			//ok
+	char			*redir;
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
-	char			**file;			//ok
+	char			**file;			
 	struct s_cmd	*next;
-	int				nredir;			//ok
+	int				nredir;	
 	struct s_cmd	*prev;
-	int				pipe_fd[2];		//ok
-	int				narg;			//ok
-	int				status;			//ok
+	int				pipe_fd[2];
+	int				narg;		
+	int				status;	
 }	t_cmd;
 
 typedef struct s_minishell

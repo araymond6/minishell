@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:26:24 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/19 16:02:17 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:01:57 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void free_struct(t_cmd *cmd)
 	}
 }
 
+//TODO here doc quand il y a des pipes
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*mini;
@@ -46,19 +47,15 @@ int	main(int argc, char **argv, char **envp)
 	mini->arg = NULL;
 	mini->cmd = ft_calloc(4, sizeof(char *));
 	mini->cmd[0] = ft_calloc(28, sizeof(char));
-	mini->cmd[0] = "< Makefile cat";
+	mini->cmd[0] = "< Makefile cat -e";
 	mini->cmd[1] = ft_calloc(28, sizeof(char));
 	mini->cmd[1] = "grep NAME";
 	mini->cmd[2] = ft_calloc(28, sizeof(char));
-	mini->cmd[2] = "wc";
+	mini->cmd[2] = "wc >> allo.txt";
 	mini->cmd[3] = ft_calloc(1, sizeof(char));
-	mini->cmd[3] = NULL;
 	mini->s_cmd = NULL;
 	create_list(mini);
-	if(mini->path_envp)
-		free_array(mini->cmd);
-	//free les trucs a aurelia qui reste a free et sa structure
 	process(mini->s_cmd);
-	//free_struct(mini->s_cmd);
-	
+	free(mini->s_cmd);
+	free(mini);
 }
