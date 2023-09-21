@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/18 15:07:39 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:16:49 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	quote_check(t_minishell *mini, int *i)
 	}
 	else if (mini->arg[*i] == '\"')
 	{
-		if (!end_doublequote(mini, i))
+		if (end_doublequote(mini, i))
 		{
 			parsing_error(mini);
 			return (0);
@@ -43,12 +43,11 @@ static void	special_char_check(t_minishell *mini, int *i)
 		count_sub_dollar(mini, i);
 	else if (mini->arg[*i] == '|')
 	{
-		mini->cmd[mini->parse.c] = calloc((*i + mini->parse.sub + 2), sizeof(char));
-		mini->parse.end_block = *i;
+		mini->cmd[mini->parse.c] = calloc((*i + mini->parse.sub + 1), sizeof(char));
+		mini->parse.end_block = *i - 1;
 		get_block(mini);
 		mini->parse.start_block = *i + 1;
 		mini->parse.sub = 0;
-		mini->parse.sub -= *i + 1;
 		mini->parse.c++;
 	}
 	else if (mini->arg[*i] == ' ')
@@ -99,7 +98,7 @@ static int	allocate_cmd(t_minishell *mini)
 		i++;
 	}
 	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
-	mini->parse.end_block = i - 1;
+	mini->parse.end_block = i;
 	get_block(mini);
 	return (1);
 }
@@ -135,8 +134,12 @@ int	read_input(t_minishell *mini)
 		add_history(mini->arg);
 		parse(mini);
 		i = -1;
-		while (mini->cmd[++i] != NULL)
-			printf("cmd %d: %s\n", mini->cmd[i]);
+		if (mini->cmd)
+		{	
+			while (mini->cmd[++i] != NULL)
+				printf("cmd %d: %s\n", i, mini->cmd[i]);
+		}
+		clear_mini(mini);
 		free(mini->arg);
 	}
 }

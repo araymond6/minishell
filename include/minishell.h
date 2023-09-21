@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/18 12:57:38 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/21 10:59:59 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	malloc_error(t_minishell *mini);
 //utils
 void	initialize_mini(t_minishell *mini, char **envp);
 void	free_mini(t_minishell *mini);
+void	clear_mini(t_minishell *mini);
 void	exit_program(t_minishell *mini);
 char	*check_env(t_minishell *mini, char *arg);
 void	signal_handler(int signal);

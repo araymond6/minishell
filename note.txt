@@ -24,3 +24,6 @@ POUR SEMAINE DE LA PISCINE::::
 Implémenter le check_env(double check it pls) avec le compte de mini->parse.sub
 Implémenter les substitutions
 S'assurer que les quote_cmd sont bien écrit avec les bonnes variables
+
+Pour jeudi:
+S'assurer que les blocs du milieu ont pas de fautes.
