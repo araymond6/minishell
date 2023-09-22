@@ -30,6 +30,7 @@ SRCS =	build-in.c \
 		quote.c \
 		doublequote.c \
 		dollarsign.c \
+		export.c \
 		parsing2.c
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)

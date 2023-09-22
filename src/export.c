@@ -6,9 +6,13 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:56:09 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:54:33 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	builtin_export(t_minishell *mini)
+{
+	
+}

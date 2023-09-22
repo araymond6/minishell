@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:27:23 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:00:08 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_parse
 typedef struct s_minishell
 {
 	char				*arg;
+	char				*path;
 	char				**cmd;
 	char				**envp;
 	struct s_parse		parse;

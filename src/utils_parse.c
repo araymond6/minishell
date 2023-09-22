@@ -6,17 +6,34 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:50:53 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:09:04 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	*get_path(t_minishell *mini)
+{
+	int		i;
+	char	*path;
+
+	i = -1;
+	path = "PATH=";
+	while (mini->envp[++i])
+	{
+		if (!ft_strncmp(path, mini->envp[i], ft_strlen(path)))
+		{
+			return (mini->envp[i]);
+		}
+	}
+}
 
 // zeroes t_minishell and set envp
 void	initialize_mini(t_minishell *mini, char **envp)
 {
 	ft_bzero(mini, sizeof(t_minishell));
 	mini->envp = envp;
+	mini->path = get_path(mini);
 	mini->sigact.sa_handler = signal_handler;
 	mini->exit_code = 127;
 	sigaction(SIGINT, &mini->sigact, NULL);
