@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 16:58:00 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:27:23 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		nbr_arg(t_minishell *mini, int i, int j);
 
 //utils_exec.c
 //parsing
-int		read_input(t_minishell *mini);
+void	read_input(t_minishell *mini);
 int		quote_check(t_minishell *mini, int *i);
 int		end_doublequote(t_minishell *mini, int *i);
 int		end_quote(t_minishell *mini, int *i);

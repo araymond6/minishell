@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:24:44 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 13:26:07 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:17:07 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 	}
 	else if (mini->arg[*i] == '|')
 		return (1);
-	else if (mini->arg[*i] == ' ')
+	else if (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
 	{
-		*spec = 1;
 		(*i)++;
-		while (mini->arg[*i] == ' ')
+		while (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
 			(*i)++;
+		(*i)--;
 	}
 	return (0);
 }

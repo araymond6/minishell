@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 17:12:03 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:45:09 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
 #include "../include/minishell.h"
+
+int	x_comm(t_minishell *mini)
+{
+
+	mini->s_cmd = NULL;
+	create_list(mini);
+	process(mini->s_cmd);
+	free(mini->s_cmd);
+	return(0);
+}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -19,7 +28,5 @@ int main(int argc, char **argv, char **envp)
 	
 	initialize_mini(&mini, envp);
 	read_input(&mini);
-	x_comm(&mini);
 	exit_program(&mini);
 }
-*/
