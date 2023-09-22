@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 14:16:49 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:27:34 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	special_char_check(t_minishell *mini, int *i)
 		mini->parse.sub = 0;
 		mini->parse.c++;
 	}
-	else if (mini->arg[*i] == ' ')
+	else if (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
 	{
 		(*i)++;
-		while (mini->arg[*i] == ' ')
+		while (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
 		{
 			(*i)++;
 			mini->parse.sub--;
@@ -84,7 +84,7 @@ static int	count_blocks(t_minishell *mini)
 }
 
 // mallocs char*s the necessary amount of char
-static int	allocate_cmd(t_minishell *mini)
+static void	allocate_cmd(t_minishell *mini)
 {
 	int	i;
 
@@ -100,7 +100,22 @@ static int	allocate_cmd(t_minishell *mini)
 	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
 	mini->parse.end_block = i;
 	get_block(mini);
-	return (1);
+}
+
+static void trim_cmd(t_minishell *mini)
+{
+	int		i;
+	char	*temp;
+
+	i = -1;
+	while (mini->cmd[++i])
+	{
+		temp = mini->cmd[i];
+		mini->cmd[i] = ft_strtrim(mini->cmd[i], " ");
+		if (!mini->cmd[i])
+			malloc_error(mini);
+		free(temp);
+	}
 }
 
 static void	parse(t_minishell *mini)
@@ -117,15 +132,13 @@ static void	parse(t_minishell *mini)
 	mini->arg = arg;
 	if (!count_blocks(mini))
 		return ;
-	if (!allocate_cmd(mini))
-		return ;
+	allocate_cmd(mini);
+	trim_cmd(mini);
 }
 
 // reads user input w/ readline
-int	read_input(t_minishell *mini)
+void	read_input(t_minishell *mini)
 {
-	int	i;
-	
 	while(1)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
@@ -133,12 +146,7 @@ int	read_input(t_minishell *mini)
 			break ;
 		add_history(mini->arg);
 		parse(mini);
-		i = -1;
-		if (mini->cmd)
-		{	
-			while (mini->cmd[++i] != NULL)
-				printf("cmd %d: %s\n", i, mini->cmd[i]);
-		}
+		x_comm(mini);
 		clear_mini(mini);
 		free(mini->arg);
 	}
