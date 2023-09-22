@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:58:34 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:22:16 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 	int				pipe_fd[2];
 	int				narg;		
-	int				status;	
+	int				status;
+	char			**envp;
 }	t_cmd;
 
 typedef struct s_parse

@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:39:50 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/22 14:48:02 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:12:11 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ int	isbuildin(char *isbuildin)
 	return (1);
 }
 
-int	execute_buildin(t_cmd *cmd)
+int	execute_buildin(t_minishell *mini)
 {
-	//if(ft_strncmp(cmd->cmd_arg[0], "echo", 4) == 0)
-		//return (ft_echo());
-	if(ft_strncmp(cmd->cmd_arg[0], "cd", 2) == 0)
-		return (ft_cd(cmd));
-	else if(ft_strncmp(cmd->cmd_arg[0], "pwd", 3) == 0)
-		return (ft_pwd(cmd));
-	//else if(ft_strncmp(cmd->cmd_arg[0], "export", 6) == 0)
-		//return (ft_export());
-	//else if(ft_strncmp(cmd->cmd_arg[0], "env", 3) == 0)
-		//return (ft_env());
-	//else if(ft_exit(cmd->cmd_arg[0], "exit", 4) == 0)
-		//ft_cd();
+	//if(ft_strncmp(mini->s_cmd->cmd_arg[0], "echo", 4) == 0)
+		//return (ft_echo(mini->s_cmd));
+	if(ft_strncmp(mini->s_cmd->cmd_arg[0], "cd", 2) == 0)
+		return (ft_cd(mini->s_cmd));
+	else if(ft_strncmp(mini->s_cmd->cmd_arg[0], "pwd", 3) == 0)
+		return (ft_pwd(mini->s_cmd));
+	//else if(ft_strncmp(mini->s_cmd->cmd_arg[0], "export", 6) == 0)
+		//return (ft_export(mini->s_cmd));
+	//else if(ft_strncmp(mini->s_cmd->cmd_arg[0], "env", 3) == 0)
+		//return (ft_env(mini->s_cmd));
+	//else if(ft_exit(mini->s_cmd->cmd_arg[0], "exit", 4) == 0)
+		//ft_exit(mini->s_cmd);
 	return (0);
 }

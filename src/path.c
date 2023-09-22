@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:38:43 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/21 17:19:13 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:04:25 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ char	*test_path(char **path)
 //Otherwise, it check if he can access the command whith env.
 int	find_path(t_minishell *mini)
 {
-	char	**path;
 	int		len;
-
+	char	**tab_path;
+	
 	if (access(mini->s_cmd->cmd, X_OK) == 0
 		|| isbuildin(mini->s_cmd->cmd) == 0)
 	{
@@ -73,10 +73,10 @@ int	find_path(t_minishell *mini)
 	}
 	else
 	{
-		path = mini->envp;
-		join_path_command(path, mini->s_cmd->cmd);
-		mini->s_cmd->path = test_path(path);
-		free_array(path);
+		tab_path = ft_split(mini->path, ":");
+		join_path_command(tab_path, mini->s_cmd->cmd);
+		mini->s_cmd->path = test_path(tab_path);
+		free_array(tab_path);
 	}
 	return (0);
 }
