@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:09:04 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:26:58 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void	exit_program(t_minishell *mini)
 {
 	int exit_code;
 
-	exit_code = mini->exit_code;
-	printf("exit code: %d\n", mini->exit_code);	
+	exit_code = mini->exit_code;	
 	clear_history();
 	free_mini(mini);
 	exit(exit_code);
