@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:14:03 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:47:31 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,5 +154,8 @@ int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 
 int	x_comm(t_minishell *mini);
+int	ft_cd(t_cmd *cmd);
+int	ft_pwd(t_cmd *cmd);
+
 
 #endif

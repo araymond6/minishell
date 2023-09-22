@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:39:50 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/22 14:42:59 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:48:02 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	execute_buildin(t_cmd *cmd)
 	//if(ft_strncmp(cmd->cmd_arg[0], "echo", 4) == 0)
 		//return (ft_echo());
 	if(ft_strncmp(cmd->cmd_arg[0], "cd", 2) == 0)
-		return (ft_cd());
+		return (ft_cd(cmd));
 	else if(ft_strncmp(cmd->cmd_arg[0], "pwd", 3) == 0)
-		return (ft_pwd());
+		return (ft_pwd(cmd));
 	//else if(ft_strncmp(cmd->cmd_arg[0], "export", 6) == 0)
 		//return (ft_export());
 	//else if(ft_strncmp(cmd->cmd_arg[0], "env", 3) == 0)

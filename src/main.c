@@ -6,11 +6,10 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 17:12:03 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:46:14 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
 #include "../include/minishell.h"
 
 int main(int argc, char **argv, char **envp)
@@ -22,4 +21,3 @@ int main(int argc, char **argv, char **envp)
 	x_comm(&mini);
 	exit_program(&mini);
 }
-*/
