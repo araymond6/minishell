@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 16:58:00 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:14:03 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include "readline/history.h"
 # include "../libft/src/libft.h"
 
+//TODO check diffrence and change for the aurelias env
 typedef struct s_cmd
 {
 	char			*redir;
@@ -69,7 +70,7 @@ typedef struct s_minishell
 
 //build-in.c
 int		isbuildin(char *isbuildin);
-int		execute_buildin(void);
+int		execute_buildin(t_cmd *cmd);
 
 //change_fd.c
 int		change_inf(t_cmd *cmd, char c, char *file);

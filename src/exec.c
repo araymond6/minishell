@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/21 17:17:01 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:14:28 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	execute_cmd_buildin(t_cmd *cmd)
 {
 	if (isbuildin(cmd->cmd_arg[0]) == 0)
-		execute_buildin();
+		execute_buildin(cmd);
 	else
 	{
 		if (execve(cmd->path, cmd->cmd_arg, NULL) == -1)
