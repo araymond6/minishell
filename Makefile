@@ -27,11 +27,11 @@ SRCS =	build-in.c \
 		parsing.c \
 		utils_parse.c \
 		utils_parse_2.c \
-		error.c \
 		quote.c \
 		doublequote.c \
 		dollarsign.c \
-		parsing2.c \
+		export.c \
+		parsing2.c
 		cd.c \
 		pwd.c
 		

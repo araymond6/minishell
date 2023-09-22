@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 15:22:16 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:16:00 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_parse
 typedef struct s_minishell
 {
 	char				*arg;
+	char				*path;
 	char				**cmd;
 	char				**envp;
 	struct s_parse		parse;
