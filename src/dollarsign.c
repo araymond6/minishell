@@ -6,12 +6,13 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:44:50 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/21 14:24:51 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:49:47 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+// adds to mini->parse.sub the c count if found
 static void	add_sub_env(t_minishell *mini, char *arg)
 {
 	int	i;
@@ -34,6 +35,7 @@ static void	add_sub_env(t_minishell *mini, char *arg)
 	free(new);
 }
 
+//adds the substitution of the env var to mini->cmd
 static void	add_from_env(t_minishell *mini, int *j, char *arg)
 {
 	char	*new;
@@ -51,6 +53,7 @@ static void	add_from_env(t_minishell *mini, int *j, char *arg)
 	free(new);
 }
 
+//exit_code exception
 static void	add_exitcode(t_minishell *mini, int *j, char *arg)
 {
 	int	k;
