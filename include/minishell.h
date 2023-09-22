@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:16:00 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:20:01 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_minishell
 
 //build-in.c
 int		isbuildin(char *isbuildin);
-int		execute_buildin(t_cmd *cmd);
+int		execute_buildin(t_minishell *mini);
 
 //change_fd.c
 int		change_inf(t_cmd *cmd, char c, char *file);
@@ -82,17 +82,16 @@ int		change_out(t_cmd *cmd, char c, char *file);
 int		check_command(t_minishell *mini, int i, int j);
 
 //exec.c
-int		execute_cmd_buildin(t_cmd *cmd);
+int		execute_cmd_buildin(t_minishell *mini);
 int		parent(t_cmd *cmd);
-int		child(t_cmd *cmd);
-int		process(t_cmd *cmd);
+int		child(t_minishell *mini);
+int		process(t_minishell *mini);
 
 //here_doc.c
 int		read_write(t_cmd *cmd, char *delimiter, int fd);
 int		here_doc(t_cmd *cmd, char *delimiter);
 
 //parsing_exec.c
-int		initialize(t_cmd *cmd);
 void	parsing_command(t_minishell *mini, int i);
 void	create_list(t_minishell *mini);
 
@@ -114,9 +113,6 @@ int		s_cmd_cmd(t_minishell *mini, int i, int j);
 int		s_cmd_arg_cmd_first(t_minishell *mini, int i, int j);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
 int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
-
-//save_path_aurelia.c
-void	save_path(t_minishell *mini, char **envp);
 
 //utils_exec_2.c
 int		nbr_arg(t_minishell *mini, int i, int j);

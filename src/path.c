@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:38:43 by valerie           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/22 16:04:25 by vst-pier         ###   ########.fr       */
-=======
-/*   Updated: 2023/09/22 15:49:33 by araymond         ###   ########.fr       */
->>>>>>> 5d00dd2d84f5d958f49f743972b5a4af6b617189
+/*   Updated: 2023/09/22 16:23:37 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -77,7 +74,7 @@ int	find_path(t_minishell *mini)
 	}
 	else
 	{
-		tab_path = ft_split(mini->path, ":");
+		tab_path = ft_split(mini->path, ':');
 		join_path_command(tab_path, mini->s_cmd->cmd);
 		mini->s_cmd->path = test_path(tab_path);
 		free_array(tab_path);
