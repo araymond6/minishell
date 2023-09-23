@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:08:57 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/22 14:32:02 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:58:53 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 int ft_cd(t_cmd *cmd)
 {
-
+	if(chdir(cmd->cmd_arg[1])== -1)
+		return(message_perror("cd : "));
+	return(0);
 }
