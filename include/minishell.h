@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:20:01 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:31:50 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 
 //change_fd.c
-int		change_inf(t_cmd *cmd, char c, char *file);
-int		change_out(t_cmd *cmd, char c, char *file);
+int		change_inf(char c, char *file);
+int		change_out(char c, char *file);
 
 //command.c 
 int		check_command(t_minishell *mini, int i, int j);
@@ -88,8 +88,8 @@ int		child(t_minishell *mini);
 int		process(t_minishell *mini);
 
 //here_doc.c
-int		read_write(t_cmd *cmd, char *delimiter, int fd);
-int		here_doc(t_cmd *cmd, char *delimiter);
+int		read_write(char *delimiter, int fd);
+int		here_doc(char *delimiter);
 
 //parsing_exec.c
 void	parsing_command(t_minishell *mini, int i);
@@ -110,7 +110,7 @@ int		exit_redirection(t_minishell *mini, int i, int j);
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
-int		s_cmd_arg_cmd_first(t_minishell *mini, int i, int j);
+int		s_cmd_arg_cmd_first(t_minishell *mini);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
 int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
 
@@ -153,7 +153,8 @@ int		message_perror(char *str);
 
 int	x_comm(t_minishell *mini);
 int	ft_cd(t_cmd *cmd);
-int	ft_pwd(t_cmd *cmd);
+int	ft_pwd(void);
+int ft_echo(t_cmd *cmd);
 
 
 #endif

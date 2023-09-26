@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/22 16:11:16 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:17:37 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	child(t_minishell *mini)
 	{
 		while (mini->s_cmd->redir[i])
 		{
-			change_inf(mini->s_cmd, mini->s_cmd->redir[i], mini->s_cmd->file[i]);
-			change_out(mini->s_cmd, mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_inf(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_out(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
 			i++;
 		}
 	}

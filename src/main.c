@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:15:52 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:24:16 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int main(int argc, char **argv, char **envp)
 {
 	t_minishell mini;
 	
+	(void) argc;
+	(void) argv;
 	initialize_mini(&mini, envp);
 	read_input(&mini);
 	exit_program(&mini);

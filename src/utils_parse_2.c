@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:19:34 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:20:09 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:28:13 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*check_env(t_minishell *mini, char *arg)
 	i = 0;
 	k = 0;
 	if (!arg || arg[0] == '\0')
-		return (1);
+		return (NULL);
 	new = ft_strjoin(arg, "=");
 	if (!new)
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 18:04:28 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/22 15:07:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:20:52 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void	parsing_command(t_minishell *mini, int i)
 {
 	int		j;
-	t_cmd	*command;
 
 	j = 0;
 	if (!mini->s_cmd)

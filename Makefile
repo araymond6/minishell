@@ -33,7 +33,8 @@ SRCS =	build-in.c \
 		export.c \
 		parsing2.c \
 		cd.c \
-		pwd.c
+		pwd.c \
+		echo.c
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
