@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 10:42:04 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 12:03:03 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_cmd
 	int				pipe_fd[2];
 	int				narg;		
 	int				status;
-	char			**envp;
 }	t_cmd;
 
 typedef struct s_parse

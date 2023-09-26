@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/22 16:11:16 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:38:10 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int	execute_cmd_buildin(t_minishell *mini)
 	else
 	{
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
+		{
+			free(mini->s_cmd->path);
+			free(mini->s_cmd->cmd_arg);
 			return (message_perror("EXECVE"));
+		}
 	}
 	return (0);
 }
@@ -50,7 +54,7 @@ int	child(t_minishell *mini)
 	if (mini->s_cmd->prev->cmd != NULL)
 		if (dup2(mini->s_cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
 			exit(EXIT_FAILURE);
-	if (mini->s_cmd->next->cmd != NULL)
+	if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
 		if (dup2(mini->s_cmd->pipe_fd[1], STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 	if (mini->s_cmd->prev->cmd != NULL)
@@ -76,6 +80,7 @@ int	child(t_minishell *mini)
 int	process(t_minishell *mini)
 {
 	pid_t	pid;
+	t_cmd	*temp;
 
 	pid = 1;
 	while (mini->s_cmd->next)
@@ -94,7 +99,6 @@ int	process(t_minishell *mini)
 			mini->s_cmd = mini->s_cmd->next;
 		}
 	}
-	//on free le contenu de toutes les nodes et les nodes
 	waitpid(pid, &mini->s_cmd->status, 0);
 	if (WEXITSTATUS(mini->s_cmd->status) == 1)
 		message_perror("WEXITSTATUS");

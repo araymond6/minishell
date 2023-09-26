@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:19:34 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 10:31:55 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:02:52 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ void	signal_handler(int signal)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
-		rl_redisplay();
-	}
+		rl_redisplay();}
 	else if (signal == SIGQUIT)
 	{
 		rl_on_new_line();

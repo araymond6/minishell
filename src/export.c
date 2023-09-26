@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/25 15:25:02 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:57:49 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 
 void	ft_export(t_minishell *mini)
 {
-	int	i;
+	char	**table;
+	int		i;
 
-	i = 0;
-	while (mini->s_cmd->cmd_arg[0][i])
-	{
-		
-		i++;
-	}
+	
 }
