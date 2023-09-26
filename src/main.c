@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 15:02:16 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:15:52 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int	x_comm(t_minishell *mini)
 {
-
 	mini->s_cmd = NULL;
 	create_list(mini);
-	process(mini->s_cmd);
+	process(mini);
 	free(mini->s_cmd);
 	return(0);
 }

@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 11:57:49 by araymond         ###   ########.fr       */
+/*   Created: 2023/09/22 14:08:57 by vst-pier          #+#    #+#             */
+/*   Updated: 2023/09/23 12:29:50 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_export(t_minishell *mini)
+int ft_cd(t_cmd *cmd)
 {
-	char	**table;
-	int		i;
-
-	
+	if(chdir(cmd->cmd_arg[1])== -1)
+		return(message_perror("cd : "));
+	return(0);
 }

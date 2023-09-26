@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:26:58 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:25:40 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,25 @@ void	free_mini(t_minishell *mini)
 
 void	clear_mini(t_minishell *mini)
 {
+	int	i;
+
+	i = 0;
 	mini->parse.block_count = 0;
 	mini->parse.c = 0;
 	mini->parse.end_block = 0;
 	mini->parse.start_block = 0;
 	mini->parse.sub = 0;
+	i = 0;
+	if(!mini->cmd)
+		return;
+	while (mini->cmd[i])
+	{
+		free(mini->cmd[i]);
+		mini->cmd[i] = NULL;
+		i++;
+	}
+	free(mini->cmd);
+	mini->cmd = NULL;
 }
 
 // clears history, frees mini's uses and exits program with exit_code depending on the error seen or not seen
