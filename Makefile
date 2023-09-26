@@ -30,7 +30,7 @@ SRCS =	build-in.c \
 		quote.c \
 		doublequote.c \
 		dollarsign.c \
-		export.c \
+		env.c \
 		parsing2.c \
 		cd.c \
 		pwd.c

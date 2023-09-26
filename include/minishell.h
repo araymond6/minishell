@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 12:03:03 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/26 12:56:04 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int		message_perror(char *str);
 int	x_comm(t_minishell *mini);
 int	ft_cd(t_cmd *cmd);
 int	ft_pwd(t_cmd *cmd);
-
+int	ft_env(t_minishell *mini);
+int	ft_export(t_minishell *mini);
 
 #endif

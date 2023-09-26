@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:15:52 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:11:56 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int main(int argc, char **argv, char **envp)
 {
 	t_minishell mini;
 	
+	if (!envp)
+		exit(EXIT_FAILURE);
 	initialize_mini(&mini, envp);
 	read_input(&mini);
 	exit_program(&mini);
