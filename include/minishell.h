@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 16:00:08 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:35:32 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_cmd
 typedef struct s_parse
 {
 	int		block_count;
-	int		c; // holds current count from parse->cmd[c] during parsing
+	int		c; // holds current count for parse->cmd[c] during parsing
 	int		sub;
 	int		start_block;
 	int		end_block;
