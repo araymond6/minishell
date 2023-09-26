@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = #-Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 LFLAGS = -lreadline
 RLINE_DIR = -L${HOME}/.brew/opt/readline/lib
