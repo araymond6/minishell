@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 13:11:56 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:51:28 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ int	x_comm(t_minishell *mini)
 	mini->s_cmd = NULL;
 	create_list(mini);
 	process(mini);
-	free(mini->s_cmd);
+	free_scmd(mini->s_cmd);
 	return(0);
 }
 
+
+//attention a la sortie lors des redirection termine dans le fd 
+//
 int main(int argc, char **argv, char **envp)
 {
 	t_minishell mini;

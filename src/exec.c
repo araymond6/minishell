@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/26 11:38:10 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:49:12 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	child(t_minishell *mini)
 	i = 0;
 	if (mini->s_cmd->prev->cmd != NULL)
 		if (dup2(mini->s_cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
+			return(EXIT_FAILURE);
 	if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
 		if (dup2(mini->s_cmd->pipe_fd[1], STDOUT_FILENO) == -1)
-			exit(EXIT_FAILURE);
+			return(EXIT_FAILURE);
 	if (mini->s_cmd->prev->cmd != NULL)
 		close(mini->s_cmd->prev->pipe_fd[0]);
 	if (mini->s_cmd->next->cmd == NULL)
@@ -81,17 +81,18 @@ int	process(t_minishell *mini)
 {
 	pid_t	pid;
 	t_cmd	*temp;
-
+	int 	fd_stdin_out[2];
+	
 	pid = 1;
 	while (mini->s_cmd->next)
 	{
 		if (pipe(mini->s_cmd->pipe_fd) == -1)
-			exit(message_perror("Pipe"));
+			return(message_perror("Pipe"));
 		if (pid != 0)
 		{
 			pid = fork();
 			if (pid == -1)
-				exit(message_perror("Fork"));
+				return(message_perror("Fork"));
 			if (pid == 0)
 				child(mini);
 			if (pid != 0)

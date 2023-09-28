@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 12:56:04 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:48:17 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ typedef struct s_cmd
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
-	char			**file;			
+	char			**file;
 	struct s_cmd	*next;
 	int				nredir;	
 	struct s_cmd	*prev;
 	int				pipe_fd[2];
 	int				narg;		
 	int				status;
+	int				fd_stdin_out[2];
 }	t_cmd;
 
 typedef struct s_parse
@@ -155,5 +156,8 @@ int	ft_cd(t_cmd *cmd);
 int	ft_pwd(t_cmd *cmd);
 int	ft_env(t_minishell *mini);
 int	ft_export(t_minishell *mini);
+int ft_echo(t_cmd *cmd);
+void	ft_exit(t_minishell *mini);
+void free_scmd(t_cmd *cmd);
 
 #endif
