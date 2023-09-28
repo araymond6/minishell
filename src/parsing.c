@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 10:51:34 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:48:45 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	special_char_check(t_minishell *mini, int *i)
 		count_sub_dollar(mini, i);
 	else if (mini->arg[*i] == '|')
 	{
-		mini->cmd[mini->parse.c] = calloc((*i + mini->parse.sub + 1), sizeof(char));
+		mini->cmd[mini->parse.c] = ft_calloc((*i + mini->parse.sub + 1), sizeof(char));
 		mini->parse.end_block = *i - 1;
 		get_block(mini);
 		mini->parse.start_block = *i + 1;
@@ -89,7 +89,7 @@ static void	allocate_cmd(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	mini->cmd = calloc((mini->parse.block_count + 1), sizeof(char *));
+	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
 	if (!mini->cmd)
 		malloc_error(mini);
 	while (mini->arg[i])
@@ -97,7 +97,7 @@ static void	allocate_cmd(t_minishell *mini)
 		special_char_check(mini, &i);
 		i++;
 	}
-	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
+	mini->cmd[mini->parse.c] = ft_calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
 	mini->parse.end_block = i;
 	get_block(mini);
 }
@@ -146,8 +146,7 @@ void	read_input(t_minishell *mini)
 			break ;
 		add_history(mini->arg);
 		parse(mini);
-		x_comm(mini);
+		//x_comm(mini);
 		clear_mini(mini);
-		free(mini->arg);
 	}
 }

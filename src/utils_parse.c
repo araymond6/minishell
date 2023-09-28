@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 13:25:40 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:52:58 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ void	exit_program(t_minishell *mini)
 void	malloc_error(t_minishell *mini)
 {
 	mini->exit_code = 1;
-	write(STDOUT_FILENO, "malloc error\n", 13);
+	message_perror("malloc");
 	exit_program(mini);
 }

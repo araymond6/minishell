@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/28 10:23:50 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 17:01:53 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,99 @@ int	ft_env(t_minishell *mini)
 	return (0);
 }
 
-int	export_parsing(t_minishell *mini)
+int	export_parsing(t_minishell *mini, int *i)
 {
-	int	i;
+	int		j;
+	int		k;
+	char	*str;
 
-	while (mini->s_cmd->cmd_arg[1][i])
+	j = 0;
+	k = 0;
+	if (ft_isdigit(mini->s_cmd->cmd_arg[*i][0]))
+	return (1);
+	str = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[*i] + 1), sizeof(char));
+	if (!str)
+		malloc_error(mini);
+	while (mini->s_cmd->cmd_arg[*i][k] && mini->s_cmd->cmd_arg[*i][k] != '=')
 	{
-		if (!ft_isalnum(mini->s_cmd->cmd_arg[1][i]))
-		i++;
+		if (mini->s_cmd->cmd_arg[*i][k] != '\'' || mini->s_cmd->cmd_arg[*i][k] != '\"')
+			k++;
+		else
+			str[k++] = mini->s_cmd->cmd_arg[*i][j++];
 	}
-	
 	return (0);
 }
+
+
+// finish unset first, then export
+
+
 
 int	ft_export(t_minishell *mini)
 {
 	char	**table;
 	int		i;
 
-	if (!mini->s_cmd->cmd_arg[1] || mini->s_cmd->cmd_arg[1][0] == '\0')
-		return (1);
-	if (export_parsing(mini))
-		return (1);
-	table = calloc(i + 2, sizeof(char *));
-	i = 0;
-	while (mini->envp[i])
+	i = 1;
+	while (mini->s_cmd->cmd_arg[i])
 	{
-		table[i] = mini->envp[i];
+		if (!mini->s_cmd->cmd_arg[i] || mini->s_cmd->cmd_arg[i][0] == '\0')
+		{
+			printf("export: \"%s\": not a valid identifier", mini->s_cmd->cmd_arg[i]);
+			i++;
+			continue ;
+		}
+		if (export_parsing(mini, &i))
+			return (message_perror("export"), 1);
+		table = ft_calloc(i + 2, sizeof(char *));
+		while (mini->envp[i])
+		{
+			table[i] = mini->envp[i];
+			i++;
+		}
 		i++;
 	}
 	return (0);
+}
+
+int	unset_parsing(t_minishell *mini, int *i)
+{
+	int		j;
+	int		k;
+	char	*str;
+
+	j = 0;
+	k = 0;
+	while (mini->envp)
+	{
+		
+		
+	}
+	return (-1);
+}
+
+int	ft_unset(t_minishell *mini)
+{
+	char	**table;
+	int		i;
+
+	i = 1;
+	while (mini->s_cmd->cmd_arg[i])
+	{
+		if (!mini->s_cmd->cmd_arg[i] || mini->s_cmd->cmd_arg[i][0] == '\0')
+		{
+			printf("unset: \"%s\": not a valid identifier", mini->s_cmd->cmd_arg[i]);
+			i++;
+			continue ;
+		}
+		if (unset_parsing(mini, &i) == -1)
+			return (message_perror("export"), 1);
+		table = ft_calloc(i + 2, sizeof(char *));
+		while (mini->envp[i])
+		{
+			table[i] = mini->envp[i];
+			i++;
+		}
+		i++;
+	}
 }

@@ -6,12 +6,13 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 14:32:33 by araymond          #+#    #+#             */
-/*   Updated: 2023/01/20 14:14:11 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:57:12 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+// returns 0 if there is a match
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int	i;

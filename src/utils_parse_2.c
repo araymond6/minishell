@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:19:34 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 11:02:52 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:48:34 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ char	*check_env(t_minishell *mini, char *arg)
 		return (NULL);
 	new = ft_strjoin(arg, "=");
 	if (!new)
-	return (NULL);
+	{
+		free(arg);
+		malloc_error(mini);
+	}
 	new = while_env(mini, &i, &k, new);
 	if (!new || new[0] == '\0')
 		return (NULL);
@@ -74,7 +77,8 @@ void	signal_handler(int signal)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
-		rl_redisplay();}
+		rl_redisplay();
+	}
 	else if (signal == SIGQUIT)
 	{
 		rl_on_new_line();
