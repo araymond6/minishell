@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 10:52:42 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:12:29 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:35:32 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ void	count_sub_dollar(t_minishell *mini, int *i)
 		arg[j++] = mini->arg[(*i)++];
 		mini->parse.sub--;
 	}
-	exitcode_exception(mini, exception, arg, i);
+	count_sub_exception(mini, exception, arg, i);
 }

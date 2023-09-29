@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:10:28 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:38:43 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*get_path(t_minishell *mini)
 			return (mini->envp[i]);
 		}
 	}
+	return (NULL);
 }
 
 // zeroes t_minishell and set envp
@@ -76,17 +77,6 @@ void	clear_mini(t_minishell *mini)
 	}
 	free(mini->cmd);
 	mini->cmd = NULL;
-}
-
-// clears history, frees mini's uses and exits program
-void	exit_program(t_minishell *mini)
-{
-	int	exit_code;
-
-	exit_code = mini->exit_code;
-	clear_history();
-	free_mini(mini);
-	exit(exit_code);
 }
 
 void	malloc_error(t_minishell *mini)

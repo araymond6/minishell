@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 13:15:09 by araymond         ###   ########.fr       */
+/*   Created: 2023/09/29 11:20:56 by araymond          #+#    #+#             */
+/*   Updated: 2023/09/29 11:23:56 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	x_comm(t_minishell *mini)
+// clears history, frees mini's uses and exits program
+void	exit_program(t_minishell *mini)
 {
-	mini->s_cmd = NULL;
-	create_list(mini);
-	process(mini);
-	free(mini->s_cmd);
-	return (0);
+	int	exit_code;
+
+	exit_code = mini->exit_code;
+	clear_history();
+	free_mini(mini);
+	exit(exit_code);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	count_2darray(char **table)
 {
-	t_minishell	mini;
+	int	i;
 
-	if (!envp)
-		exit(EXIT_FAILURE);
-	initialize_mini(&mini, envp);
-	read_input(&mini);
-	exit_program(&mini);
+	i = 0;
+	while (table[i])
+		i++;
+	return (i);
 }

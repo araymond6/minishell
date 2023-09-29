@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 10:39:42 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:40:11 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,16 @@ int	ft_unset(t_minishell *mini)
 	{
 		if (mini->s_cmd->cmd_arg[i][0] == '\0')
 		{
-			printf("unset: \"%s\": not a valid identifier", mini->s_cmd->cmd_arg[i]);
-			i++;
+			printf("unset: \"%s\": not a valid identifier", mini->s_cmd->cmd_arg[i++]);
 			continue ;
 		}
 		c = unset_parsing(mini, &i);
 		if (c == -1)
-			return (0);
-		table = ft_calloc(i + 2, sizeof(char *));
+		{
+			i++;
+			continue ;
+		}
+		table = ft_calloc(count_2darray(mini->envp), sizeof(char *));
 		if (!table)
 			malloc_error(mini);
 		while (mini->envp[i])
