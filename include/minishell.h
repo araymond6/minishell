@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 12:56:04 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:00:08 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,12 @@ void	doublequote_cmd(t_minishell *mini, int *i, int *j);
 void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
 void	sub_dollar(t_minishell *mini, int *i, int *j);
+int		quote_check(t_minishell *mini, int *i);
+void	special_char_check(t_minishell *mini, int *i);
+void	add_exitcode(t_minishell *mini, int *j, char *arg);
 
 //execution
+// *surprised pikachu face* THERE'S NOTHING
 
 //errors
 void	parsing_error(t_minishell *mini);
@@ -150,6 +154,7 @@ int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 
+// buildins and start of exec
 int	x_comm(t_minishell *mini);
 int	ft_cd(t_cmd *cmd);
 int	ft_pwd(t_cmd *cmd);

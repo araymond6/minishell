@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:19:34 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/28 13:48:34 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:10:38 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*check_env(t_minishell *mini, char *arg)
 	int		i;
 	int		k;
 	char	*new;
-	
+
 	i = 0;
 	k = 0;
 	if (!arg || arg[0] == '\0')
