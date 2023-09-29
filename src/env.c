@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/28 10:23:49 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:15:17 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	export_parsing(t_minishell *mini)
 {
 	int	i;
 
+	i = 0;
 	while (mini->s_cmd->cmd_arg[1][i])
 	{
-		if (!ft_isalnum(mini->s_cmd))
+		if (!ft_isalnum(mini->s_cmd->cmd_arg[1][i]))
 		i++;
 	}
 	
@@ -39,7 +40,8 @@ int	ft_export(t_minishell *mini)
 {
 	char	**table;
 	int		i;
-
+	
+	i = 0;
 	if (!mini->s_cmd->cmd_arg[1] || mini->s_cmd->cmd_arg[1][0] == '\0')
 		return (0);
 	if (export_parsing(mini))

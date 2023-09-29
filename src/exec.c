@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/28 16:49:12 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:09:09 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	execute_cmd_buildin(t_minishell *mini)
 {
 	if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
-		execute_buildin(mini);
+		return(execute_buildin(mini));
 	else
 	{
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
@@ -67,21 +67,18 @@ int	child(t_minishell *mini)
 	{
 		while (mini->s_cmd->redir[i])
 		{
-			change_inf(mini->s_cmd, mini->s_cmd->redir[i], mini->s_cmd->file[i]);
-			change_out(mini->s_cmd, mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_inf(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_out(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
 			i++;
 		}
 	}
-	execute_cmd_buildin(mini);
-	return (0);
+	return (execute_cmd_buildin(mini));
 }
 
 // the processus
 int	process(t_minishell *mini)
 {
 	pid_t	pid;
-	t_cmd	*temp;
-	int 	fd_stdin_out[2];
 	
 	pid = 1;
 	while (mini->s_cmd->next)

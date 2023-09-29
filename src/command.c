@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:34:51 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/22 16:14:51 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:11:54 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_command(t_minishell *mini, int i, int j)
 	mini->s_cmd->cmd_arg = ft_calloc(mini->s_cmd->narg + 2, sizeof(char *));
 	if (mini->cmd[i][j] == ' ')
 		j++;
-	if (!mini->s_cmd->cmd_arg || s_cmd_arg_cmd_first(mini, i, j) == -1)
+	if (!mini->s_cmd->cmd_arg || s_cmd_arg_cmd_first(mini) == -1)
 		return (-1);
 	if (mini->s_cmd->narg > 0)
 	{

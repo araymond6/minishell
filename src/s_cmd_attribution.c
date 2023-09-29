@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:53:16 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/28 16:14:12 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:11:22 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	s_cmd_cmd(t_minishell *mini, int i, int j)
 }
 
 // s_cmd : attribute a value to arg_cmd[0]
-int	s_cmd_arg_cmd_first(t_minishell *mini, int i, int j)
+int	s_cmd_arg_cmd_first(t_minishell *mini)
 {
 	int	len;
 

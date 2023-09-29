@@ -6,18 +6,19 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:59:37 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/23 13:07:30 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:10:26 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // function who read the entry and put it in the here_doc file
-int	read_write(t_cmd *cmd, char *delimiter, int fd)
+int	read_write(char *delimiter, int fd)
 {
 	char	*new_line;
 	int		i;
 
+	i = 0;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (message_perror("2.1"));
@@ -34,7 +35,7 @@ int	read_write(t_cmd *cmd, char *delimiter, int fd)
 
 // TODO attention ajouter le parsing de Aure pour ce qui sera lu dans le here_doc
 // function for the << redirection
-int	here_doc(t_cmd *cmd, char *delimiter)
+int	here_doc(char *delimiter)
 {
 	int		fd;
 	char	*new_line;
@@ -46,7 +47,7 @@ int	here_doc(t_cmd *cmd, char *delimiter)
 	if (fd == -1)
 		return (message_perror("2"));
 	while (i == 0)
-		i = read_write(cmd, delimiter, fd);
+		i = read_write(delimiter, fd);
 	close(fd);
 	fd = open("here_doc.txt", O_RDONLY);
 	dup2(fd, STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:15 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/28 16:51:28 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:12:25 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	x_comm(t_minishell *mini)
 int main(int argc, char **argv, char **envp)
 {
 	t_minishell mini;
+	(void) argc;
+	(void) argv;
 	
 	if (!envp)
 		exit(EXIT_FAILURE);

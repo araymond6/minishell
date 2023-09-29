@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollarsign.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:44:50 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/22 14:49:47 by araymond         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:13:16 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	sub_dollar(t_minishell *mini, int *i, int *j)
 	free(arg);
 }
 
-// counts how many characters to remove and checks env to see \
-how many characters to add to it
+// counts how many characters to remove and checks env to see
+//how many characters to add to it
 void	count_sub_dollar(t_minishell *mini, int *i)
 {
 	char	*arg;
