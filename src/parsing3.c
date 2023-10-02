@@ -14,7 +14,6 @@ int	redir_parsing(t_minishell *mini)
 	{
 		i = 0;
 		count = 0;
-		printf("%s\n", mini->cmd[c]);
 		while (mini->cmd[c][i])
 		{
 			if (count > 2)
