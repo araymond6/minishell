@@ -90,7 +90,6 @@ static int	parse(t_minishell *mini)
 	if (trim_cmd(mini))
 		return (1);
 	redir_parsing(mini);
-	//TODO: VALÉRIE C'EST ICI
 	return (0);
 }
 
@@ -103,7 +102,7 @@ void	read_input(t_minishell *mini)
 		if (mini->arg == NULL)
 			break ;
 		add_history(mini->arg);
-		if (parse(mini))
+		if (parse(mini) == 0)
 			x_comm(mini);
 		clear_mini(mini);
 	}
