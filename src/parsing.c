@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 10:50:13 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:32:52 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	read_input(t_minishell *mini)
 			break ;
 		add_history(mini->arg);
 		parse(mini);
-		//x_comm(mini);
+		x_comm(mini);
 		clear_mini(mini);
 	}
 }

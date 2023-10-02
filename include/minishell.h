@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:43:30 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:36:31 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_minishell
 	char				*path;
 	char				**cmd;
 	char				**envp;
+	char				**table;
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
@@ -155,6 +156,7 @@ int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 int		count_2darray(char **table);
+void	clear_2darrays(t_minishell *mini);
 
 // buildins and start of exec
 int		x_comm(t_minishell *mini);

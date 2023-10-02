@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:40:11 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:08:09 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,7 @@ int	export_parsing(t_minishell *mini, int *i)
 	if (!str)
 		malloc_error(mini);
 	while (mini->s_cmd->cmd_arg[*i][k] && mini->s_cmd->cmd_arg[*i][k] != '=')
-	{
-		if (mini->s_cmd->cmd_arg[*i][k] != '\'' || mini->s_cmd->cmd_arg[*i][k] != '\"')
-			k++;
-		else
-			str[k++] = mini->s_cmd->cmd_arg[*i][j++];
-	}
+		str[k++] = mini->s_cmd->cmd_arg[*i][j++];
 	return (0);
 }
 

@@ -53,10 +53,10 @@ MAGENTA = \033[95m
 all: lib $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(DEP_PRE)
-	@echo "$(GREEN)----$(MAGENTA)Creating folder...$(GREEN)----$(RESET)"
+	@echo "$(GREEN)----$(MAGENTA)Compiling $<...$(GREEN)----$(RESET)"
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
-	@echo "$(GREEN)----$(MAGENTA)  Folder created!! $(GREEN)----$(RESET)"
+	@echo "$(GREEN)----$(MAGENTA) $< compiled!! $(GREEN)----$(RESET)"
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Compiling minishell..$(GREEN)----$(RESET)"

@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 10:52:42 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:35:32 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:49:04 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	sub_dollar(t_minishell *mini, int *i, int *j)
 			malloc_error(mini);
 		add_exitcode(mini, j, exception);
 		free(arg);
+		(*i)++;
 		return ;
 	}
 	add_from_env(mini, j, arg);
@@ -66,6 +67,7 @@ char *arg, int *i)
 		mini->parse.sub += ft_strlen(exception);
 		free(arg);
 		free(exception);
+		(*i)++;
 		return ;
 	}
 	add_sub_env(mini, arg);

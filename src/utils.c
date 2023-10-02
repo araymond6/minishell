@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:20:56 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:23:56 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:36:16 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,9 @@ int	count_2darray(char **table)
 	while (table[i])
 		i++;
 	return (i);
+}
+
+void	clear_2darrays(t_minishell *mini)
+{
+	
 }
