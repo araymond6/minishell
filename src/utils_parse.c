@@ -6,7 +6,11 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/29 11:12:49 by vst-pier         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/02 09:35:37 by araymond         ###   ########.fr       */
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +30,11 @@ char	*get_path(t_minishell *mini)
 			return (mini->envp[i]);
 		}
 	}
+<<<<<<< HEAD
 	return(NULL);
+=======
+	return (NULL);
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 }
 
 // zeroes t_minishell and set envp
@@ -67,8 +75,8 @@ void	clear_mini(t_minishell *mini)
 	mini->parse.start_block = 0;
 	mini->parse.sub = 0;
 	i = 0;
-	if(!mini->cmd)
-		return;
+	if (!mini->cmd)
+		return ;
 	while (mini->cmd[i])
 	{
 		free(mini->cmd[i]);
@@ -79,20 +87,9 @@ void	clear_mini(t_minishell *mini)
 	mini->cmd = NULL;
 }
 
-// clears history, frees mini's uses and exits program with exit_code depending on the error seen or not seen
-void	exit_program(t_minishell *mini)
-{
-	int exit_code;
-
-	exit_code = mini->exit_code;	
-	clear_history();
-	free_mini(mini);
-	exit(exit_code);
-}
-
 void	malloc_error(t_minishell *mini)
 {
 	mini->exit_code = 1;
-	write(STDOUT_FILENO, "malloc error\n", 13);
+	message_perror("malloc");
 	exit_program(mini);
 }

@@ -2,9 +2,13 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
+<<<<<<< HEAD
 CFLAGS = -Wall -Werror -Wextra #-g -fsanitize=address
+=======
+CFLAGS = #-Wall -Werror -Wextra -fsanitize=address
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 
-LFLAGS = -lreadline
+LFLAGS = -lreadline -lncurses
 RLINE_DIR = -L${HOME}/.brew/opt/readline/lib
 
 SRC_DIR = src/
@@ -25,15 +29,24 @@ SRCS =	build-in.c \
 		utils_exec.c \
 		main.c \
 		parsing.c \
+		parsing2.c \
+		parsing3.c \
 		utils_parse.c \
 		utils_parse_2.c \
 		quote.c \
 		doublequote.c \
 		dollarsign.c \
 		env.c \
+<<<<<<< HEAD
 		parsing2.c \
 		pwd_cd_echo.c \
 		exit.c 
+=======
+		cd.c \
+		pwd.c \
+		substitution.c \
+		utils.c
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
@@ -51,10 +64,10 @@ MAGENTA = \033[95m
 all: lib $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(DEP_PRE)
-	@echo "$(GREEN)----$(MAGENTA)Creating folder...$(GREEN)----$(RESET)"
+	@echo "$(GREEN)----$(MAGENTA)Compiling $<...$(GREEN)----$(RESET)"
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
-	@echo "$(GREEN)----$(MAGENTA)  Folder created!! $(GREEN)----$(RESET)"
+	@echo "$(GREEN)----$(MAGENTA) $< compiled!! $(GREEN)----$(RESET)"
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Compiling minishell..$(GREEN)----$(RESET)"

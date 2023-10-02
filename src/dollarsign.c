@@ -6,17 +6,21 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:44:50 by araymond          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/29 11:13:16 by vst-pier         ###   ########.fr       */
+=======
+/*   Updated: 2023/09/29 11:35:42 by araymond         ###   ########.fr       */
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // adds to mini->parse.sub the c count if found
-static void	add_sub_env(t_minishell *mini, char *arg)
+void	add_sub_env(t_minishell *mini, char *arg)
 {
-	int	i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	if (!arg || arg[0] == '\0')
@@ -36,7 +40,7 @@ static void	add_sub_env(t_minishell *mini, char *arg)
 }
 
 //adds the substitution of the env var to mini->cmd
-static void	add_from_env(t_minishell *mini, int *j, char *arg)
+void	add_from_env(t_minishell *mini, int *j, char *arg)
 {
 	char	*new;
 	int		k;
@@ -48,13 +52,13 @@ static void	add_from_env(t_minishell *mini, int *j, char *arg)
 	while (new[k] != '=')
 		k++;
 	k++;
-	while(new[k])
+	while (new[k])
 		mini->cmd[mini->parse.c][(*j)++] = new[k++];
 	free(new);
 }
 
 //exit_code exception
-static void	add_exitcode(t_minishell *mini, int *j, char *arg)
+void	add_exitcode(t_minishell *mini, int *j, char *arg)
 {
 	int	k;
 
@@ -64,6 +68,7 @@ static void	add_exitcode(t_minishell *mini, int *j, char *arg)
 		mini->cmd[mini->parse.c][(*j)++] = arg[k];
 	}
 }
+<<<<<<< HEAD
 
 // substitutes the $ARG in mini->arg[i] and puts it into mini->cmd[c][j]
 void	sub_dollar(t_minishell *mini, int *i, int *j)
@@ -137,3 +142,5 @@ void	count_sub_dollar(t_minishell *mini, int *i)
 		count_sub_dollar(mini, i);
 	free(arg);
 }
+=======
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005

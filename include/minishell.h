@@ -6,12 +6,16 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/29 11:15:58 by vst-pier         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/02 14:04:11 by araymond         ###   ########.fr       */
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 # define ERROR 1
 # define SUCCESS 0
 
@@ -28,8 +32,8 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
-# include "readline/readline.h"
-# include "readline/history.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/src/libft.h"
 
 //TODO check diffrence and change for the aurelias env
@@ -52,7 +56,7 @@ typedef struct s_cmd
 typedef struct s_parse
 {
 	int		block_count;
-	int		c; // holds current count for parse->cmd[c] during parsing
+	int		c; // remove the funny comment in here somewhere
 	int		sub;
 	int		start_block;
 	int		end_block;
@@ -64,10 +68,11 @@ typedef struct s_minishell
 	char				*path;
 	char				**cmd;
 	char				**envp;
+	char				**table;
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
-	int					exit_code;
+	char				exit_code;
 }	t_minishell;
 
 //build-in.c
@@ -130,9 +135,15 @@ void	get_block(t_minishell *mini);
 void	doublequote_cmd(t_minishell *mini, int *i, int *j);
 void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
-void	sub_dollar(t_minishell *mini, int *i, int *j);
-
+int		sub_dollar(t_minishell *mini, int *i, int *j);
+void	add_sub_env(t_minishell *mini, char *arg);
+void	add_from_env(t_minishell *mini, int *j, char *arg);
+int		quote_check(t_minishell *mini, int *i);
+void	special_char_check(t_minishell *mini, int *i);
+void	add_exitcode(t_minishell *mini, int *j, char *arg);
+int		redir_parsing(t_minishell *mini);
 //execution
+// *surprised pikachu face* THERE'S NOTHING
 
 //errors
 void	parsing_error(t_minishell *mini);
@@ -150,6 +161,7 @@ int		len_until_space(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
+<<<<<<< HEAD
 
 int	x_comm(t_minishell *mini);
 int	ft_cd(t_cmd *cmd);
@@ -159,5 +171,17 @@ int	ft_export(t_minishell *mini);
 int ft_echo(t_cmd *cmd);
 void	ft_exit(t_minishell *mini);
 void free_scmd(t_cmd *cmd);
+=======
+int		count_2darray(char **table);
+void	clear_2darrays(t_minishell *mini);
+
+// buildins and start of exec
+int		x_comm(t_minishell *mini);
+int		ft_cd(t_cmd *cmd);
+int		ft_pwd(t_cmd *cmd);
+int		ft_env(t_minishell *mini);
+int		ft_export(t_minishell *mini);
+int		ft_unset(t_minishell *mini);
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 
 #endif

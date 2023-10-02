@@ -6,61 +6,17 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/28 16:01:29 by vst-pier         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/02 15:01:07 by araymond         ###   ########.fr       */
+>>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	quote_check(t_minishell *mini, int *i)
-{
-	if (mini->arg[*i] == '\'')
-	{
-		if (end_quote(mini, i))
-		{
-			parsing_error(mini);
-			return (0);
-		}
-	}
-	else if (mini->arg[*i] == '\"')
-	{
-		if (end_doublequote(mini, i))
-		{
-			parsing_error(mini);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-static void	special_char_check(t_minishell *mini, int *i)
-{
-	if (mini->arg[*i] == '\'')
-		quote_parse(mini, i);
-	else if (mini->arg[*i] == '\"')
-		doublequote_parse(mini, i);
-	else if (mini->arg[*i] == '$')
-		count_sub_dollar(mini, i);
-	else if (mini->arg[*i] == '|')
-	{
-		mini->cmd[mini->parse.c] = calloc((*i + mini->parse.sub + 1), sizeof(char));
-		mini->parse.end_block = *i - 1;
-		get_block(mini);
-		mini->parse.start_block = *i + 1;
-		mini->parse.sub = 0;
-		mini->parse.c++;
-	}
-	else if (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
-	{
-		(*i)++;
-		while (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
-		{
-			(*i)++;
-			mini->parse.sub--;
-		}
-		(*i)--;
-	}
-}
+//TODO: FIX PARSE_ERROR
 
 // main parsing func, block++ for amount of char* necessary to malloc.
 static int	count_blocks(t_minishell *mini)
@@ -89,7 +45,7 @@ static void	allocate_cmd(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	mini->cmd = calloc((mini->parse.block_count + 1), sizeof(char *));
+	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
 	if (!mini->cmd)
 		malloc_error(mini);
 	while (mini->arg[i])
@@ -97,12 +53,15 @@ static void	allocate_cmd(t_minishell *mini)
 		special_char_check(mini, &i);
 		i++;
 	}
-	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
+	mini->cmd[mini->parse.c] = \
+	ft_calloc((i + mini->parse.sub + 2), sizeof(char));
+	if (!mini->cmd[mini->parse.c])
+		malloc_error(mini);
 	mini->parse.end_block = i;
 	get_block(mini);
 }
 
-static void trim_cmd(t_minishell *mini)
+static int	trim_cmd(t_minishell *mini)
 {
 	int		i;
 	char	*temp;
@@ -116,12 +75,23 @@ static void trim_cmd(t_minishell *mini)
 			malloc_error(mini);
 		free(temp);
 	}
+	i = 0;
+	while (mini->cmd[i])
+	{
+		if (mini->cmd[i][0] == '\0')
+		{
+			parsing_error(mini);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-static void	parse(t_minishell *mini)
+static int	parse(t_minishell *mini)
 {
 	char	*arg;
-	
+
 	arg = ft_strtrim(mini->arg, " ");
 	if (!arg)
 	{
@@ -131,23 +101,26 @@ static void	parse(t_minishell *mini)
 	free(mini->arg);
 	mini->arg = arg;
 	if (!count_blocks(mini))
-		return ;
+		return (1);
 	allocate_cmd(mini);
-	trim_cmd(mini);
+	if (trim_cmd(mini))
+		return (1);
+	redir_parsing(mini);
+	//TODO: VALÉRIE C'EST ICI
+	return (0);
 }
 
 // reads user input w/ readline
 void	read_input(t_minishell *mini)
 {
-	while(1)
+	while (1)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
 			break ;
 		add_history(mini->arg);
-		parse(mini);
-		x_comm(mini);
+		if (parse(mini))
+			x_comm(mini);
 		clear_mini(mini);
-		free(mini->arg);
 	}
 }
