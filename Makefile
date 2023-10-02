@@ -2,9 +2,9 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -g #-Wall -Werror -Wextra -fsanitize=address
+CFLAGS = #-Wall -Werror -Wextra -fsanitize=address
 
-LFLAGS = -lreadline
+LFLAGS = -lreadline -lncurses
 RLINE_DIR = -L${HOME}/.brew/opt/readline/lib
 
 SRC_DIR = src/
@@ -25,13 +25,14 @@ SRCS =	build-in.c \
 		utils_exec.c \
 		main.c \
 		parsing.c \
+		parsing2.c \
+		parsing3.c \
 		utils_parse.c \
 		utils_parse_2.c \
 		quote.c \
 		doublequote.c \
 		dollarsign.c \
 		env.c \
-		parsing2.c \
 		cd.c \
 		pwd.c \
 		substitution.c \

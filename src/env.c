@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/02 09:08:09 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 10:51:24 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	unset_parsing(t_minishell *mini, int *i)
 
 int	ft_unset(t_minishell *mini)
 {
-	char	**table;
 	int		i;
 	int		c;
 
@@ -108,7 +107,7 @@ int	ft_unset(t_minishell *mini)
 	{
 		if (mini->s_cmd->cmd_arg[i][0] == '\0')
 		{
-			printf("unset: \"%s\": not a valid identifier", mini->s_cmd->cmd_arg[i++]);
+			printf("unset: \"%s\": not a valid identifier\n", mini->s_cmd->cmd_arg[i++]);
 			continue ;
 		}
 		c = unset_parsing(mini, &i);
@@ -117,8 +116,13 @@ int	ft_unset(t_minishell *mini)
 			i++;
 			continue ;
 		}
-		table = ft_calloc(count_2darray(mini->envp), sizeof(char *));
-		if (!table)
+		if (mini->table)
+		{
+			free(mini->table);
+			mini->table = NULL;
+		}
+		mini->table = ft_calloc(count_2darray(mini->envp), sizeof(char *));
+		if (!mini->table)
 			malloc_error(mini);
 		while (mini->envp[i])
 		{
@@ -127,10 +131,11 @@ int	ft_unset(t_minishell *mini)
 				i++;
 				continue ;
 			}
-			table[i] = mini->envp[i];
+			mini->table[i] = mini->envp[i];
 			i++;
 		}
 		i++;
 	}
+	mini->exit_code = 0;
 	return (0);
 }

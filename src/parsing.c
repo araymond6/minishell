@@ -6,11 +6,13 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/02 09:32:52 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:01:07 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+//TODO: FIX PARSE_ERROR
 
 // main parsing func, block++ for amount of char* necessary to malloc.
 static int	count_blocks(t_minishell *mini)
@@ -55,7 +57,7 @@ static void	allocate_cmd(t_minishell *mini)
 	get_block(mini);
 }
 
-static void	trim_cmd(t_minishell *mini)
+static int	trim_cmd(t_minishell *mini)
 {
 	int		i;
 	char	*temp;
@@ -69,9 +71,20 @@ static void	trim_cmd(t_minishell *mini)
 			malloc_error(mini);
 		free(temp);
 	}
+	i = 0;
+	while (mini->cmd[i])
+	{
+		if (mini->cmd[i][0] == '\0')
+		{
+			parsing_error(mini);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-static void	parse(t_minishell *mini)
+static int	parse(t_minishell *mini)
 {
 	char	*arg;
 
@@ -84,9 +97,13 @@ static void	parse(t_minishell *mini)
 	free(mini->arg);
 	mini->arg = arg;
 	if (!count_blocks(mini))
-		return ;
+		return (1);
 	allocate_cmd(mini);
-	trim_cmd(mini);
+	if (trim_cmd(mini))
+		return (1);
+	redir_parsing(mini);
+	//TODO: VALÉRIE C'EST ICI
+	return (0);
 }
 
 // reads user input w/ readline
@@ -98,8 +115,8 @@ void	read_input(t_minishell *mini)
 		if (mini->arg == NULL)
 			break ;
 		add_history(mini->arg);
-		parse(mini);
-		x_comm(mini);
+		if (parse(mini))
+			x_comm(mini);
 		clear_mini(mini);
 	}
 }

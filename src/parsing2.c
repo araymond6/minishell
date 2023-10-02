@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:24:44 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 10:49:37 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:31:30 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 		quote_cmd(mini, i, j);
 	else if (mini->arg[*i] == '\"')
 		doublequote_cmd(mini, i, j);
-	else if (mini->arg[*i] == '$')
-	{
-		sub_dollar(mini, i, j);
-		*spec = 1;
-	}
+	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' && mini->arg[*i + 1] != '\0')
+		*spec = sub_dollar(mini, i, j);
 	else if (mini->arg[*i] == '|')
 		return (1);
 	else if (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || \
@@ -96,7 +93,7 @@ void	special_char_check(t_minishell *mini, int *i)
 		quote_parse(mini, i);
 	else if (mini->arg[*i] == '\"')
 		doublequote_parse(mini, i);
-	else if (mini->arg[*i] == '$')
+	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' && mini->arg[*i + 1] != '\0')
 		count_sub_dollar(mini, i);
 	else if (mini->arg[*i] == '|')
 		pipe_parse(mini, i);

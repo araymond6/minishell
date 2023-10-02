@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 10:52:42 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/02 09:49:04 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:20:07 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	sub_exception(t_minishell *mini, char *arg, int *i)
 }
 
 // substitutes the $ARG in mini->arg[i] and puts it into mini->cmd[c][j]
-void	sub_dollar(t_minishell *mini, int *i, int *j)
+int	sub_dollar(t_minishell *mini, int *i, int *j)
 {
 	char	*arg;
 	char	*exception;
@@ -43,14 +43,13 @@ void	sub_dollar(t_minishell *mini, int *i, int *j)
 		if (!exception)
 			malloc_error(mini);
 		add_exitcode(mini, j, exception);
-		free(arg);
 		(*i)++;
-		return ;
+		return (free(arg), 0);
 	}
 	add_from_env(mini, j, arg);
 	if (mini->arg[*i] == '$')
 		sub_dollar(mini, i, j);
-	free(arg);
+	return (free(arg), 0);
 }
 
 static void	count_sub_exception(t_minishell *mini, char *exception, \

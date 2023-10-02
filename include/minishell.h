@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/02 09:36:31 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:04:11 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
-# include "readline/readline.h"
-# include "readline/history.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/src/libft.h"
 
 //TODO check diffrence and change for the aurelias env
@@ -67,7 +67,7 @@ typedef struct s_minishell
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
-	int					exit_code;
+	char				exit_code;
 }	t_minishell;
 
 //build-in.c
@@ -130,12 +130,13 @@ void	get_block(t_minishell *mini);
 void	doublequote_cmd(t_minishell *mini, int *i, int *j);
 void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
-void	sub_dollar(t_minishell *mini, int *i, int *j);
+int		sub_dollar(t_minishell *mini, int *i, int *j);
 void	add_sub_env(t_minishell *mini, char *arg);
 void	add_from_env(t_minishell *mini, int *j, char *arg);
 int		quote_check(t_minishell *mini, int *i);
 void	special_char_check(t_minishell *mini, int *i);
 void	add_exitcode(t_minishell *mini, int *j, char *arg);
+int		redir_parsing(t_minishell *mini);
 //execution
 // *surprised pikachu face* THERE'S NOTHING
 
@@ -164,5 +165,6 @@ int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
+int		ft_unset(t_minishell *mini);
 
 #endif
