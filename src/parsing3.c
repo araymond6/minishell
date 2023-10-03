@@ -1,19 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing3.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 11:24:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/02 14:13:19 by araymond         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
-
-
-//Cas qui marche pas: pas d'alnum ou de <>
 
 int	redir_parsing(t_minishell *mini)
 {
@@ -26,7 +11,6 @@ int	redir_parsing(t_minishell *mini)
 	{
 		i = 0;
 		count = 0;
-		printf("%s\n", mini->cmd[c]);
 		while (mini->cmd[c][i])
 		{
 			if (count > 2)
@@ -57,4 +41,11 @@ int	redir_parsing(t_minishell *mini)
 		c++;
 	}
 	return (0);
+}
+
+int quote_n_create(t_minishell *mini)
+{
+	create_list(mini);
+	printf("mini->s_cmd->file : %s\n ",mini->s_cmd->file[0]);
+	return(0);
 }

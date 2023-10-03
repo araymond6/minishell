@@ -1,19 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/29 11:15:58 by vst-pier         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/02 14:04:11 by araymond         ###   ########.fr       */
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define ERROR 1
@@ -98,7 +82,8 @@ int		here_doc(char *delimiter);
 
 //parsing_exec.c
 void	parsing_command(t_minishell *mini, int i);
-void	create_list(t_minishell *mini);
+int		create_list(t_minishell *mini);
+int		quote_n_create(t_minishell *mini);
 
 //path.c
 void	join_path_command(char **path, char *command);
@@ -161,27 +146,19 @@ int		len_until_space(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
-<<<<<<< HEAD
-
-int	x_comm(t_minishell *mini);
-int	ft_cd(t_cmd *cmd);
-int	ft_pwd(void);
-int	ft_env(t_minishell *mini);
-int	ft_export(t_minishell *mini);
-int ft_echo(t_cmd *cmd);
-void	ft_exit(t_minishell *mini);
-void free_scmd(t_cmd *cmd);
-=======
 int		count_2darray(char **table);
 void	clear_2darrays(t_minishell *mini);
 
 // buildins and start of exec
 int		x_comm(t_minishell *mini);
 int		ft_cd(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
+int		ft_pwd(void);
+int		ft_cd(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
+void	free_scmd(t_cmd *cmd);
+int		count_quote(char *cmd, int i);
 
 #endif

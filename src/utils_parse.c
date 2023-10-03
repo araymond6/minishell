@@ -1,19 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_parse.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/29 11:12:49 by vst-pier         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/02 09:35:37 by araymond         ###   ########.fr       */
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 char	*get_path(t_minishell *mini)
@@ -30,11 +14,7 @@ char	*get_path(t_minishell *mini)
 			return (mini->envp[i]);
 		}
 	}
-<<<<<<< HEAD
-	return(NULL);
-=======
 	return (NULL);
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 }
 
 // zeroes t_minishell and set envp

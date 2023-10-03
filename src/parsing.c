@@ -1,19 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/28 16:01:29 by vst-pier         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/02 15:01:07 by araymond         ###   ########.fr       */
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 //TODO: FIX PARSE_ERROR
@@ -74,6 +58,7 @@ static int	trim_cmd(t_minishell *mini)
 		if (!mini->cmd[i])
 			malloc_error(mini);
 		free(temp);
+		temp = NULL;
 	}
 	i = 0;
 	while (mini->cmd[i])
@@ -106,7 +91,6 @@ static int	parse(t_minishell *mini)
 	if (trim_cmd(mini))
 		return (1);
 	redir_parsing(mini);
-	//TODO: VALÉRIE C'EST ICI
 	return (0);
 }
 
@@ -119,8 +103,13 @@ void	read_input(t_minishell *mini)
 		if (mini->arg == NULL)
 			break ;
 		add_history(mini->arg);
-		if (parse(mini))
-			x_comm(mini);
+		if (parse(mini) == 0)
+		{
+			if(quote_n_create(mini) == 0)
+			{
+				x_comm(mini);
+			}
+		}
 		clear_mini(mini);
 	}
 }

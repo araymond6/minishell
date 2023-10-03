@@ -1,17 +1,21 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 12:30:21 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/10/02 11:31:06 by araymond         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
+int count_quote(char *cmd, int i)
+{
+	if(cmd[i] == '\"')
+	{
+		i++;
+		while(cmd[i] != '\"')
+			i++;
+	}
+	if(cmd[i] == '\'')
+	{
+		i++;
+		while(cmd[i] != '\'')
+			i++;
+	}
+	return(i);
+}
 //count the nbr of redirection in the command line
 int	redir_count(char *cmd)
 {
@@ -22,6 +26,7 @@ int	redir_count(char *cmd)
 	count = 0;
 	while (cmd[++i])
 	{
+		i = count_quote(cmd, i);
 		if (cmd[i] == '<')
 		{
 			count += 1;
@@ -55,12 +60,36 @@ int	redirection(t_minishell *mini, int i, int j, char c)
 	assign_redir_values(mini, c);
 	if (mini->cmd[i][j] == ' ')
 		j++;
-	len = len_until_space(mini, i, j);
+	if(mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
+		len =  count_quote(mini->cmd[i], j) - j - 1;
+	else 
+		len = len_until_space(mini, i, j);
 	while (mini->s_cmd->file[r])
 		r++;
 	mini->s_cmd->file[r] = ft_calloc(len + 1, sizeof(char));
-	while (++index < len)
-		mini->s_cmd->file[r][index] = mini->cmd[i][j + index];
+	if(mini->cmd[i][j] == '\"')
+	{
+		j++;
+		while (mini->cmd[i][j] != '\"')
+		{
+			++index;
+			mini->s_cmd->file[r][index] = mini->cmd[i][j + index];
+		}
+		j++;
+	}
+	else if (mini->cmd[i][j] == '\'')
+	{
+		j++;
+		while (mini->cmd[i][j] != '\'')
+		{
+			++index;
+			mini->s_cmd->file[r][index] = mini->cmd[i][j + index];
+		}
+		j++;
+	}
+	else
+		while (++index < len)
+			mini->s_cmd->file[r][index] = mini->cmd[i][j + index];
 	return (j + index);
 }
 
@@ -81,6 +110,8 @@ int	entry_redirection(t_minishell *mini, int i, int j)
 		j = redirection(mini, i, j + 1, '2');
 	else if (mini->cmd[i][j] == ' ')
 		j = redirection(mini, i, j + 1, '1');
+	else if(mini->cmd[i][j] == '\"' || mini->cmd[i][j] == '\'')
+		j = redirection(mini, i, j, '1');
 	else
 		j = redirection(mini, i, j, '1');
 	return (j);

@@ -1,18 +1,4 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:55:58 by araymond          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/29 11:15:17 by vst-pier         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/02 10:51:24 by araymond         ###   ########.fr       */
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -49,12 +35,6 @@ int	ft_export(t_minishell *mini)
 	char	**table;
 	int		i;
 
-<<<<<<< HEAD
-	i = 0;
-	while (mini->s_cmd->cmd_arg[1][i])
-	{
-		if (!ft_isalnum(mini->s_cmd->cmd_arg[1][i]))
-=======
 	i = 1;
 	while (mini->s_cmd->cmd_arg[i])
 	{
@@ -72,7 +52,6 @@ int	ft_export(t_minishell *mini)
 			table[i] = mini->envp[i];
 			i++;
 		}
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 		i++;
 	}
 	return (0);
@@ -111,22 +90,10 @@ int	unset_parsing(t_minishell *mini, int *i)
 int	ft_unset(t_minishell *mini)
 {
 	int		i;
-<<<<<<< HEAD
-	
-	i = 0;
-	if (!mini->s_cmd->cmd_arg[1] || mini->s_cmd->cmd_arg[1][0] == '\0')
-		return (0);
-	if (export_parsing(mini))
-		return (1);
-	table = calloc(i + 2, sizeof(char *));
-	i = 0;
-	while (mini->envp[i])
-=======
 	int		c;
 
 	i = 1;
 	while (mini->s_cmd->cmd_arg[i])
->>>>>>> 97a785bc1f5a6126876d4b436930c703f0804005
 	{
 		if (mini->s_cmd->cmd_arg[i][0] == '\0')
 		{
