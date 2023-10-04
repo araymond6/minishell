@@ -1,8 +1,9 @@
 #include "../include/minishell.h"
 
-static void	sub_exception(t_minishell *mini, char *arg, int *i)
+static char	*sub_exception(t_minishell *mini, int *i)
 {
-	int	k;
+	char	*arg;
+	int		k;
 
 	k = 0;
 	arg = ft_calloc((ft_strlen(&mini->arg[*i]) + 1), sizeof(char));
@@ -15,16 +16,16 @@ static void	sub_exception(t_minishell *mini, char *arg, int *i)
 			break ;
 		arg[k++] = mini->arg[(*i)++];
 	}
+	return (arg);
 }
 
 // substitutes the $ARG in mini->arg[i] and puts it into mini->cmd[c][j]
 int	sub_dollar(t_minishell *mini, int *i, int *j)
 {
-	char	*arg;
 	char	*exception;
+	char	*arg;
 
-	arg = NULL;
-	sub_exception(mini, arg, i);
+	arg = sub_exception(mini, i);
 	if (mini->arg[*i] == '?' && mini->arg[*i - 1] == '$')
 	{
 		exception = ft_itoa(mini->exit_code);
@@ -40,9 +41,10 @@ int	sub_dollar(t_minishell *mini, int *i, int *j)
 	return (free(arg), 0);
 }
 
-static void	count_sub_exception(t_minishell *mini, char *exception, \
-char *arg, int *i)
+static void	count_sub_exception(t_minishell *mini, char *arg, int *i)
 {
+	char	*exception;
+
 	if (mini->arg[*i] == '?' && mini->arg[*i - 1] == '$')
 	{
 		exception = ft_itoa(mini->exit_code);
@@ -68,7 +70,6 @@ how many characters to add to it */
 void	count_sub_dollar(t_minishell *mini, int *i)
 {
 	char	*arg;
-	char	*exception;
 	int		j;
 
 	j = 0;
@@ -84,5 +85,5 @@ void	count_sub_dollar(t_minishell *mini, int *i)
 		arg[j++] = mini->arg[(*i)++];
 		mini->parse.sub--;
 	}
-	count_sub_exception(mini, exception, arg, i);
+	count_sub_exception(mini, arg, i);
 }
