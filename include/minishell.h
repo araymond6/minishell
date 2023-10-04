@@ -27,13 +27,14 @@ typedef struct s_cmd
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
-	char			**file;			
+	char			**file;
 	struct s_cmd	*next;
 	int				nredir;	
 	struct s_cmd	*prev;
 	int				pipe_fd[2];
 	int				narg;		
 	int				status;
+	int				fd_stdin_out[2];
 }	t_cmd;
 
 typedef struct s_parse
@@ -63,8 +64,8 @@ int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 
 //change_fd.c
-int		change_inf(t_cmd *cmd, char c, char *file);
-int		change_out(t_cmd *cmd, char c, char *file);
+int		change_inf(char c, char *file);
+int		change_out(char c, char *file);
 
 //command.c 
 int		check_command(t_minishell *mini, int i, int j);
@@ -76,12 +77,13 @@ int		child(t_minishell *mini);
 int		process(t_minishell *mini);
 
 //here_doc.c
-int		read_write(t_cmd *cmd, char *delimiter, int fd);
-int		here_doc(t_cmd *cmd, char *delimiter);
+int		read_write(char *delimiter, int fd);
+int		here_doc(char *delimiter);
 
 //parsing_exec.c
 void	parsing_command(t_minishell *mini, int i);
-void	create_list(t_minishell *mini);
+int		create_list(t_minishell *mini);
+int		quote_n_create(t_minishell *mini);
 
 //path.c
 void	join_path_command(char **path, char *command);
@@ -98,7 +100,7 @@ int		exit_redirection(t_minishell *mini, int i, int j);
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
-int		s_cmd_arg_cmd_first(t_minishell *mini, int i, int j);
+int		s_cmd_arg_cmd_first(t_minishell *mini);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
 int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
 
@@ -150,9 +152,13 @@ void	clear_2darrays(t_minishell *mini);
 // buildins and start of exec
 int		x_comm(t_minishell *mini);
 int		ft_cd(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
+int		ft_pwd(void);
+int		ft_cd(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
+void	free_scmd(t_cmd *cmd);
+int		count_quote(char *cmd, int i);
 
 #endif

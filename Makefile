@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = #-Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -fsanitize=address #-Wall -Werror -Wextra 
 
 LFLAGS = -lreadline -lncurses
 RLINE_DIR = -L${HOME}/.brew/opt/readline/lib
@@ -33,10 +33,10 @@ SRCS =	build-in.c \
 		doublequote.c \
 		dollarsign.c \
 		env.c \
-		cd.c \
-		pwd.c \
 		substitution.c \
-		utils.c
+		utils.c \
+		pwd_cd_echo.c \
+		exit.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 

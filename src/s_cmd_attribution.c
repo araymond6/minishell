@@ -28,7 +28,7 @@ int	s_cmd_cmd(t_minishell *mini, int i, int j)
 }
 
 // s_cmd : attribute a value to arg_cmd[0]
-int	s_cmd_arg_cmd_first(t_minishell *mini, int i, int j)
+int	s_cmd_arg_cmd_first(t_minishell *mini)
 {
 	int	len;
 

@@ -1,8 +1,5 @@
 #include "../include/minishell.h"
 
-
-//Cas qui marche pas: pas d'alnum ou de <>
-
 int	redir_parsing(t_minishell *mini)
 {
 	int	i;
@@ -44,4 +41,11 @@ int	redir_parsing(t_minishell *mini)
 		c++;
 	}
 	return (0);
+}
+
+int quote_n_create(t_minishell *mini)
+{
+	create_list(mini);
+	printf("mini->s_cmd->file : %s\n ",mini->s_cmd->file[0]);
+	return(0);
 }

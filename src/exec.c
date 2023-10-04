@@ -4,7 +4,7 @@
 int	execute_cmd_buildin(t_minishell *mini)
 {
 	if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
-		execute_buildin(mini);
+		return(execute_buildin(mini));
 	else
 	{
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
@@ -41,10 +41,10 @@ int	child(t_minishell *mini)
 	i = 0;
 	if (mini->s_cmd->prev->cmd != NULL)
 		if (dup2(mini->s_cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
+			return(EXIT_FAILURE);
 	if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
 		if (dup2(mini->s_cmd->pipe_fd[1], STDOUT_FILENO) == -1)
-			exit(EXIT_FAILURE);
+			return(EXIT_FAILURE);
 	if (mini->s_cmd->prev->cmd != NULL)
 		close(mini->s_cmd->prev->pipe_fd[0]);
 	if (mini->s_cmd->next->cmd == NULL)
@@ -55,31 +55,29 @@ int	child(t_minishell *mini)
 	{
 		while (mini->s_cmd->redir[i])
 		{
-			change_inf(mini->s_cmd, mini->s_cmd->redir[i], mini->s_cmd->file[i]);
-			change_out(mini->s_cmd, mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_inf(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_out(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
 			i++;
 		}
 	}
-	execute_cmd_buildin(mini);
-	return (0);
+	return (execute_cmd_buildin(mini));
 }
 
 // the processus
 int	process(t_minishell *mini)
 {
 	pid_t	pid;
-	t_cmd	*temp;
-
+	
 	pid = 1;
 	while (mini->s_cmd->next)
 	{
 		if (pipe(mini->s_cmd->pipe_fd) == -1)
-			exit(message_perror("Pipe"));
+			return(message_perror("Pipe"));
 		if (pid != 0)
 		{
 			pid = fork();
 			if (pid == -1)
-				exit(message_perror("Fork"));
+				return(message_perror("Fork"));
 			if (pid == 0)
 				child(mini);
 			if (pid != 0)
