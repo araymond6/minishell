@@ -29,10 +29,10 @@ typedef struct s_cmd
 	char			**cmd_arg;
 	char			**file;
 	struct s_cmd	*next;
-	int				nredir;	
+	int				nredir;
 	struct s_cmd	*prev;
 	int				pipe_fd[2];
-	int				narg;		
+	int				narg;
 	int				status;
 	int				fd_stdin_out[2];
 }	t_cmd;
@@ -52,7 +52,7 @@ typedef struct s_minishell
 	char				*path;
 	char				**cmd;
 	char				**envp;
-	char				**table;
+	int					envpset;
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
@@ -127,6 +127,7 @@ int		quote_check(t_minishell *mini, int *i);
 void	special_char_check(t_minishell *mini, int *i);
 void	add_exitcode(t_minishell *mini, int *j, char *arg);
 int		redir_parsing(t_minishell *mini);
+
 //execution
 // *surprised pikachu face* THERE'S NOTHING
 
@@ -147,7 +148,7 @@ int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 int		count_2darray(char **table);
-void	clear_2darrays(t_minishell *mini);
+int		spacentabs_check(t_minishell *mini);
 
 // buildins and start of exec
 int		x_comm(t_minishell *mini);

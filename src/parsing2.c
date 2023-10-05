@@ -31,7 +31,7 @@ void	get_block(t_minishell *mini)
 	spec = 0;
 	i = mini->parse.start_block;
 	j = 0;
-	while (i <= mini->parse.end_block)
+	while (i < mini->parse.end_block)
 	{
 		if (special_check(mini, &i, &j, &spec))
 			return ;
