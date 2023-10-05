@@ -97,7 +97,7 @@ static int	parse(t_minishell *mini)
 // reads user input w/ readline
 void	read_input(t_minishell *mini)
 {
-	while  (1)
+	while (1)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
@@ -105,7 +105,7 @@ void	read_input(t_minishell *mini)
 		add_history(mini->arg);
 		if (parse(mini) == 0)
 		{
-			if(quote_n_create(mini) == 0)
+			if (create_list(mini) == 0)
 			{
 				x_comm(mini);
 			}

@@ -81,7 +81,7 @@ int		read_write(char *delimiter, int fd);
 int		here_doc(char *delimiter);
 
 //parsing_exec.c
-void	parsing_command(t_minishell *mini, int i);
+int		parsing_command(t_minishell *mini, int i);
 int		create_list(t_minishell *mini);
 int		quote_n_create(t_minishell *mini);
 
@@ -160,5 +160,7 @@ int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
 void	free_scmd(t_cmd *cmd);
 int		count_quote(char *cmd, int i);
+void	free_scmd(t_cmd *cmd);
+void	ft_exit(t_minishell *mini);
 
 #endif
