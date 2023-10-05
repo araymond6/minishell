@@ -23,15 +23,14 @@ int	parsing_command(t_minishell *mini, int i)
 	mini->s_cmd->nredir = redir_count(mini->cmd[i]);
 	while (mini->cmd[i][j] && mini->cmd[i])
 	{
-		j = count_quote(mini->cmd[i], j);
 		if (mini->cmd[i][j] == '<' || mini->cmd[i][j] == '>')
 			j = select_redirection(mini, i, j + 1);
 		else if (mini->cmd[i][j] == ' ')
 			j++;
-		else if(mini->cmd[i][j] == '\"' || mini->cmd[i][j] == '\'')
-			j = check_command(mini, i, j);
 		else
-			j = check_command(mini, i, j);
+		j = check_command(mini, i, j);
+		if (j == 1)
+			return(1);
 	}
 	return (0);
 }

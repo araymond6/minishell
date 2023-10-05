@@ -52,13 +52,13 @@ int	file_n_redir_calloc(t_minishell *mini, int c)
 	{
 		mini->s_cmd->file = ft_calloc(mini->s_cmd->nredir + 1, sizeof(char *));
 		if (!mini->s_cmd->file)
-			return (free_scmd(mini->s_cmd), -1);
+			return (free_scmd(mini->s_cmd), 1);
 	}
 	if (!mini->s_cmd->redir)
 	{
 		mini->s_cmd->redir = ft_calloc(mini->s_cmd->nredir + 1, sizeof(char));
 		if (!mini->s_cmd->redir)
-			return (free_scmd(mini->s_cmd), -1);
+			return (free_scmd(mini->s_cmd), 1);
 	}
 	while (mini->s_cmd->redir[k])
 		k++;
@@ -101,7 +101,8 @@ int	redirection(t_minishell *mini, int i, int j, char c)
 	mini->s_cmd->quote_len = 0;
 	r = 0;
 	index = -1;
-	file_n_redir_calloc(mini, c);
+	if (file_n_redir_calloc(mini, c) == 1)
+		return(1);
 	if (mini->cmd[i][j] == ' ')
 		j++;
 	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
@@ -111,6 +112,8 @@ int	redirection(t_minishell *mini, int i, int j, char c)
 	while (mini->s_cmd->file[r])
 		r++;
 	mini->s_cmd->file[r] = ft_calloc(mini->s_cmd->quote_len + 1, sizeof(char));
+	if(!mini->s_cmd->file[r])
+		return(free_scmd(mini->s_cmd), 1);
 	return (redir_quote(mini, i, j, r));
 }
 
