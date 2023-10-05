@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:45:48 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/29 11:09:09 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:24:24 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	execute_cmd_buildin(t_minishell *mini)
 {
 	if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
-		return(execute_buildin(mini));
+		return (execute_buildin(mini));
 	else
 	{
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
@@ -53,16 +53,15 @@ int	child(t_minishell *mini)
 	i = 0;
 	if (mini->s_cmd->prev->cmd != NULL)
 		if (dup2(mini->s_cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
-			return(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 	if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
 		if (dup2(mini->s_cmd->pipe_fd[1], STDOUT_FILENO) == -1)
-			return(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 	if (mini->s_cmd->prev->cmd != NULL)
 		close(mini->s_cmd->prev->pipe_fd[0]);
 	if (mini->s_cmd->next->cmd == NULL)
 		close(mini->s_cmd->pipe_fd[0]);
 	close(mini->s_cmd->pipe_fd[1]);
-	//free(cmd->pipe_fd);
 	if (mini->s_cmd->redir)
 	{
 		while (mini->s_cmd->redir[i])
@@ -79,17 +78,17 @@ int	child(t_minishell *mini)
 int	process(t_minishell *mini)
 {
 	pid_t	pid;
-	
+
 	pid = 1;
 	while (mini->s_cmd->next)
 	{
 		if (pipe(mini->s_cmd->pipe_fd) == -1)
-			return(message_perror("Pipe"));
+			return (message_perror("Pipe"));
 		if (pid != 0)
 		{
 			pid = fork();
 			if (pid == -1)
-				return(message_perror("Fork"));
+				return (message_perror("Fork"));
 			if (pid == 0)
 				child(mini);
 			if (pid != 0)

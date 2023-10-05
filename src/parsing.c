@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:33:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/28 16:01:29 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:54:51 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	allocate_cmd(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	mini->cmd = calloc((mini->parse.block_count + 1), sizeof(char *));
+	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
 	if (!mini->cmd)
 		malloc_error(mini);
 	while (mini->arg[i])
@@ -97,12 +97,12 @@ static void	allocate_cmd(t_minishell *mini)
 		special_char_check(mini, &i);
 		i++;
 	}
-	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char)); // FINISH THIS PART FIRST
+	mini->cmd[mini->parse.c] = calloc((i + mini->parse.sub + 2), sizeof(char));
 	mini->parse.end_block = i;
 	get_block(mini);
 }
 
-static void trim_cmd(t_minishell *mini)
+static void	trim_cmd(t_minishell *mini)
 {
 	int		i;
 	char	*temp;
@@ -121,7 +121,7 @@ static void trim_cmd(t_minishell *mini)
 static void	parse(t_minishell *mini)
 {
 	char	*arg;
-	
+
 	arg = ft_strtrim(mini->arg, " ");
 	if (!arg)
 	{
@@ -139,7 +139,7 @@ static void	parse(t_minishell *mini)
 // reads user input w/ readline
 void	read_input(t_minishell *mini)
 {
-	while(1)
+	while (1)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)

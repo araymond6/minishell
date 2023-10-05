@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 13:52:22 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/28 16:58:19 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:30:58 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void free_scmd(t_cmd *cmd)
+void	free_scmd(t_cmd *cmd)
 {
-	t_cmd *temp;
+	t_cmd	*temp;
 
 	temp = cmd;
-	while(temp)
+	while (temp)
 	{
-		
-		if(temp->redir)
+		if (temp->redir)
 			free(temp->redir);
-		if(temp->cmd)
+		if (temp->cmd)
 			free(temp->cmd);
-		if(temp->path)
+		if (temp->path)
 			free(temp->path);
-		if(temp->cmd_arg)
+		if (temp->cmd_arg)
 			free_array(temp->cmd_arg);
-		if(cmd->file)
+		if (cmd->file)
 			free_array(temp->file);
 		temp = temp->next;
 		free(cmd);

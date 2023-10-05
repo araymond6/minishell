@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 11:12:49 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:36:50 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_path(t_minishell *mini)
 			return (mini->envp[i]);
 		}
 	}
-	return(NULL);
+	return (NULL);
 }
 
 // zeroes t_minishell and set envp
@@ -67,8 +67,8 @@ void	clear_mini(t_minishell *mini)
 	mini->parse.start_block = 0;
 	mini->parse.sub = 0;
 	i = 0;
-	if(!mini->cmd)
-		return;
+	if (!mini->cmd)
+		return ;
 	while (mini->cmd[i])
 	{
 		free(mini->cmd[i]);

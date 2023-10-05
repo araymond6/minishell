@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:30:12 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/19 15:11:18 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:26:05 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	free_array(char **array)
 	int	index_array;
 
 	index_array = 0;
-	if(!array)
-		return;
+	if (!array)
+		return ;
 	while (array[index_array])
 	{
 		free(array[index_array]);

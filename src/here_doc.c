@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:59:37 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/29 11:10:26 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:31:33 by valerie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,12 @@ int	read_write(char *delimiter, int fd)
 	return (i);
 }
 
-// TODO attention ajouter le parsing de Aure pour ce qui sera lu dans le here_doc
-// function for the << redirection
 int	here_doc(char *delimiter)
 {
 	int		fd;
-	char	*new_line;
 	int		i;
 
 	i = 0;
-	new_line = NULL;
 	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (message_perror("2"));
