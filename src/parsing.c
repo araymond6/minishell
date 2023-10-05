@@ -35,10 +35,12 @@ static void	allocate_cmd(t_minishell *mini)
 	while (mini->arg[i])
 	{
 		special_char_check(mini, &i);
+		if (!mini->arg[i])
+			break ;
 		i++;
 	}
 	mini->cmd[mini->parse.c] = \
-	ft_calloc((i + mini->parse.sub + 2), sizeof(char));
+	ft_calloc((i + mini->parse.sub + 3), sizeof(char));
 	if (!mini->cmd[mini->parse.c])
 		malloc_error(mini);
 	mini->parse.end_block = i;
@@ -65,6 +67,7 @@ static int	trim_cmd(t_minishell *mini)
 	{
 		if (mini->cmd[i][0] == '\0')
 		{
+			printf("cmd %d: %s", i, mini->cmd[i]); // THERE IS A PRINTF HERE
 			parsing_error(mini);
 			return (1);
 		}
@@ -78,19 +81,17 @@ static int	parse(t_minishell *mini)
 	char	*arg;
 	
 	arg = ft_strtrim(mini->arg, " ");
-	if (!arg)
-	{
-		free(mini->arg);
-		malloc_error(mini);
-	}
 	free(mini->arg);
+	if (!arg)
+		malloc_error(mini);
 	mini->arg = arg;
 	if (!count_blocks(mini))
 		return (1);
 	allocate_cmd(mini);
 	if (trim_cmd(mini))
 		return (1);
-	redir_parsing(mini);
+	if (redir_parsing(mini))
+		return (1);
 	return (0);
 }
 
@@ -102,6 +103,11 @@ void	read_input(t_minishell *mini)
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
 			break ;
+		if (mini->arg[0] == '\0' || spacentabs_check(mini))
+		{
+			free(mini->arg);
+			continue ;
+		}
 		add_history(mini->arg);
 		if (parse(mini) == 0)
 		{

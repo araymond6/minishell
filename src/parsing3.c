@@ -14,24 +14,24 @@ int	redir_parsing(t_minishell *mini)
 		while (mini->cmd[c][i])
 		{
 			if (count > 2)
-				return (parsing_error(mini), 0);
+				return (parsing_error(mini), 1);
 			if (mini->cmd[c][i] == '<')
 			{
 				i++;
 				count++;
 				if (mini->cmd[c][i] == '>' || !mini->cmd[c][i])
-					return (parsing_error(mini), 0);
+					return (parsing_error(mini), 1);
 			}
 			else if (mini->cmd[c][i] == '>')
 			{
 				i++;
 				count++;
 				if (mini->cmd[c][i] == '<' || !mini->cmd[c][i])
-					return (parsing_error(mini), 0);
+					return (parsing_error(mini), 1);
 			}
 			else if ((count == 2 || count == 1) && \
 			((!ft_isalnum(mini->cmd[c][i]) && mini->cmd[c][i] != ' ' && mini->cmd[c][i] != '\'' && mini->cmd[c][i] != '\"') || !mini->cmd[c][i]))
-				return (parsing_error(mini), 0);
+				return (parsing_error(mini), 1);
 			else
 			{
 				i++;

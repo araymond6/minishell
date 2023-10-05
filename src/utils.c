@@ -21,7 +21,23 @@ int	count_2darray(char **table)
 	return (i);
 }
 
-void	clear_2darrays(t_minishell *mini)
+int	spacentabs_check(t_minishell *mini)
 {
-	
+	int	i;
+
+	i = 0;
+	while (mini->arg[i])
+	{
+		while (mini->arg[i] == ' ')
+		{
+			i++;
+		}
+		while (mini->arg[i] == '\t')
+		{
+			i++;
+		}
+		if (mini->arg[i] != ' ' && mini->arg[i] != '\t' && mini->arg[i] != '\0')
+			return (0);
+	}
+	return (1);
 }

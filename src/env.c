@@ -19,7 +19,7 @@ int	export_parsing(t_minishell *mini, int *i)
 	j = 0;
 	k = 0;
 	if (ft_isdigit(mini->s_cmd->cmd_arg[*i][0]))
-	return (1);
+		return (1);
 	str = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[*i] + 1), sizeof(char));
 	if (!str)
 		malloc_error(mini);
@@ -55,6 +55,7 @@ int	ft_export(t_minishell *mini)
 	return (0);
 }
 
+// returns -1 if arg to unset not found, looks for the var to unset
 int	unset_parsing(t_minishell *mini, int *i)
 {
 	int		j;
@@ -63,34 +64,37 @@ int	unset_parsing(t_minishell *mini, int *i)
 
 	j = -1;
 	k = 0;
-	// stuff a number error thing for the number start exception
+	if (ft_isdigit(mini->s_cmd->cmd_arg[*i][0]))
+		return (-2);
+	str = ft_strjoin(mini->s_cmd->cmd_arg[*i], "="); // FIND OUT WHAT TO DO WITH MALLOC ERROR
+	if (!str)
+		malloc_error(mini);
+	if (!str)
+		return (-1);
 	while (mini->envp[++j])
 	{
-		str = ft_calloc(ft_strlen(mini->envp[j]), sizeof(char));
-		if (!str)
-			malloc_error(mini);
-		while (mini->s_cmd->cmd_arg[*i][k] && mini->s_cmd->cmd_arg[*i][k] != '=')
-		{
-			str[k] = mini->s_cmd->cmd_arg[*i][k];
-			k++;
-		}
-		str[k] = mini->s_cmd->cmd_arg[*i][k];
-		if (!ft_strncmp(mini->envp[j], mini->s_cmd->cmd_arg[*i], ft_strlen(mini->s_cmd->cmd_arg[*i])))
+		if (!ft_strncmp(mini->envp[j], str, ft_strlen(str)))
 		{
 			free(str);
 			return (j);
 		}
-		free(str);
 	}
+	free(str);
 	return (-1);
 }
 
 int	ft_unset(t_minishell *mini)
 {
 	int		i;
+	int		j;
+	int		k;
 	int		c;
+	char	**table;
 
 	i = 1;
+	j = 0;
+	k = 0;
+	table = NULL;
 	while (mini->s_cmd->cmd_arg[i])
 	{
 		if (mini->s_cmd->cmd_arg[i][0] == '\0')
@@ -104,24 +108,29 @@ int	ft_unset(t_minishell *mini)
 			i++;
 			continue ;
 		}
-		if (mini->table)
+		else if (c == -2)
 		{
-			free(mini->table);
-			mini->table = NULL;
+			printf("unset: \"%s\": not a valid identifier\n", mini->s_cmd->cmd_arg[i++]);
+			continue ;
 		}
-		mini->table = ft_calloc(count_2darray(mini->envp), sizeof(char *));
-		if (!mini->table)
+		table = ft_calloc(count_2darray(mini->envp), sizeof(char *));
+		if (!table)
 			malloc_error(mini);
-		while (mini->envp[i])
+		while (mini->envp[k])
 		{
-			if (i == c)
+			if (k == c)
 			{
-				i++;
+				k++;
 				continue ;
 			}
-			mini->table[i] = mini->envp[i];
-			i++;
+			table[j++] = mini->envp[k++];
+			if (!mini->envp[k])
+				table[j] = NULL;
 		}
+		if (mini->envpset)
+			free_array(mini->envp);
+		mini->envp = table;
+		mini->envpset = 1;
 		i++;
 	}
 	mini->exit_code = 0;

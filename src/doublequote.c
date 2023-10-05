@@ -29,8 +29,10 @@ void	doublequote_parse(t_minishell *mini, int *i)
 	(*i)++;
 	while (mini->arg[*i] && mini->arg[*i] != '\"')
 	{
-		if (mini->arg[*i])
+		if (mini->arg[*i] == '$')
 			count_sub_dollar(mini, i);
+		if (mini->arg[*i] == '\0')
+			return ;
 		(*i)++;
 	}
 }
