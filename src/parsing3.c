@@ -1,0 +1,51 @@
+#include "../include/minishell.h"
+
+int	redir_parsing(t_minishell *mini)
+{
+	int	i;
+	int	c;
+	int	count;
+
+	c = 0;
+	while (mini->cmd[c])
+	{
+		i = 0;
+		count = 0;
+		while (mini->cmd[c][i])
+		{
+			if (count > 2)
+				return (parsing_error(mini), 0);
+			if (mini->cmd[c][i] == '<')
+			{
+				i++;
+				count++;
+				if (mini->cmd[c][i] == '>' || !mini->cmd[c][i])
+					return (parsing_error(mini), 0);
+			}
+			else if (mini->cmd[c][i] == '>')
+			{
+				i++;
+				count++;
+				if (mini->cmd[c][i] == '<' || !mini->cmd[c][i])
+					return (parsing_error(mini), 0);
+			}
+			else if ((count == 2 || count == 1) && \
+			((!ft_isalnum(mini->cmd[c][i]) && mini->cmd[c][i] != ' ') || !mini->cmd[c][i]))
+				return (parsing_error(mini), 0);
+			else
+			{
+				i++;
+				count = 0;
+			}
+		}
+		c++;
+	}
+	return (0);
+}
+
+int quote_n_create(t_minishell *mini)
+{
+	create_list(mini);
+	printf("mini->s_cmd->file : %s\n ",mini->s_cmd->file[0]);
+	return(0);
+}

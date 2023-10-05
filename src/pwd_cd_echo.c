@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pwd_cd_echo.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:08:01 by vst-pier          #+#    #+#             */
-/*   Updated: 2023/09/29 18:32:57 by valerie          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 int	ft_pwd(void)
@@ -24,9 +12,9 @@ int	ft_pwd(void)
 
 int	ft_cd(t_cmd *cmd)
 {
-	if (chdir(cmd->cmd_arg[1]) == -1)
-		return (message_perror("cd : "));
-	return (0);
+	if  (chdir(cmd->cmd_arg[1]) == -1)
+		return  (message_perror("cd : "));
+	return  (0);
 }
 
 int	p_echo_next(char c, int q)
@@ -53,7 +41,7 @@ void	p_echo(char **str, int r)
 
 	q = 0;
 	i = 0;
-	while (str[r] != NULL)
+	while  (str[r] != NULL)
 	{
 		while (str[r][i])
 		{

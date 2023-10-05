@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_parse.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: valerie <valerie@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:20:31 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/29 18:36:50 by valerie          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 char	*get_path(t_minishell *mini)
@@ -68,7 +56,7 @@ void	clear_mini(t_minishell *mini)
 	mini->parse.sub = 0;
 	i = 0;
 	if (!mini->cmd)
-		return ;
+		return;
 	while (mini->cmd[i])
 	{
 		free(mini->cmd[i]);
@@ -79,20 +67,9 @@ void	clear_mini(t_minishell *mini)
 	mini->cmd = NULL;
 }
 
-// clears history, frees mini's uses and exits program with exit_code depending on the error seen or not seen
-void	exit_program(t_minishell *mini)
-{
-	int exit_code;
-
-	exit_code = mini->exit_code;	
-	clear_history();
-	free_mini(mini);
-	exit(exit_code);
-}
-
 void	malloc_error(t_minishell *mini)
 {
 	mini->exit_code = 1;
-	write(STDOUT_FILENO, "malloc error\n", 13);
+	message_perror("malloc");
 	exit_program(mini);
 }
