@@ -27,12 +27,12 @@ typedef struct s_cmd
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
-	char			**file;			
+	char			**file;
 	struct s_cmd	*next;
-	int				nredir;	
+	int				nredir;
 	struct s_cmd	*prev;
 	int				pipe_fd[2];
-	int				narg;		
+	int				narg;
 	int				status;
 }	t_cmd;
 
@@ -51,7 +51,7 @@ typedef struct s_minishell
 	char				*path;
 	char				**cmd;
 	char				**envp;
-	char				**table;
+	int					envpset;
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;

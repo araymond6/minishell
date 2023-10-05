@@ -80,12 +80,9 @@ static int	parse(t_minishell *mini)
 	char	*arg;
 
 	arg = ft_strtrim(mini->arg, " ");
-	if (!arg)
-	{
-		free(mini->arg);
-		malloc_error(mini);
-	}
 	free(mini->arg);
+	if (!arg)
+		malloc_error(mini);
 	mini->arg = arg;
 	if (!count_blocks(mini))
 		return (1);
