@@ -35,6 +35,7 @@ typedef struct s_cmd
 	int				narg;		
 	int				status;
 	int				fd_stdin_out[2];
+	int				quote_len;
 }	t_cmd;
 
 typedef struct s_parse
@@ -83,7 +84,6 @@ int		here_doc(char *delimiter);
 //parsing_exec.c
 int		parsing_command(t_minishell *mini, int i);
 int		create_list(t_minishell *mini);
-int		quote_n_create(t_minishell *mini);
 
 //path.c
 void	join_path_command(char **path, char *command);
@@ -93,9 +93,7 @@ int		find_path(t_minishell *mini);
 //redirections.c
 int		redir_count(char *cmd);
 int		redirection(t_minishell *mini, int i, int j, char c);
-void	assign_redir_values(t_minishell *mini, char c);
-int		entry_redirection(t_minishell *mini, int i, int j);
-int		exit_redirection(t_minishell *mini, int i, int j);
+int		select_redirection(t_minishell *mini, int i, int j);
 
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);

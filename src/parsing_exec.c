@@ -24,10 +24,8 @@ int	parsing_command(t_minishell *mini, int i)
 	while (mini->cmd[i][j] && mini->cmd[i])
 	{
 		j = count_quote(mini->cmd[i], j);
-		if (mini->cmd[i][j] == '<')
-			j = entry_redirection(mini, i, j + 1);
-		else if (mini->cmd[i][j] == '>')
-			j = exit_redirection(mini, i, j + 1);
+		if (mini->cmd[i][j] == '<' || mini->cmd[i][j] == '>')
+			j = select_redirection(mini, i, j + 1);
 		else if (mini->cmd[i][j] == ' ')
 			j++;
 		else if(mini->cmd[i][j] == '\"' || mini->cmd[i][j] == '\'')
