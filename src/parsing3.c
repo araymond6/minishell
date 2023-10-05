@@ -30,7 +30,7 @@ int	redir_parsing(t_minishell *mini)
 					return (parsing_error(mini), 0);
 			}
 			else if ((count == 2 || count == 1) && \
-			((!ft_isalnum(mini->cmd[c][i]) && mini->cmd[c][i] != ' ') || !mini->cmd[c][i]))
+			((!ft_isalnum(mini->cmd[c][i]) && mini->cmd[c][i] != ' ' && mini->cmd[c][i] != '\'' && mini->cmd[c][i] != '\"') || !mini->cmd[c][i]))
 				return (parsing_error(mini), 0);
 			else
 			{
