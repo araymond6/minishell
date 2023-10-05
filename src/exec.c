@@ -7,10 +7,10 @@ int	execute_cmd_buildin(t_minishell *mini)
 		return (execute_buildin(mini));
 	else
 	{
+		
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
 		{
-			free(mini->s_cmd->path);
-			free(mini->s_cmd->cmd_arg);
+			free_scmd(mini->s_cmd);
 			return (message_perror("EXECVE"));
 		}
 	}
@@ -20,16 +20,19 @@ int	execute_cmd_buildin(t_minishell *mini)
 // parent side of the process
 int	parent(t_cmd *cmd)
 {
+	close(cmd->pipe_fd[1]);
 	if (cmd->prev->cmd != NULL)
 	{
 		if (dup2(cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
+		{
+			close(cmd->pipe_fd[1]);
 			exit(EXIT_FAILURE);
+		}
 	}
 	if (cmd->prev->cmd != NULL)
 		close(cmd->prev->pipe_fd[0]);
 	if (cmd->next->cmd == NULL)
 		close(cmd->pipe_fd[0]);
-	close(cmd->pipe_fd[1]);
 	return (0);
 }
 
@@ -41,10 +44,10 @@ int	child(t_minishell *mini)
 	i = 0;
 	if (mini->s_cmd->prev->cmd != NULL)
 		if (dup2(mini->s_cmd->prev->pipe_fd[0], STDIN_FILENO) == -1)
-			return (EXIT_FAILURE);
+			return (close(mini->s_cmd->pipe_fd[0]), close(mini->s_cmd->pipe_fd[1]), EXIT_FAILURE);
 	if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
 		if (dup2(mini->s_cmd->pipe_fd[1], STDOUT_FILENO) == -1)
-			return (EXIT_FAILURE);
+			return (close(mini->s_cmd->pipe_fd[0]), close(mini->s_cmd->pipe_fd[1]), EXIT_FAILURE);
 	if (mini->s_cmd->prev->cmd != NULL)
 		close(mini->s_cmd->prev->pipe_fd[0]);
 	if (mini->s_cmd->next->cmd == NULL)
@@ -65,27 +68,48 @@ int	child(t_minishell *mini)
 // the processus
 int	process(t_minishell *mini)
 {
-	pid_t	pid;
+	pid_t	*pid;
+	int		fd_stdin_fileno;
+	int r;
+	int i;
 
-	pid = 1;
+	r = 0;
+	i = 0;
+	while(mini->cmd[r])
+		r++;
+	pid = ft_calloc(r, sizeof(int));
+	pid[i] = 1;
 	while (mini->s_cmd->next)
 	{
 		if (pipe(mini->s_cmd->pipe_fd) == -1)
-			return (message_perror("Pipe"));
-		if (pid != 0)
+			return (free_scmd(mini->s_cmd), message_perror("Pipe"));
+		if (pid[i] != 0)
 		{
-			pid = fork();
-			if (pid == -1)
-				return (message_perror("Fork"));
-			if (pid == 0)
+			pid[i] = fork();
+			if (pid[i] == -1)
+				return (free_scmd(mini->s_cmd), message_perror("Fork"));
+			if (pid[i] == 0)
 				child(mini);
-			if (pid != 0)
+			if (pid[i] != 0)
 				parent(mini->s_cmd);
+			i++;
 			mini->s_cmd = mini->s_cmd->next;
 		}
 	}
-	waitpid(pid, &mini->s_cmd->status, 0);
+	i = 0;
+	while(i < r)
+		waitpid(pid[i++], &mini->s_cmd->status, 0);
 	if (WEXITSTATUS(mini->s_cmd->status) == 1)
 		message_perror("WEXITSTATUS");
 	return (0);
 }
+
+/*
+Here doc avec des pipes
+Cat avec des pipes et rien après
+Cat avec rien après
+Remettre les bonnes sorties au parents avant de quitter.
+Faire en sorte que les build-in fonctionne ex cd. Dans le processus final
+ctrl+c ctrl+d
+To many open file
+*/

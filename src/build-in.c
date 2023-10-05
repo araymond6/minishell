@@ -30,5 +30,6 @@ int	execute_buildin(t_minishell *mini)
 		return (ft_env(mini));
 	else if(ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) == 0)
 		ft_exit(mini);
+	exit(0);
 	return (0);
 }

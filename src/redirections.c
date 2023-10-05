@@ -85,6 +85,7 @@ int	redir_quote(t_minishell *mini, int i, int j, int r)
 	}
 	else
 	{
+		index = -1;
 		while (++index < mini->s_cmd->quote_len)
 			mini->s_cmd->file[r][index] = mini->cmd[i][j + index];
 		j += index;

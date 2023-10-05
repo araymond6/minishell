@@ -12,6 +12,8 @@ int	ft_pwd(void)
 
 int	ft_cd(t_cmd *cmd)
 {
+	if  (cmd->cmd_arg[2])
+		return  (message_perror("Too many arguments"));
 	if  (chdir(cmd->cmd_arg[1]) == -1)
 		return  (message_perror("cd : "));
 	return  (0);
@@ -45,7 +47,7 @@ void	p_echo(char **str, int r)
 	{
 		while (str[r][i])
 		{
-			p_echo_next(str[r][i], q);
+			write(1, &str[r][i], 1);
 			i++;
 		}
 		r++;
@@ -64,6 +66,8 @@ int	ft_echo(t_cmd *cmd)
 	r = 1;
 	i = 2;
 	n = 0;
+	if (!cmd->cmd_arg[r])
+		return(printf("\n"), 0);
 	while (ft_strncmp(cmd->cmd_arg[r], "-n", 2) == 0 && n != 2)
 	{
 		while (cmd->cmd_arg[r][i] == 'n')
@@ -80,5 +84,5 @@ int	ft_echo(t_cmd *cmd)
 	p_echo(cmd->cmd_arg, r);
 	if (n == 0 || n == 2)
 		printf("\n");
-	return (1);
+	return (0);
 }

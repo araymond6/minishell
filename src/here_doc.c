@@ -9,7 +9,7 @@ int	read_write(char *delimiter, int fd)
 	i = 0;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
-		return (message_perror("2.1"));
+		return (close(fd), message_perror("2.1"));
 	else if (ft_strncmp(delimiter, new_line, ft_strlen(delimiter)) == 0)
 		i = 1 ;
 	else
@@ -29,7 +29,7 @@ int	here_doc(char *delimiter)
 	i = 0;
 	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (message_perror("2"));
+		return (close(fd), message_perror("2"));
 	while (i == 0)
 		i = read_write(delimiter, fd);
 	close(fd);
