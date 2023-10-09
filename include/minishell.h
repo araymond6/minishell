@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 13:33:20 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 13:31:50 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MAIN_H
 # define MAIN_H
 # define ERROR 1
@@ -28,8 +16,8 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
-# include "readline/readline.h"
-# include "readline/history.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/src/libft.h"
 
 //TODO check diffrence and change for the aurelias env
@@ -39,20 +27,21 @@ typedef struct s_cmd
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
-	char			**file;			
+	char			**file;
 	struct s_cmd	*next;
-	int				nredir;	
+	int				nredir;
 	struct s_cmd	*prev;
-	int				pipe_fd[2];
-	int				narg;		
+	int				fd[2];
+	int				narg;
 	int				status;
-	char			**envp;
+	int				fd_stdin_out[2];
+	int				qlen;
 }	t_cmd;
 
 typedef struct s_parse
 {
 	int		block_count;
-	int		c; // holds current count from parse->cmd[c] during parsing
+	int		c; // remove the funny comment in here somewhere
 	int		sub;
 	int		start_block;
 	int		end_block;
@@ -64,10 +53,11 @@ typedef struct s_minishell
 	char				*path;
 	char				**cmd;
 	char				**envp;
+	int					envpset;
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
-	int					exit_code;
+	char				exit_code;
 }	t_minishell;
 
 //build-in.c
@@ -88,12 +78,12 @@ int		child(t_minishell *mini);
 int		process(t_minishell *mini);
 
 //here_doc.c
-int		read_write(char *delimiter, int fd);
+int		read_write(t_cmd *cmd, char *delimiter, int fd);
 int		here_doc(char *delimiter);
 
 //parsing_exec.c
-void	parsing_command(t_minishell *mini, int i);
-void	create_list(t_minishell *mini);
+int		parsing_command(t_minishell *mini, int i);
+int		create_list(t_minishell *mini);
 
 //path.c
 void	join_path_command(char **path, char *command);
@@ -103,9 +93,7 @@ int		find_path(t_minishell *mini);
 //redirections.c
 int		redir_count(char *cmd);
 int		redirection(t_minishell *mini, int i, int j, char c);
-void	assign_redir_values(t_minishell *mini, char c);
-int		entry_redirection(t_minishell *mini, int i, int j);
-int		exit_redirection(t_minishell *mini, int i, int j);
+int		select_redirection(t_minishell *mini, int i, int j);
 
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);
@@ -130,9 +118,16 @@ void	get_block(t_minishell *mini);
 void	doublequote_cmd(t_minishell *mini, int *i, int *j);
 void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
-void	sub_dollar(t_minishell *mini, int *i, int *j);
+int		sub_dollar(t_minishell *mini, int *i, int *j);
+void	add_sub_env(t_minishell *mini, char *arg);
+void	add_from_env(t_minishell *mini, int *j, char *arg);
+int		quote_check(t_minishell *mini, int *i);
+void	special_char_check(t_minishell *mini, int *i);
+void	add_exitcode(t_minishell *mini, int *j, char *arg);
+int		redir_parsing(t_minishell *mini);
 
 //execution
+// *surprised pikachu face* THERE'S NOTHING
 
 //errors
 void	parsing_error(t_minishell *mini);
@@ -150,11 +145,23 @@ int		len_until_space(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
+int		count_2darray(char **table);
+int		spacentabs_check(t_minishell *mini);
 
-int	x_comm(t_minishell *mini);
-int	ft_cd(t_cmd *cmd);
-int	ft_pwd(void);
-int ft_echo(t_cmd *cmd);
-
+// buildins and start of exec
+int		x_comm(t_minishell *mini);
+int		ft_cd(t_cmd *cmd);
+int		ft_pwd(void);
+int		ft_cd(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
+int		ft_env(t_minishell *mini);
+int		ft_export(t_minishell *mini);
+int		ft_unset(t_minishell *mini);
+void	free_scmd(t_cmd *cmd);
+int		count_quote(char *cmd, int i);
+void	free_scmd(t_cmd *cmd);
+void	ft_exit(t_minishell *mini);
+int		file_n_redir_calloc(t_minishell *mini, int c);
+void	buildin_parent(t_minishell *mini);
 
 #endif

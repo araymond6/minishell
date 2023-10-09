@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_parse_2.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:19:34 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 13:28:13 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 void	parse_exit(t_minishell *mini)
@@ -20,8 +8,22 @@ void	parse_exit(t_minishell *mini)
 
 void	parsing_error(t_minishell *mini)
 {
+	int	i;
+
 	mini->parse.block_count = 0;
 	mini->exit_code = 2;
+	i = 0;
+	if (mini->cmd)
+	{
+		while (mini->cmd[i])
+		{
+			free(mini->cmd[i]);
+			mini->cmd[i] = NULL;
+			i++;
+		}
+		free(mini->cmd);
+		mini->cmd = NULL;
+	}
 	if (write(STDOUT_FILENO, "parse error\n", 12) == -1)
 		parse_exit(mini);
 }
@@ -54,14 +56,17 @@ char	*check_env(t_minishell *mini, char *arg)
 	int		i;
 	int		k;
 	char	*new;
-	
+
 	i = 0;
 	k = 0;
 	if (!arg || arg[0] == '\0')
 		return (NULL);
 	new = ft_strjoin(arg, "=");
 	if (!new)
-	return (NULL);
+	{
+		free(arg);
+		malloc_error(mini);
+	}
 	new = while_env(mini, &i, &k, new);
 	if (!new || new[0] == '\0')
 		return (NULL);

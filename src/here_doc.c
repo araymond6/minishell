@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 17:59:37 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/26 13:19:46 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 // function who read the entry and put it in the here_doc file
@@ -21,7 +9,7 @@ int	read_write(char *delimiter, int fd)
 	i = 0;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
-		return (message_perror("2.1"));
+		return (close(fd), message_perror("2.1"));
 	else if (ft_strncmp(delimiter, new_line, ft_strlen(delimiter)) == 0)
 		i = 1;
 	else
@@ -38,14 +26,12 @@ int	read_write(char *delimiter, int fd)
 int	here_doc(char *delimiter)
 {
 	int		fd;
-	char	*new_line;
 	int		i;
 
 	i = 0;
-	new_line = NULL;
 	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (message_perror("2"));
+		return (close(fd), message_perror("2"));
 	while (i == 0)
 		i = read_write(delimiter, fd);
 	close(fd);

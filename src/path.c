@@ -1,16 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 17:38:43 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/22 16:23:37 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
 #include "../include/minishell.h"
 
 // this function add / and command at the end of all possible path find in env
@@ -62,7 +49,7 @@ int	find_path(t_minishell *mini)
 {
 	int		len;
 	char	**tab_path;
-	
+
 	if (access(mini->s_cmd->cmd, X_OK) == 0
 		|| isbuildin(mini->s_cmd->cmd) == 0)
 	{

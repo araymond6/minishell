@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_exec_2.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 17:54:01 by valerie           #+#    #+#             */
-/*   Updated: 2023/09/21 16:36:26 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 //this function count the nbrs of argument fot command
@@ -32,4 +20,27 @@ int	nbr_arg(t_minishell *mini, int i, int j)
 		k++;
 	}
 	return (space);
+}
+
+int	file_n_redir_calloc(t_minishell *mini, int c)
+{
+	int	k;
+
+	k = 0;
+	if (!mini->s_cmd->file)
+	{
+		mini->s_cmd->file = ft_calloc(mini->s_cmd->nredir + 1, sizeof(char *));
+		if (!mini->s_cmd->file)
+			return (free_scmd(mini->s_cmd), 1);
+	}
+	if (!mini->s_cmd->redir)
+	{
+		mini->s_cmd->redir = ft_calloc(mini->s_cmd->nredir + 1, sizeof(char));
+		if (!mini->s_cmd->redir)
+			return (free_scmd(mini->s_cmd), 1);
+	}
+	while (mini->s_cmd->redir[k])
+		k++;
+	mini->s_cmd->redir[k] = c;
+	return (0);
 }

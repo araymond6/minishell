@@ -1,22 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   dollarsign.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 09:44:50 by araymond          #+#    #+#             */
-/*   Updated: 2023/09/26 13:28:40 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 // adds to mini->parse.sub the c count if found
-static void	add_sub_env(t_minishell *mini, char *arg)
+void	add_sub_env(t_minishell *mini, char *arg)
 {
-	int	i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	if (!arg || arg[0] == '\0')
@@ -36,7 +24,7 @@ static void	add_sub_env(t_minishell *mini, char *arg)
 }
 
 //adds the substitution of the env var to mini->cmd
-static void	add_from_env(t_minishell *mini, int *j, char *arg)
+void	add_from_env(t_minishell *mini, int *j, char *arg)
 {
 	char	*new;
 	int		k;
@@ -48,13 +36,13 @@ static void	add_from_env(t_minishell *mini, int *j, char *arg)
 	while (new[k] != '=')
 		k++;
 	k++;
-	while(new[k])
+	while (new[k])
 		mini->cmd[mini->parse.c][(*j)++] = new[k++];
 	free(new);
 }
 
 //exit_code exception
-static void	add_exitcode(t_minishell *mini, int *j, char *arg)
+void	add_exitcode(t_minishell *mini, int *j, char *arg)
 {
 	int	k;
 
