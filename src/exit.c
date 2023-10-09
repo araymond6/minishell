@@ -51,5 +51,6 @@ void	ft_exit(t_minishell *mini)
 {
 	free_scmd(mini->s_cmd);
 	mini->exit_code = 0;
+	//assigner les code d'erreur
 	exit_program(mini);
 }
