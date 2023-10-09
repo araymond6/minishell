@@ -56,7 +56,7 @@ void	clear_mini(t_minishell *mini)
 	mini->parse.sub = 0;
 	i = 0;
 	if (!mini->cmd)
-		return;
+		return ;
 	while (mini->cmd[i])
 	{
 		free(mini->cmd[i]);

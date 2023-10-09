@@ -20,19 +20,19 @@ void	initialize_s_cmd(t_cmd *cmd)
 int	s_cmd_cmd(t_minishell *mini, int i, int j)
 {
 	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-		mini->s_cmd->quote_len =  count_quote(mini->cmd[i], j) - j - 1;
+		mini->s_cmd->qlen = count_quote(mini->cmd[i], j) - j - 1;
 	else
-		mini->s_cmd->quote_len = len_until_space(mini, i, j);
-	mini->s_cmd->cmd = ft_calloc(mini->s_cmd->quote_len + 1, sizeof(char));
+		mini->s_cmd->qlen = len_until_space(mini, i, j);
+	mini->s_cmd->cmd = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->cmd)
 		return (free_scmd(mini->s_cmd), -1);
-	if(mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
+	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
 	{
-		j = ft_strjcpy(mini->s_cmd->cmd, mini->cmd[i], mini->s_cmd->quote_len, ++j);
+		j = ft_strjcpy(mini->s_cmd->cmd, mini->cmd[i], mini->s_cmd->qlen, ++j);
 		j++;
 	}
 	else
-		j = ft_strjcpy(mini->s_cmd->cmd, mini->cmd[i], mini->s_cmd->quote_len, j);
+		j = ft_strjcpy(mini->s_cmd->cmd, mini->cmd[i], mini->s_cmd->qlen, j);
 	return (j);
 }
 
@@ -53,19 +53,21 @@ int	s_cmd_arg_cmd_first(t_minishell *mini)
 int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 {
 	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-		mini->s_cmd->quote_len =  count_quote(mini->cmd[i], j) - j - 1;
+		mini->s_cmd->qlen = count_quote(mini->cmd[i], j) - j - 1;
 	else
-		mini->s_cmd->quote_len = len_until_space(mini, i, j);
-	mini->s_cmd->cmd_arg[k] = ft_calloc(mini->s_cmd->quote_len + 1, sizeof(char));
+		mini->s_cmd->qlen = len_until_space(mini, i, j);
+	mini->s_cmd->cmd_arg[k] = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->cmd_arg[k])
 		return (free_scmd(mini->s_cmd), -1);
-	if(mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
+	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
 	{
-		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], mini->cmd[i], mini->s_cmd->quote_len, ++j);
+		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], \
+			mini->cmd[i], mini->s_cmd->qlen, ++j);
 		j++;
 	}
 	else
-		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], mini->cmd[i], mini->s_cmd->quote_len, j);
+		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], \
+			mini->cmd[i], mini->s_cmd->qlen, j);
 	if (mini->cmd[i][j] == ' ')
 		j++;
 	return (j);
@@ -75,24 +77,26 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 int	s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
 {
 	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-		mini->s_cmd->quote_len =  count_quote(mini->cmd[i], j) - j - 1;
+		mini->s_cmd->qlen = count_quote(mini->cmd[i], j) - j - 1;
 	else
 	{
 		if (len_until_space(mini, i, j) < len_until_redirections(mini, i, j))
-			mini->s_cmd->quote_len = len_until_space(mini, i, j);
+			mini->s_cmd->qlen = len_until_space(mini, i, j);
 		else
-			mini->s_cmd->quote_len = len_until_redirections(mini, i, j);
+			mini->s_cmd->qlen = len_until_redirections(mini, i, j);
 	}
-	mini->s_cmd->cmd_arg[k] = ft_calloc(mini->s_cmd->quote_len + 1, sizeof(char));
+	mini->s_cmd->cmd_arg[k] = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->cmd_arg[k])
 		return (free_scmd(mini->s_cmd), -1);
-	if(mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
+	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
 	{
-		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], mini->cmd[i], mini->s_cmd->quote_len, ++j);
+		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], \
+			mini->cmd[i], mini->s_cmd->qlen, ++j);
 		j++;
 	}
 	else
-	j = ft_strjcpy(mini->s_cmd->cmd_arg[k], mini->cmd[i], mini->s_cmd->quote_len, j);
+		j = ft_strjcpy(mini->s_cmd->cmd_arg[k], \
+		mini->cmd[i], mini->s_cmd->qlen, j);
 	if (mini->cmd[i][j] == ' ')
 		j++;
 	return (j);

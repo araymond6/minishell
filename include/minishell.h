@@ -31,11 +31,11 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	int				nredir;
 	struct s_cmd	*prev;
-	int				pipe_fd[2];
+	int				fd[2];
 	int				narg;
 	int				status;
 	int				fd_stdin_out[2];
-	int				quote_len;
+	int				qlen;
 }	t_cmd;
 
 typedef struct s_parse
@@ -161,5 +161,7 @@ void	free_scmd(t_cmd *cmd);
 int		count_quote(char *cmd, int i);
 void	free_scmd(t_cmd *cmd);
 void	ft_exit(t_minishell *mini);
+int		file_n_redir_calloc(t_minishell *mini, int c);
+void	buildin_parent(t_minishell *mini);
 
 #endif

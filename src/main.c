@@ -4,7 +4,7 @@ int	x_comm(t_minishell *mini)
 {
 	process(mini);
 	mini->s_cmd = NULL;
-	return(0);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)

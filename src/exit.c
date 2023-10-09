@@ -46,7 +46,6 @@ void	free_scmd_execve(t_cmd *cmd)
 	}
 }
 
-//il exit le child
 void	ft_exit(t_minishell *mini)
 {
 	free_scmd(mini->s_cmd);

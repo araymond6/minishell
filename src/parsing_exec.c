@@ -1,11 +1,7 @@
 #include "../include/minishell.h"
 
-//parse the command for the command part, and redirections part 
-int	parsing_command(t_minishell *mini, int i)
+int	calloc_node(t_minishell *mini)
 {
-	int		j;
-
-	j = 0;
 	if (!mini->s_cmd)
 	{
 		mini->s_cmd = ft_calloc(1, sizeof(t_cmd));
@@ -20,6 +16,17 @@ int	parsing_command(t_minishell *mini, int i)
 			return (free_scmd(mini->s_cmd), 1);
 		initialize_s_cmd(mini->s_cmd->next);
 	}
+	return (0);
+}
+
+//parse the command for the command part, and redirections part 
+int	parsing_command(t_minishell *mini, int i)
+{
+	int		j;
+
+	j = 0;
+	if (calloc_node(mini) == 1)
+		return (1);
 	mini->s_cmd->nredir = redir_count(mini->cmd[i]);
 	while (mini->cmd[i][j] && mini->cmd[i])
 	{
@@ -28,9 +35,9 @@ int	parsing_command(t_minishell *mini, int i)
 		else if (mini->cmd[i][j] == ' ')
 			j++;
 		else
-		j = check_command(mini, i, j);
+			j = check_command(mini, i, j);
 		if (j == 1)
-			return(1);
+			return (1);
 	}
 	return (0);
 }

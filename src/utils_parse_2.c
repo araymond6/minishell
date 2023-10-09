@@ -79,7 +79,8 @@ void	signal_handler(int signal)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
-		rl_redisplay();}
+		rl_redisplay();
+	}
 	else if (signal == SIGQUIT)
 	{
 		rl_on_new_line();
