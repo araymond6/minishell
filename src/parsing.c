@@ -67,7 +67,6 @@ static int	trim_cmd(t_minishell *mini)
 	{
 		if (mini->cmd[i][0] == '\0')
 		{
-			printf("cmd %d: %s", i, mini->cmd[i]); // THERE IS A PRINTF HERE
 			parsing_error(mini);
 			return (1);
 		}

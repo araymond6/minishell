@@ -33,8 +33,5 @@ int	here_doc(char *delimiter)
 	while (i == 0)
 		i = read_write(delimiter, fd);
 	close(fd);
-	fd = open("here_doc.txt", O_RDONLY);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
 	return (0);
 }
