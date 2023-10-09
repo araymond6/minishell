@@ -125,6 +125,7 @@ int		quote_check(t_minishell *mini, int *i);
 void	special_char_check(t_minishell *mini, int *i);
 void	add_exitcode(t_minishell *mini, int *j, char *arg);
 int		redir_parsing(t_minishell *mini);
+char	*env_parsing(t_minishell *mini, int *i, int *j);
 
 //execution
 // *surprised pikachu face* THERE'S NOTHING
@@ -155,5 +156,7 @@ int		ft_pwd(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
+int		while_table(t_minishell *mini, int *j, int *c, char **table);
+int		set_table(t_minishell *mini, char **table, int *j, int *k);
 
 #endif
