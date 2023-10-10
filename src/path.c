@@ -49,7 +49,7 @@ int	find_path(t_minishell *mini)
 {
 	int		len;
 	char	**tab_path;
-	
+
 	if (access(mini->s_cmd->cmd, X_OK) == 0
 		|| isbuildin(mini->s_cmd->cmd) == 0)
 	{

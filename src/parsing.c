@@ -60,6 +60,7 @@ static int	trim_cmd(t_minishell *mini)
 		if (!mini->cmd[i])
 			malloc_error(mini);
 		free(temp);
+		temp = NULL;
 	}
 	i = 0;
 	while (mini->cmd[i])
@@ -78,7 +79,7 @@ static int	trim_cmd(t_minishell *mini)
 static int	parse(t_minishell *mini)
 {
 	char	*arg;
-
+	
 	arg = ft_strtrim(mini->arg, " ");
 	free(mini->arg);
 	if (!arg)
@@ -109,7 +110,10 @@ void	read_input(t_minishell *mini)
 		}
 		add_history(mini->arg);
 		if (parse(mini) == 0)
-			x_comm(mini);
+		{
+			if (create_list(mini) == 0)
+				x_comm(mini);
+		}
 		clear_mini(mini);
 	}
 }

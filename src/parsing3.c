@@ -1,8 +1,5 @@
 #include "../include/minishell.h"
 
-
-//Cas qui marche pas: pas d'alnum ou de <>
-
 int	redir_parsing(t_minishell *mini)
 {
 	int	i;

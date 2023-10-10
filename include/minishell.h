@@ -1,5 +1,5 @@
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MAIN_H
+# define MAIN_H
 # define ERROR 1
 # define SUCCESS 0
 
@@ -31,9 +31,11 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	int				nredir;
 	struct s_cmd	*prev;
-	int				pipe_fd[2];
+	int				fd[2];
 	int				narg;
 	int				status;
+	int				fd_stdin_out[2];
+	int				qlen;
 }	t_cmd;
 
 typedef struct s_parse
@@ -63,8 +65,8 @@ int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 
 //change_fd.c
-int		change_inf(t_cmd *cmd, char c, char *file);
-int		change_out(t_cmd *cmd, char c, char *file);
+int		change_inf(char c, char *file);
+int		change_out(char c, char *file);
 
 //command.c 
 int		check_command(t_minishell *mini, int i, int j);
@@ -77,11 +79,11 @@ int		process(t_minishell *mini);
 
 //here_doc.c
 int		read_write(t_cmd *cmd, char *delimiter, int fd);
-int		here_doc(t_cmd *cmd, char *delimiter);
+int		here_doc(char *delimiter);
 
 //parsing_exec.c
-void	parsing_command(t_minishell *mini, int i);
-void	create_list(t_minishell *mini);
+int		parsing_command(t_minishell *mini, int i);
+int		create_list(t_minishell *mini);
 
 //path.c
 void	join_path_command(char **path, char *command);
@@ -91,14 +93,12 @@ int		find_path(t_minishell *mini);
 //redirections.c
 int		redir_count(char *cmd);
 int		redirection(t_minishell *mini, int i, int j, char c);
-void	assign_redir_values(t_minishell *mini, char c);
-int		entry_redirection(t_minishell *mini, int i, int j);
-int		exit_redirection(t_minishell *mini, int i, int j);
+int		select_redirection(t_minishell *mini, int i, int j);
 
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
-int		s_cmd_arg_cmd_first(t_minishell *mini, int i, int j);
+int		s_cmd_arg_cmd_first(t_minishell *mini);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
 int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
 
@@ -152,10 +152,18 @@ int		spacentabs_check(t_minishell *mini);
 // buildins and start of exec
 int		x_comm(t_minishell *mini);
 int		ft_cd(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
+int		ft_pwd(void);
+int		ft_cd(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
+void	free_scmd(t_cmd *cmd);
+int		count_quote(char *cmd, int i);
+void	free_scmd(t_cmd *cmd);
+void	ft_exit(t_minishell *mini);
+int		file_n_redir_calloc(t_minishell *mini, int c);
+void	buildin_parent(t_minishell *mini);
 int		while_table(t_minishell *mini, int *j, int *c, char **table);
 int		set_table(t_minishell *mini, char **table, int *j, int *k);
 
