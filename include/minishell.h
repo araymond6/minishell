@@ -163,7 +163,6 @@ int		count_quote(char *cmd, int i);
 void	free_scmd(t_cmd *cmd);
 void	ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
-void	buildin_parent(t_minishell *mini);
 int		while_table(t_minishell *mini, int *j, int *c, char **table);
 int		set_table(t_minishell *mini, char **table, int *j, int *k);
 

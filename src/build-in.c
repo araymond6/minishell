@@ -32,15 +32,3 @@ int	execute_buildin(t_minishell *mini)
 		ft_exit(mini);
 	return (0);
 }
-
-void	buildin_parent(t_minishell *mini)
-{
-	if (ft_strncmp(mini->s_cmd->cmd_arg[0], "cd", 3) == 0)
-		ft_cd(mini->s_cmd);
-	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "export", 7) == 0)
-		ft_export(mini);
-	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "unset", 6) == 0)
-		ft_unset(mini);
-	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) == 0)
-		ft_exit(mini);
-}
