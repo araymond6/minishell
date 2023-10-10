@@ -158,12 +158,12 @@ int		ft_echo(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
+int		while_table(t_minishell *mini, int *j, int *c, char **table);
+int		set_table(t_minishell *mini, char **table, int *j, int *k);
 void	free_scmd(t_cmd *cmd);
 int		count_quote(char *cmd, int i);
 void	free_scmd(t_cmd *cmd);
 void	ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
-int		while_table(t_minishell *mini, int *j, int *c, char **table);
-int		set_table(t_minishell *mini, char **table, int *j, int *k);
 
 #endif
