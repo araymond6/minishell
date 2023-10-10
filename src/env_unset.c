@@ -43,7 +43,8 @@ static int	unset_parsing(t_minishell *mini, int *i)
 static int	unset_error_check(t_minishell *mini, int *i, int *c)
 {
 	if (mini->s_cmd->cmd_arg[*i][0] == '\0' || \
-	ft_isdigit(mini->s_cmd->cmd_arg[*i][0]))
+	ft_isdigit(mini->s_cmd->cmd_arg[*i][0]) || \
+	mini->s_cmd->cmd_arg[*i][0] == '=')
 	{
 		printf("unset: \"%s\": not a valid identifier\n", \
 		mini->s_cmd->cmd_arg[(*i)++]);
