@@ -162,6 +162,5 @@ int		count_quote(char *cmd, int i);
 void	free_scmd(t_cmd *cmd);
 void	ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
-void	buildin_parent(t_minishell *mini);
 
 #endif
