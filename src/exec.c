@@ -111,6 +111,7 @@ int	forker(int n, int *pids, t_minishell *mini)
 			}
 			else if (pids[i] > 0)
 			{
+				//allo
 				parent(mini->s_cmd);
 				mini->s_cmd = mini->s_cmd->next;
 				forker(n - 1, pids +1, mini);
