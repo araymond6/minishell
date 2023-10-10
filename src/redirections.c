@@ -1,20 +1,50 @@
 #include "../include/minishell.h"
 
-
+int	count_quote2(char *cmd, int i)
+{
+	while(cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>' && cmd[i])
+	{
+		printf("YO");
+		while(cmd[i] != '\"' && cmd[i] != '\'' && cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>' && cmd[i])
+			i++;
+		if (cmd[i] == '\"')
+		{
+			i++;
+			while (cmd[i] != '\"')
+				i++;
+			i++;
+		}
+		if (cmd[i] == '\'')
+		{
+			i++;
+			while (cmd[i] != '\'')
+				i++;
+			i++;
+		}
+	}
+	return (i);
+}
 
 int	count_quote(char *cmd, int i)
 {
-	if (cmd[i] == '\"')
+	while(cmd[i] != ' ' && cmd[i])
 	{
-		i++;
-		while (cmd[i] != '\"')
+		while(cmd[i] != '\"' && cmd[i] != '\'' && cmd[i] != ' ' && cmd[i])
 			i++;
-	}
-	if (cmd[i] == '\'')
-	{
-		i++;
-		while (cmd[i] != '\'')
+		if (cmd[i] == '\"')
+		{
 			i++;
+			while (cmd[i] != '\"')
+				i++;
+			i++;
+		}
+		if (cmd[i] == '\'')
+		{
+			i++;
+			while (cmd[i] != '\'')
+				i++;
+			i++;
+		}
 	}
 	return (i);
 }
@@ -29,6 +59,8 @@ int	redir_count(char *cmd)
 	count = 0;
 	while (cmd[++i])
 	{
+		if(cmd[i] == ' ')
+			i++;
 		i = count_quote(cmd, i);
 		if (cmd[i] == '<')
 		{
