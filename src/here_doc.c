@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 // function who read the entry and put it in the here_doc file
 int	read_write(char *delimiter, int fd)
 {

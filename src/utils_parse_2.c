@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 void	parse_exit(t_minishell *mini)
 {
 	perror("Error");

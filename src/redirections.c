@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 int	count_quote(char *cmd, int i)
 {
 	if (cmd[i] == '\"')
