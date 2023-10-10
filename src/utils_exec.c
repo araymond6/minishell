@@ -6,8 +6,8 @@ void	free_array(char **array)
 	int	index_array;
 
 	index_array = 0;
-	if(!array)
-		return;
+	if (!array)
+		return ;
 	while (array[index_array])
 	{
 		free(array[index_array]);

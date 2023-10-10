@@ -1,7 +1,7 @@
 #include "../include/minishell.h"
 
 // change the STDIN for the infile if a < or << is in the command line
-int	change_inf(t_cmd *cmd, char c, char *file)
+int	change_inf(char c, char *file)
 {
 	int	fd;
 
@@ -9,25 +9,26 @@ int	change_inf(t_cmd *cmd, char c, char *file)
 	{
 		fd = open(file, O_RDONLY);
 		if (fd == -1)
-			return (message_perror("1"));
+			return (close(fd), message_perror("1"));
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
 	else if (c == '2')
 	{
-		if (here_doc(cmd, file) == -1)
+		if (here_doc(file) == -1)
 			return (message_perror("2"));
 	}
 	return (0);
 }
 
 // change the STDIN for the infile if a > or >> is in the command line
-int	change_out(t_cmd *cmd, char c, char *file)
+int	change_out(char c, char *file)
 {
 	int	fd;
 
 	if (c == '3')
 	{
+		write(1, file, 7);
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 			return (message_perror("3"));
