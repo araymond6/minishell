@@ -5,6 +5,8 @@ int	execute_cmd_buildin(t_minishell *mini)
 {
 	int	exit_code;
 
+	if(strlen(mini->s_cmd->cmd_arg[0]) == 0)
+		exit(0);
 	if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
 	{
 		exit_code = execute_buildin(mini);
@@ -84,23 +86,62 @@ int	forker(int n, int *pids, t_minishell *mini)
 		return (free_scmd(mini->s_cmd), message_perror("Pipe"));
 	if (n > 0)
 	{
-		pids[i] = fork();
-		if (pids[i] < 0)
-			return (free_scmd(mini->s_cmd), message_perror("Fork"));
-		else if (pids[i] == 0)
-		{
-			child(mini);
-			mini->s_cmd = mini->s_cmd->next;
-		}
-		else if (pids[i] > 0)
+		if(mini->s_cmd->cmd == NULL)
 		{
 			parent(mini->s_cmd);
-			buildin_parent(mini);
 			mini->s_cmd = mini->s_cmd->next;
 			forker(n - 1, pids +1, mini);
 		}
+		else if(isbuildin(mini->s_cmd->cmd) == 0)
+		{
+			execute_buildin(mini);
+			parent(mini->s_cmd);
+			mini->s_cmd = mini->s_cmd->next;
+			forker(n - 1, pids +1, mini);
+		}
+		else
+		{
+			pids[i] = fork();
+			if (pids[i] < 0)
+				return (free_scmd(mini->s_cmd), message_perror("Fork"));
+			else if (pids[i] == 0)
+			{
+				child(mini);
+				mini->s_cmd = mini->s_cmd->next;
+			}
+			else if (pids[i] > 0)
+			{
+				//allo
+				parent(mini->s_cmd);
+				mini->s_cmd = mini->s_cmd->next;
+				forker(n - 1, pids +1, mini);
+			}
+		}
 	}
 	return (0);
+}
+
+void all_here_doc(t_minishell *mini, int n)
+{
+	int f;
+	t_cmd	*cmd2;
+
+	f = 0;
+	cmd2 = mini->s_cmd;
+	while(cmd2->cmd)
+	{
+		if(cmd2->file)
+		{
+			while(cmd2->file[f])
+			{
+				if(cmd2->redir[f] == '2')
+					here_doc(cmd2->file[f]);
+				f++;
+			}
+		}
+		f = 0;
+		cmd2 = cmd2->next;
+	}
 }
 
 // the processus
@@ -114,25 +155,17 @@ int	process(t_minishell *mini)
 	i = 0;
 	while (mini->cmd[n])
 		n++;
+	all_here_doc(mini, n);
 	pids = ft_calloc(n, sizeof(pid_t));
 	pids[i] = 1;
 	while (mini->s_cmd->next)
 		forker(n, pids, mini);
 	i = 0;
 	while (i < n)
-	{
-		waitpid(pids[i], &mini->s_cmd->status, 0);
+	{		waitpid(pids[i], &mini->s_cmd->status, 0);
 		if (WEXITSTATUS(mini->s_cmd->status) == 1)
 			message_perror("WEXITSTATUS");
 		i++;
 	}
 	return (0);
 }
-
-/*
-Here doc avec des pipes
-Cat avec des pipes et rien après
-Cat avec rien après
-ctrl+c ctrl+d
-To many open file
-*/
