@@ -33,18 +33,14 @@ SRCS =	build-in.c \
 		quote.c \
 		doublequote.c \
 		dollarsign.c \
-		env.c \
-		cd.c \
-		pwd.c \
 		substitution.c \
 		utils.c \
 		export.c \
 		env_unset.c \
-		env_unset2.c
+		env_unset2.c \
 		utils.c \
 		pwd_cd_echo.c \
-		exit.c  \
-		echo.c
+		exit.c  
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
