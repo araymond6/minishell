@@ -79,7 +79,7 @@ static int	parse(t_minishell *mini)
 {
 	char	*arg;
 	
-	arg = ft_strtrim(mini->arg, " ");
+	arg = ft_strtrim(mini->arg, " \t\n");
 	free(mini->arg);
 	if (!arg)
 		malloc_error(mini);
@@ -106,7 +106,7 @@ void	read_input(t_minishell *mini)
 		{
 			free(mini->arg);
 			continue ;
-		}
+		} // fix 
 		add_history(mini->arg);
 		if (parse(mini) == 0)
 		{

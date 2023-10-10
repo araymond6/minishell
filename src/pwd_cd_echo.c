@@ -50,10 +50,9 @@ void	p_echo(char **str, int r, int n)
 			write(1, &str[r][i], 1);
 			i++;
 		}
-		r++;
 		i = 0;
-		if (str[r] != NULL)
-			printf(" ");
+		if (str[++r] != NULL)
+			write(1, " ", 1);
 	}
 	if (n == 0 || n == 2)
 		printf("\n");

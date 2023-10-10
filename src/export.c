@@ -4,7 +4,7 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 {
 	char	*str;
 
-	str = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[*i] + 1), sizeof(char));
+	str = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	while (mini->s_cmd->cmd_arg[*i][*j] && mini->s_cmd->cmd_arg[*i][*j] != '=')
@@ -14,7 +14,7 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 			if (mini->s_cmd->cmd_arg[*i][*j] != '_')
 			{
 				free(str);
-				printf("export: \"%c\": not a valid identifier\n", mini->s_cmd->cmd_arg[*i][*j]);
+				printf("export: \"%s\": not a valid identifier\n", mini->s_cmd->cmd_arg[*i]);
 				mini->exit_code = 1;
 				return (NULL);
 			}
@@ -80,7 +80,6 @@ static int	export_error_check(t_minishell *mini, int *i, int *c)
 static char	**export_table(t_minishell *mini, int *i, int *c)
 {
 	int		j;
-	int		l;
 	int		param;
 	char	**table;
 
@@ -97,12 +96,11 @@ static char	**export_table(t_minishell *mini, int *i, int *c)
 	param = while_table(mini, &j, c, table);
 	if (param == 0)
 	{
-		l = 0;
 		table[j] = ft_calloc(sizeof(char), ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1); // do error check
-		while (mini->s_cmd->cmd_arg[*i][l])
+		while (mini->s_cmd->cmd_arg[*i][param])
 		{
-			table[j][l] = mini->s_cmd->cmd_arg[*i][l];
-			l++;
+			table[j][param] = mini->s_cmd->cmd_arg[*i][param];
+			param++;
 		}
 		j++;
 	}
@@ -118,8 +116,9 @@ int	ft_export(t_minishell *mini)
 	int		c;
 
 	i = 1;
-	// if (!mini->s_cmd->cmd_arg[i]) // error if empty
-
+	mini->exit_code = 0;
+	if (!mini->s_cmd->cmd_arg[i])
+		print_env(mini);
 	while (mini->s_cmd->cmd_arg[i])
 	{
 		if (export_error_check(mini, &i, &c) == 1)
@@ -132,6 +131,5 @@ int	ft_export(t_minishell *mini)
 		mini->envp = table;
 		mini->envpset = 1;
 	}
-	mini->exit_code = 0;
 	return (0);
 }
