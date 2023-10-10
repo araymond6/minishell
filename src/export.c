@@ -26,7 +26,7 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 }
 
 // everything after the '=' is good, any non alnum char is wrong if before '=' except '_'
-// returns -1 if not good and 1 if VAR exists already. returns 0 if good and non-existing
+// returns -1 if not good and >=0 if VAR exists already. returns -2 otherwise
 static int	export_parsing(t_minishell *mini, int *i)
 {
 	int		j;
@@ -102,6 +102,8 @@ static char	**export_table(t_minishell *mini, int *i, int *c)
 			table[j][param] = mini->s_cmd->cmd_arg[*i][param];
 			param++;
 		}
+		if (!ft_strncmp(table[j], "PATH=", 5))
+			mini->path = table[j];
 		j++;
 	}
 	table[j] = NULL;

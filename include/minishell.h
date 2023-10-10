@@ -57,7 +57,7 @@ typedef struct s_minishell
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
-	char				exit_code;
+	unsigned char		exit_code;
 }	t_minishell;
 
 //build-in.c

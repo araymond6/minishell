@@ -72,6 +72,8 @@ static char	**unset_table(t_minishell *mini, int *i, int *c)
 		return (NULL);
 	}
 	j = 0;
+	if (!ft_strncmp(mini->envp[*c], "PATH=", 5))
+		mini->path = NULL;
 	param = while_table(mini, &j, c, table);
 	table[j] = NULL;
 	(*i)++;
