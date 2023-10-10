@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 // adds to mini->parse.sub the c count if found
 void	add_sub_env(t_minishell *mini, char *arg)
 {

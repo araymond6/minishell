@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 void	free_scmd(t_cmd *cmd)
 {
 	t_cmd	*temp;

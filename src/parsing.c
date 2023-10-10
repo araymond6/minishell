@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 //TODO: FIX PARSE_ERROR
 
 // main parsing func, block++ for amount of char* necessary to malloc.
@@ -67,7 +69,6 @@ static int	trim_cmd(t_minishell *mini)
 	{
 		if (mini->cmd[i][0] == '\0')
 		{
-			printf("cmd %d: %s", i, mini->cmd[i]); // THERE IS A PRINTF HERE
 			parsing_error(mini);
 			return (1);
 		}

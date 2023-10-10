@@ -2,23 +2,24 @@
 // check if it<s a build0in or not and execute it
 int execute_cmd_buildin(t_minishell *mini)
 {
-    int exit_code;
-    if(strlen(mini->s_cmd->cmd_arg[0]) == 0)
-        exit(0);
-    if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
-    {
-        exit_code = execute_buildin(mini);
-        exit(exit_code);
-    }
-    else
-    {
-        if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
-        {
-            free_scmd(mini->s_cmd);
-            return (message_perror("EXECVE"));
-        }
-    }
-    return (0);
+	int	exit_code;
+
+	if(strlen(mini->s_cmd->cmd_arg[0]) == 0)
+		exit(0);
+	if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
+	{
+		exit_code = execute_buildin(mini);
+		exit(exit_code);
+	}
+	else
+	{
+		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
+		{
+			free_scmd(mini->s_cmd);
+			return (message_perror("EXECVE"));
+		}
+	}
+	return (0);
 }
 // parent side of the process
 int parent(t_cmd *cmd)
@@ -70,106 +71,99 @@ int child(t_minishell *mini)
     }
     return (execute_cmd_buildin(mini));
 }
-/*int to_fork()
+
+int to_fork(t_minishell *mini, int *pids, int i, int n)
 {
-    pids[i] = fork();
-    if (pids[i] < 0)
-        return (free_scmd(mini->s_cmd), message_perror("Fork"));
-    else if (pids[i] == 0)
-    {
-        child(mini);
-        mini->s_cmd = mini->s_cmd->next;
-    }
-    else if (pids[i] > 0)
-    {
-        parent(mini->s_cmd);
-        mini->s_cmd = mini->s_cmd->next;
-        forker(n - 1, pids +1, mini);
-    }
-}*/
-int forker(int n, int *pids, t_minishell *mini)
-{
-    int i;
-    i = 0;
-    if (pipe(mini->s_cmd->fd) == -1)
-        return (free_scmd(mini->s_cmd), message_perror("Pipe"));
-    if (n > 0)
-    {
-        if(mini->s_cmd->cmd == NULL)
-        {
-            parent(mini->s_cmd);
-            mini->s_cmd = mini->s_cmd->next;
-            forker(n - 1, pids +1, mini);
-        }
-        else if(isbuildin(mini->s_cmd->cmd) == 0)
-        {
-            execute_buildin(mini);
-            parent(mini->s_cmd);
-            mini->s_cmd = mini->s_cmd->next;
-            forker(n - 1, pids +1, mini);
-        }
-        else
-        {
-            pids[i] = fork();
-            if (pids[i] < 0)
-                return (free_scmd(mini->s_cmd), message_perror("Fork"));
-            else if (pids[i] == 0)
-            {
-                child(mini);
-                mini->s_cmd = mini->s_cmd->next;
-            }
-            else if (pids[i] > 0)
-            {
-                parent(mini->s_cmd);
-                mini->s_cmd = mini->s_cmd->next;
-                forker(n - 1, pids +1, mini);
-            }
-        }
-    }
-    return (0);
+	pids[i] = fork();
+	if (pids[i] < 0)
+		return (free_scmd(mini->s_cmd), message_perror("Fork"));
+	else if (pids[i] == 0)
+	{
+		child(mini);
+		mini->s_cmd = mini->s_cmd->next;
+	}
+	else if (pids[i] > 0)
+	{
+		parent(mini->s_cmd);
+		mini->s_cmd = mini->s_cmd->next;
+		forker(n - 1, pids +1, mini);
+	}
 }
+
+int	forker(int n, int *pids, t_minishell *mini)
+{
+	int	i;
+
+	i = 0;
+	if (pipe(mini->s_cmd->fd) == -1)
+		return (free_scmd(mini->s_cmd), message_perror("Pipe"));
+	if (n > 0)
+	{
+		if(mini->s_cmd->cmd == NULL)
+		{
+			parent(mini->s_cmd);
+			mini->s_cmd = mini->s_cmd->next;
+			forker(n - 1, pids +1, mini);
+		}
+		else if(isbuildin(mini->s_cmd->cmd) == 0)
+		{
+			execute_buildin(mini);
+			parent(mini->s_cmd);
+			mini->s_cmd = mini->s_cmd->next;
+			forker(n - 1, pids +1, mini);
+		}
+		else
+			if(to_fork(mini, pids, i, n))
+				return(1);
+	}
+	return (0);
+}
+
 void all_here_doc(t_minishell *mini, int n)
 {
-    int f;
-    t_cmd   *cmd2;
-    f = 0;
-    cmd2 = mini->s_cmd;
-    while(cmd2->cmd)
-    {
-        if(cmd2->file)
-        {
-            while(cmd2->file[f])
-            {
-                if(cmd2->redir[f] == '2')
-                    here_doc(cmd2->file[f]);
-                f++;
-            }
-        }
-        f = 0;
-        cmd2 = cmd2->next;
-    }
+	int f;
+	t_cmd	*cmd2;
+
+	f = 0;
+	cmd2 = mini->s_cmd;
+	while(cmd2->cmd)
+	{
+		if(cmd2->file)
+		{
+			while(cmd2->file[f])
+			{
+				if(cmd2->redir[f] == '2')
+					here_doc(cmd2->file[f]);
+				f++;
+			}
+		}
+		f = 0;
+		cmd2 = cmd2->next;
+	}
 }
+
 // the processus
 int process(t_minishell *mini)
 {
-    pid_t   *pids;
-    int     i;
-    int     n;
-    n = 0;
-    i = 0;
-    while (mini->cmd[n])
-        n++;
-    all_here_doc(mini, n);
-    pids = ft_calloc(n, sizeof(pid_t));
-    pids[i] = 1;
-    while (mini->s_cmd->next)
-        forker(n, pids, mini);
-    i = 0;
-    while (i < n)
-    {       waitpid(pids[i], &mini->s_cmd->status, 0);
-        if (WEXITSTATUS(mini->s_cmd->status) == 1)
-            message_perror("WEXITSTATUS");
-        i++;
-    }
-    return (0);
+	pid_t	*pids;
+	int		i;
+	int		n;
+
+	n = 0;
+	i = 0;
+	while (mini->cmd[n])
+		n++;
+	all_here_doc(mini, n);
+	pids = ft_calloc(n, sizeof(pid_t));
+	pids[i] = 1;
+	while (mini->s_cmd->next)
+		forker(n, pids, mini);
+	i = 0;
+	while (i < n)
+	{		waitpid(pids[i], &mini->s_cmd->status, 0);
+		if (WEXITSTATUS(mini->s_cmd->status) == 1)
+			message_perror("WEXITSTATUS");
+		i++;
+	}
+	return (0);
 }

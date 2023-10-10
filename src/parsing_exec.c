@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 int	calloc_node(t_minishell *mini)
 {
 	int		j;
