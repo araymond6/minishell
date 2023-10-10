@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 //this function check if command is a buildin to program
 int	isbuildin(char *isbuildin)
 {
@@ -27,20 +29,8 @@ int	execute_buildin(t_minishell *mini)
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "env", 4) == 0)
 		return (ft_env(mini));
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "unset", 6) == 0)
-		return (ft_env(mini));
+		return (ft_unset(mini));
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) == 0)
 		ft_exit(mini);
 	return (0);
-}
-
-void	buildin_parent(t_minishell *mini)
-{
-	if (ft_strncmp(mini->s_cmd->cmd_arg[0], "cd", 3) == 0)
-		ft_cd(mini->s_cmd);
-	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "export", 7) == 0)
-		ft_export(mini);
-	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "unset", 6) == 0)
-		ft_env(mini);
-	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) == 0)
-		ft_exit(mini);
 }

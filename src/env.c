@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 int	ft_env(t_minishell *mini)
 {
 	int	i;

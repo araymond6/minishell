@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 //s_cmd : attribute values for cmd, path, and, arg_cmd
 int	check_command(t_minishell *mini, int i, int j)
 {

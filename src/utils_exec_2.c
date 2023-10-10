@@ -22,6 +22,8 @@ int	nbr_arg(t_minishell *mini, int i, int j)
 	return (space);
 }
 
+
+
 int	file_n_redir_calloc(t_minishell *mini, int c)
 {
 	int	k;

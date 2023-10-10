@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 // check if it<s a build0in or not and execute it
 int	execute_cmd_buildin(t_minishell *mini)
 {
@@ -77,6 +79,24 @@ int	child(t_minishell *mini)
 	return (execute_cmd_buildin(mini));
 }
 
+int to_fork(t_minishell *mini, int *pids, int i, int n)
+{
+	pids[i] = fork();
+	if (pids[i] < 0)
+		return (free_scmd(mini->s_cmd), message_perror("Fork"));
+	else if (pids[i] == 0)
+	{
+		child(mini);
+		mini->s_cmd = mini->s_cmd->next;
+	}
+	else if (pids[i] > 0)
+	{
+		parent(mini->s_cmd);
+		mini->s_cmd = mini->s_cmd->next;
+		forker(n - 1, pids +1, mini);
+	}
+}
+
 int	forker(int n, int *pids, t_minishell *mini)
 {
 	int	i;
@@ -100,23 +120,8 @@ int	forker(int n, int *pids, t_minishell *mini)
 			forker(n - 1, pids +1, mini);
 		}
 		else
-		{
-			pids[i] = fork();
-			if (pids[i] < 0)
-				return (free_scmd(mini->s_cmd), message_perror("Fork"));
-			else if (pids[i] == 0)
-			{
-				child(mini);
-				mini->s_cmd = mini->s_cmd->next;
-			}
-			else if (pids[i] > 0)
-			{
-				//allo
-				parent(mini->s_cmd);
-				mini->s_cmd = mini->s_cmd->next;
-				forker(n - 1, pids +1, mini);
-			}
-		}
+			if(to_fork(mini, pids, i, n))
+				return(1);
 	}
 	return (0);
 }

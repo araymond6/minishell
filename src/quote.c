@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 void	quote_cmd(t_minishell *mini, int *i, int *j)
 {
 	mini->cmd[mini->parse.c][(*j)++] = mini->arg[(*i)++];

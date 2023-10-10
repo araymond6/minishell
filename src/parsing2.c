@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 {
 	if (mini->arg[*i] == '\'')

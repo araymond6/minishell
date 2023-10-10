@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 int	redir_parsing(t_minishell *mini)
 {
 	int	i;
