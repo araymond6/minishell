@@ -15,7 +15,6 @@ int	check_command(t_minishell *mini, int i, int j)
 		j++;
 	if (!mini->s_cmd->cmd_arg || s_cmd_arg_cmd_first(mini, i, j) == -1)
 		return (-1);
-	printf("%d", mini->s_cmd->narg);
 	if (mini->s_cmd->narg > 0)
 	{
 		while (k < mini->s_cmd->narg)

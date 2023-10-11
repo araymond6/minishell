@@ -191,9 +191,6 @@ int process(t_minishell *mini)
 
 	n = 0;
 	i = 0;
-	while(mini->s_cmd->cmd_arg[i])
-		printf("->%s<-\n", mini->s_cmd->cmd_arg[i++]);
-	i = 0;
 	while (mini->cmd[n])
 		n++;
 	all_here_doc(mini, n);
