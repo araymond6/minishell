@@ -5,12 +5,14 @@ CC = gcc
 CFLAGS = -g #-Wall -Wextra -Werror
 
 LFLAGS = -lreadline -lncurses
-RLINE_DIR = -L${HOME}/.brew/opt/readline/lib
 
 SRC_DIR = src/
 OBJ_DIR = obj/
 INC_DIR = include/
 LIB_DIR = libft
+RL_DIR = include/readline/
+RL = readline-8.2
+RLINE = $(RL_DIR)/libreadline.a
 
 SRCS =	build-in.c \
 		change_fd.c \
@@ -54,7 +56,7 @@ RESET = \033[0m
 GREEN = \033[92m
 MAGENTA = \033[95m
 
-all: lib $(NAME)
+all: readline lib $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(DEP_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Compiling $<...$(GREEN)----$(RESET)"
@@ -67,6 +69,17 @@ $(NAME): $(OBJ_PRE)
 	$(CC) $(CFLAGS) $(RLINE_DIR) $(LFLAGS) $(LIBFT) -o $@ $^
 	@echo "$(GREEN)-----$(MAGENTA)Minishell compiled!$(GREEN)-----$(RESET)"
 
+readline:
+	@if [ ! -f ./include/readline/libreadline.a ]; then \
+		mkdir -p $(RL_DIR); \
+		curl -O https://ftp.gnu.org/gnu/readline/$(RL).tar.gz; \
+		tar -xf $(RL).tar.gz; \
+		rm -rf $(RL).tar.gz; \
+		cd $(RL) && bash configure && make; \
+		mv ./libreadline.a ../include/readline; \
+		rm -rf ../$(RL); \
+		fi
+
 clean:
 	@echo "$(GREEN)-----$(MAGENTA) Cleaning project...  $(GREEN)-----$(RESET)"
 	rm -rf $(OBJ_DIR)
@@ -78,9 +91,6 @@ fclean: clean
 	rm -rf $(NAME)
 	make fclean -C $(LIB_DIR)
 	@echo "$(GREEN)------$(MAGENTA)  Program removed!  $(GREEN)------$(RESET)"
-
-readline: 
-	brew install readline
 
 lib: 
 	@make -C $(LIB_DIR)

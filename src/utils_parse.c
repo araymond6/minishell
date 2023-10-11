@@ -26,7 +26,7 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	mini->sigact.sa_handler = signal_handler;
 	mini->exit_code = 0;
 	sigaction(SIGINT, &mini->sigact, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	sigaction(SIGQUIT, &mini->sigact, NULL);
 	sigaction(SIGTSTP, &mini->sigact, NULL);
 }
 

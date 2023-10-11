@@ -2,6 +2,7 @@
 # define MAIN_H
 # define ERROR 1
 # define SUCCESS 0
+# define READLINE_LIBRARY
 
 # include <stdio.h>
 # include <unistd.h>
@@ -16,8 +17,8 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "readline.h"
+# include "history.h"
 # include "../libft/src/libft.h"
 
 //TODO check diffrence and change for the aurelias env

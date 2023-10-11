@@ -96,8 +96,6 @@ int child(t_minishell *mini)
             change_out(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
         }
     }
-	printf("lol");
-	printf("--%s--", mini->s_cmd->cmd);
     return (execute_cmd_buildin(mini));
 }
 
@@ -192,9 +190,6 @@ int process(t_minishell *mini)
 	int		n;
 
 	n = 0;
-	i = 0;
-	while(mini->s_cmd->cmd_arg[i])
-		printf("->%s<-\n", mini->s_cmd->cmd_arg[i++]);
 	i = 0;
 	while (mini->cmd[n])
 		n++;
