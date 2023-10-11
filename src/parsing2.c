@@ -68,7 +68,7 @@ static void	pipe_parse(t_minishell *mini, int *i)
 	mini->cmd[mini->parse.c] = \
 	ft_calloc((*i + mini->parse.sub + 1), sizeof(char));
 	if (!mini->cmd[mini->parse.c])
-		malloc_error(mini);
+		malloc_error(mini); //TODO: same malloc stuff here
 	mini->parse.end_block = *i - 1;
 	get_block(mini);
 	mini->parse.start_block = *i + 1;
