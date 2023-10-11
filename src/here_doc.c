@@ -14,6 +14,7 @@ int	read_write(char *delimiter, int fd)
 		i = 1;
 	else
 	{
+		
 		write(fd, new_line, ft_strlen(new_line));
 		write(fd, "\n", 1);
 	}

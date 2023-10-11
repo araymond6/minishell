@@ -24,9 +24,10 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	mini->envp = envp;
 	mini->path = get_path(mini);
 	mini->sigact.sa_handler = signal_handler;
-	mini->exit_code = 127;
+	mini->exit_code = 0;
 	sigaction(SIGINT, &mini->sigact, NULL);
-	sigaction(SIGQUIT, &mini->sigact, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	sigaction(SIGTSTP, &mini->sigact, NULL);
 }
 
 // will need at some point
@@ -59,15 +60,8 @@ void	clear_mini(t_minishell *mini)
 		free(mini->arg);
 		mini->arg = NULL;
 	}
-	if (!mini->cmd)
-		return ;
-	while (mini->cmd[i])
-	{
-		free(mini->cmd[i]);
-		mini->cmd[i] = NULL;
-		i++;
-	}
-	free(mini->cmd);
+	if (mini->cmd)
+		free_array(mini->cmd);
 	mini->cmd = NULL;
 }
 

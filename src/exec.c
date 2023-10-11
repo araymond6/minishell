@@ -14,6 +14,7 @@ int execute_cmd_buildin(t_minishell *mini)
 	}
 	else
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
 		{
 			free_scmd(mini->s_cmd);
