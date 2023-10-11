@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 static char	*sub_exception(t_minishell *mini, int *i)
 {
 	char	*arg;

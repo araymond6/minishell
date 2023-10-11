@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 // clears history, frees mini's uses and exits program
 void	exit_program(t_minishell *mini)
 {

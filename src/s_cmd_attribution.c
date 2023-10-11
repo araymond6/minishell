@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 //initialize s_cmd
 void	initialize_s_cmd(t_cmd *cmd)
 {

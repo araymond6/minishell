@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 //TODO: FIX PARSE_ERROR
 
 // main parsing func, block++ for amount of char* necessary to malloc.
@@ -81,7 +79,7 @@ static int	parse(t_minishell *mini)
 {
 	char	*arg;
 	
-	arg = ft_strtrim(mini->arg, " ");
+	arg = ft_strtrim(mini->arg, " \t\n");
 	free(mini->arg);
 	if (!arg)
 		malloc_error(mini);

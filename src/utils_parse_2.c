@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 void	parse_exit(t_minishell *mini)
 {
 	perror("Error");
@@ -81,9 +79,10 @@ void	signal_handler(int signal)
 	{
 		kill(0, 0);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
+		rl_on_new_line(); //TODO: fix ctrl-c signal (error after typing)
+		rl_redisplay();
 	}
-	else if (signal == SIGQUIT)
+	else if (signal == SIGTSTP)
 	{
 		kill(0, 0);
 		ft_putchar_fd('\n', STDOUT_FILENO);

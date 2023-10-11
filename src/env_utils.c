@@ -37,3 +37,24 @@ int	while_table(t_minishell *mini, int *j, int *c, char **table)
 	}
 	return (0);
 }
+
+void	print_env(t_minishell *mini)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (mini->envp[i])
+	{
+		printf("declare -x ");
+		j = 0;
+		while (mini->envp[i][j] != '=')
+			printf("%c", mini->envp[i][j++]);
+		printf("%c", mini->envp[i][j++]);
+		printf("\"");
+		while (mini->envp[i][j])
+			printf("%c", mini->envp[i][j++]);
+		printf("\"\n");
+		i++;
+	}
+}

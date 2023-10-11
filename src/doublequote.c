@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 //adds everything in double quote to mini->cmd
 void	doublequote_cmd(t_minishell *mini, int *i, int *j)
 {

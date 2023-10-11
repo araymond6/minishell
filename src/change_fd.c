@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 // change the STDIN for the infile if a < or << is in the command line
 int	change_inf(char c, char *file)
 {

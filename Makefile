@@ -36,7 +36,7 @@ SRCS =	build-in.c \
 		utils.c \
 		export.c \
 		env_unset.c \
-		env_unset2.c \
+		env_utils.c \
 		utils.c \
 		pwd_cd_echo.c \
 		exit.c  

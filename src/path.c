@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 // this function add / and command at the end of all possible path find in env
 void	join_path_command(char **path, char *command)
 {

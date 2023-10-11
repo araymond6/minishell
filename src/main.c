@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-
-
 int	x_comm(t_minishell *mini)
 {
 	process(mini);
