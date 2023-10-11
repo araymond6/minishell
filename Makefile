@@ -66,7 +66,7 @@ $(OBJ_DIR)%.o: %.c $(DEP_PRE)
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Compiling minishell..$(GREEN)----$(RESET)"
-	$(CC) $(CFLAGS) $(RLINE_DIR) $(LFLAGS) $(LIBFT) -o $@ $^
+	$(CC) $(CFLAGS) $(RLINE) $(LFLAGS) $(LIBFT) -o $@ $^
 	@echo "$(GREEN)-----$(MAGENTA)Minishell compiled!$(GREEN)-----$(RESET)"
 
 readline:
@@ -76,7 +76,7 @@ readline:
 		tar -xf $(RL).tar.gz; \
 		rm -rf $(RL).tar.gz; \
 		cd $(RL) && bash configure && make; \
-		mv ./libreadline.a ../include/readline; \
+		mv ./libreadline.a ../$(RL_DIR); \
 		rm -rf ../$(RL); \
 		fi
 

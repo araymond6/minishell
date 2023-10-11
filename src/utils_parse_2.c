@@ -79,7 +79,8 @@ void	signal_handler(int signal)
 	{
 		kill(0, 0);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line(); //TODO: fix ctrl-c signal (error after typing)
+		rl_on_new_line();
+		rl_replace_line("", 0);
 	}
 	else if (signal == SIGTSTP)
 	{
