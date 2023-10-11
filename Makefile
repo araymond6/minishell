@@ -83,6 +83,7 @@ readline:
 clean:
 	@echo "$(GREEN)-----$(MAGENTA) Cleaning project...  $(GREEN)-----$(RESET)"
 	rm -rf $(OBJ_DIR)
+	rm -rf $(RLINE)
 	make clean -C $(LIB_DIR)
 	@echo "$(GREEN)------$(MAGENTA)  Project cleaned!  $(GREEN)------$(RESET)"
 

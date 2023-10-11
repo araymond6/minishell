@@ -17,8 +17,8 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include <string.h>
-# include "readline.h"
-# include "history.h"
+# include "readline/readline.h"
+# include "readline/history.h"
 # include "../libft/src/libft.h"
 
 //TODO check diffrence and change for the aurelias env
