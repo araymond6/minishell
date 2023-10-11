@@ -19,23 +19,6 @@ int	ft_cd(t_cmd *cmd)
 	return (0);
 }
 
-int	p_echo_next(char c, int q)
-{
-	if (c == 34 && q == 0)
-		q = 1;
-	else if (c == 39 && q == 0)
-		q = 2;
-	else if ((c == 34 && q == 1) || (c == 39 && q == 2))
-		q = 0;
-	if (c != 34 && c != 39)
-		printf("%c", c);
-	else if (c == 34 && q == 2)
-		printf("%c", c);
-	else if (c == 39 && q == 1)
-		printf("%c", c);
-	return (q);
-}
-
 void	p_echo(char **str, int r, int n)
 {
 	int	i;
@@ -51,7 +34,7 @@ void	p_echo(char **str, int r, int n)
 			i++;
 		}
 		i = 0;
-		if (str[++r] != NULL)
+		if (str[++r])
 			write(1, " ", 1);
 	}
 	if (n == 0 || n == 2)
