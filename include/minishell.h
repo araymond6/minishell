@@ -169,7 +169,6 @@ void	ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
 int		forker(int n, int *pids, t_minishell *mini);
 void	print_env(t_minishell *mini);
-int		forker(int n, int *pids, t_minishell *mini);
 void	free_scmd_execve(t_cmd *cmd);
 int		count_quote2(char *cmd, int i);
 

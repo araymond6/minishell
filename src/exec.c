@@ -39,11 +39,12 @@ int execute_cmd_buildin(t_minishell *mini)
 			len++;
 		}
 		ft_strlcpy(cmd, mini->s_cmd->path, ft_strlen(mini->s_cmd->path));
+		free(mini->s_cmd);
 		if (execve(cmd, tab_path, NULL) == -1)
 		{
 			free(cmd);
 			free_array(tab_path);
-			return (message_perror("EXECVE"));
+			exit(message_perror("EXECVE"));
 		}
 	}
 	return (0);
@@ -73,30 +74,30 @@ int parent(t_cmd *cmd)
 // child side of the process - make the execution
 int child(t_minishell *mini)
 {
-    int i;
-    i = -1;
-    if (mini->s_cmd->prev->cmd != NULL)
-        if (dup2(mini->s_cmd->prev->fd[0], STDIN_FILENO) == -1)
-            return (close(mini->s_cmd->fd[0]), \
-                close(mini->s_cmd->fd[1]), EXIT_FAILURE);
-    if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
-        if (dup2(mini->s_cmd->fd[1], STDOUT_FILENO) == -1)
-            return (close(mini->s_cmd->fd[0]), \
-                close(mini->s_cmd->fd[1]), EXIT_FAILURE);
-    if (mini->s_cmd->prev->cmd != NULL)
-        close(mini->s_cmd->prev->fd[0]);
-    if (mini->s_cmd->next->cmd == NULL)
-        close(mini->s_cmd->fd[0]);
-    close(mini->s_cmd->fd[1]);
-    if (mini->s_cmd->redir)
-    {
-        while (mini->s_cmd->redir[++i])
-        {
-            change_inf(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
-            change_out(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
-        }
-    }
-    return (execute_cmd_buildin(mini));
+	int i;
+	i = -1;
+	if (mini->s_cmd->prev->cmd != NULL)
+		if (dup2(mini->s_cmd->prev->fd[0], STDIN_FILENO) == -1)
+			return (close(mini->s_cmd->fd[0]), \
+				close(mini->s_cmd->fd[1]), EXIT_FAILURE);
+	if (mini->s_cmd->next->cmd != NULL && mini->s_cmd->next)
+		if (dup2(mini->s_cmd->fd[1], STDOUT_FILENO) == -1)
+			return (close(mini->s_cmd->fd[0]), \
+				close(mini->s_cmd->fd[1]), EXIT_FAILURE);
+	if (mini->s_cmd->prev->cmd != NULL)
+		close(mini->s_cmd->prev->fd[0]);
+	if (mini->s_cmd->next->cmd == NULL)
+		close(mini->s_cmd->fd[0]);
+	close(mini->s_cmd->fd[1]);
+	if (mini->s_cmd->redir)
+	{
+		while (mini->s_cmd->redir[++i])
+		{
+			change_inf(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+			change_out(mini->s_cmd->redir[i], mini->s_cmd->file[i]);
+		}
+	}
+	return (execute_cmd_buildin(mini));
 }
 
 int to_fork(t_minishell *mini, int *pids, int i, int n)
@@ -200,9 +201,8 @@ int process(t_minishell *mini)
 		forker(n, pids, mini);
 	i = 0;
 	while (i < n)
-	{		waitpid(pids[i], &mini->s_cmd->status, 0);
-		if (WEXITSTATUS(mini->s_cmd->status) == 1)
-			message_perror("WEXITSTATUS");
+	{	
+		waitpid(pids[i], &mini->s_cmd->status, 0);
 		i++;
 	}
 	return (0);

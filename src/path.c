@@ -6,6 +6,8 @@ void	join_path_command(char **path, char *command)
 	int	i_path;
 
 	i_path = 0;
+	if (!path)
+		return ;
 	while (path[i_path])
 	{
 		path[i_path] = ft_strjoin(path[i_path], "/");
@@ -27,6 +29,8 @@ char	*test_path(char **path)
 	int		path_len;
 
 	i_path = 0;
+	if(!path)
+		return(NULL);
 	while (path[i_path])
 	{
 		if (access(path[i_path], X_OK) == 0)

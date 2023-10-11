@@ -54,13 +54,22 @@ int	redir_count(char *cmd)
 	int	i;
 	int	count;
 
-	i = -1;
+	i = 0;
 	count = 0;
-	while (cmd[++i])
+	while (cmd[i])
 	{
-		if(cmd[i] == ' ')
+		if (cmd[i] == '\"')
+		{
 			i++;
-		i = count_quote(cmd, i);
+			while (cmd[i] != '\"')
+				i++;
+		}
+		else if (cmd[i] == '\'')
+		{
+			i++;
+			while (cmd[i] != '\'')
+				i++;
+		}
 		if (cmd[i] == '<')
 		{
 			count += 1;
@@ -73,6 +82,7 @@ int	redir_count(char *cmd)
 			if (cmd[i + 1] == '>')
 				i++;
 		}
+		i++;
 	}
 	return (count);
 }
