@@ -2,9 +2,10 @@
 
 int	count_quote2(char *cmd, int i)
 {
-	while(cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>' && cmd[i])
+	while (cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>' && cmd[i])
 	{
-		while(cmd[i] != '\"' && cmd[i] != '\'' && cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>' && cmd[i])
+		while (cmd[i] != '\"' && cmd[i] != '\'' && cmd[i] != ' ' && \
+		cmd[i] != '<' && cmd[i] != '>' && cmd[i])
 			i++;
 		if (cmd[i] == '\"')
 		{
@@ -26,9 +27,9 @@ int	count_quote2(char *cmd, int i)
 
 int	count_quote(char *cmd, int i)
 {
-	while(cmd[i] != ' ' && cmd[i])
+	while (cmd[i] != ' ' && cmd[i])
 	{
-		while(cmd[i] != '\"' && cmd[i] != '\'' && cmd[i] != ' ' && cmd[i])
+		while (cmd[i] != '\"' && cmd[i] != '\'' && cmd[i] != ' ' && cmd[i])
 			i++;
 		if (cmd[i] == '\"')
 		{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/11 14:59:05 by araymond          #+#    #+#             */
+/*   Updated: 2023/10/11 15:14:32 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char	*env_parsing(t_minishell *mini, int *i, int *j)
@@ -14,7 +26,8 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 			if (mini->s_cmd->cmd_arg[*i][*j] != '_')
 			{
 				free(str);
-				printf("export: \"%s\": not a valid identifier\n", mini->s_cmd->cmd_arg[*i]);
+				printf("export: \"%s\": not a valid identifier\n", \
+				mini->s_cmd->cmd_arg[*i]);
 				mini->exit_code = 1;
 				return (NULL);
 			}
@@ -25,17 +38,15 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 	return (str);
 }
 
-// everything after the '=' is good, any non alnum char is wrong if before '=' except '_'
-// returns -1 if not good and >=0 if VAR exists already. returns -2 otherwise
-static int	export_parsing(t_minishell *mini, int *i)
+/* everything after the '=' is good, any non alnum 
+char is wrong if before '=' except '_'
+ returns -1 if not good and >=0 if VAR exists already. 
+ returns -2 otherwise */
+static int	export_parsing(t_minishell *mini, int *i, int j, int k)
 {
-	int		j;
-	int		k;
 	char	*str;
 	char	*new;
 
-	j = 0;
-	k = 0;
 	str = env_parsing(mini, i, &k);
 	if (!str)
 		return (-1);
@@ -44,7 +55,7 @@ static int	export_parsing(t_minishell *mini, int *i)
 	new = ft_strjoin(str, "=");
 	free(str);
 	if (!new)
-		return (malloc_error(mini), -1);
+		return (malloc_error(mini, NULL), -1);
 	while (mini->envp[j])
 	{
 		if (!ft_strncmp(mini->envp[j], new, ft_strlen(new)))
@@ -61,19 +72,44 @@ static int	export_parsing(t_minishell *mini, int *i)
 static int	export_error_check(t_minishell *mini, int *i, int *c)
 {
 	if (mini->s_cmd->cmd_arg[*i][0] == '\0' \
-	|| ft_isdigit(mini->s_cmd->cmd_arg[*i][0]) || mini->s_cmd->cmd_arg[*i][0] == '=')
+	|| ft_isdigit(mini->s_cmd->cmd_arg[*i][0]) || \
+	mini->s_cmd->cmd_arg[*i][0] == '=')
 	{
-		printf("export: \"%s\": not a valid identifier\n", mini->s_cmd->cmd_arg[*i]);
+		printf("export: \"%s\": not a valid identifier\n", \
+		mini->s_cmd->cmd_arg[*i]);
 		mini->exit_code = 1;
 		(*i)++;
 		return (1);
 	}
-	*c = export_parsing(mini, i);
+	*c = export_parsing(mini, i, 0, 0);
 	if (*c == -1)
 	{
 		(*i)++;
 		return (1);
 	}
+	return (0);
+}
+
+static int	add_to_table(t_minishell *mini, char **table, int *i, int *j)
+{
+	int param;
+
+	param = 0;
+	table[*j] = ft_calloc(sizeof(char), \
+	ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1); // do error check
+	if (!table[*j])
+	{
+		table[*j] = NULL;
+		return (malloc_error(mini, table), 1);
+	}
+	while (mini->s_cmd->cmd_arg[*i][param])
+	{
+		table[*j][param] = mini->s_cmd->cmd_arg[*i][param];
+		param++;
+	}
+	if (!ft_strncmp(table[*j], "PATH=", 5))
+		mini->path = table[*j];
+	(*j)++;
 	return (0);
 }
 
@@ -96,15 +132,8 @@ static char	**export_table(t_minishell *mini, int *i, int *c)
 	param = while_table(mini, &j, c, table);
 	if (param == 0)
 	{
-		table[j] = ft_calloc(sizeof(char), ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1); // do error check
-		while (mini->s_cmd->cmd_arg[*i][param])
-		{
-			table[j][param] = mini->s_cmd->cmd_arg[*i][param];
-			param++;
-		}
-		if (!ft_strncmp(table[j], "PATH=", 5))
-			mini->path = table[j];
-		j++;
+		if (add_to_table(mini, table, i, &j) == 1)
+			return (NULL);
 	}
 	table[j] = NULL;
 	(*i)++;

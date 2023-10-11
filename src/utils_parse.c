@@ -65,9 +65,12 @@ void	clear_mini(t_minishell *mini)
 	mini->cmd = NULL;
 }
 
-void	malloc_error(t_minishell *mini)
+// sets error code to 1, prints error message 
+// and frees array if deemed necessary
+void	malloc_error(t_minishell *mini, char **to_free)
 {
 	mini->exit_code = 1;
+	if (to_free)
+		free_array(to_free);
 	message_perror("malloc");
-	exit_program(mini);
 }

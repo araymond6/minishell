@@ -6,7 +6,8 @@ int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 		quote_cmd(mini, i, j);
 	else if (mini->arg[*i] == '\"')
 		doublequote_cmd(mini, i, j);
-	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' && mini->arg[*i + 1] != '\0')
+	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' \
+	&& mini->arg[*i + 1] != '\0')
 		*spec = sub_dollar(mini, i, j);
 	else if (mini->arg[*i] == '|')
 		return (1);
@@ -81,7 +82,8 @@ void	special_char_check(t_minishell *mini, int *i)
 		quote_parse(mini, i);
 	else if (mini->arg[*i] == '\"')
 		doublequote_parse(mini, i);
-	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' && mini->arg[*i + 1] != '\0')
+	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' \
+	&& mini->arg[*i + 1] != '\0')
 		count_sub_dollar(mini, i);
 	else if (mini->arg[*i] == '|')
 		pipe_parse(mini, i);

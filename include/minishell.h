@@ -134,7 +134,7 @@ char	*env_parsing(t_minishell *mini, int *i, int *j);
 
 //errors
 void	parsing_error(t_minishell *mini);
-void	malloc_error(t_minishell *mini);
+void	malloc_error(t_minishell *mini, char **to_free);
 
 //utils
 void	initialize_mini(t_minishell *mini, char **envp);

@@ -31,7 +31,7 @@ static void	allocate_cmd(t_minishell *mini)
 	i = 0;
 	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
 	if (!mini->cmd)
-		malloc_error(mini);
+		malloc_error(mini, NULL); //TODO: make sure there's a way out of this function in case of malloc errors
 	while (mini->arg[i])
 	{
 		special_char_check(mini, &i);
@@ -42,7 +42,11 @@ static void	allocate_cmd(t_minishell *mini)
 	mini->cmd[mini->parse.c] = \
 	ft_calloc((i + mini->parse.sub + 3), sizeof(char));
 	if (!mini->cmd[mini->parse.c])
-		malloc_error(mini);
+	{
+		mini->cmd[mini->parse.c] = NULL;
+		malloc_error(mini, mini->cmd);
+		return ;
+	}
 	mini->parse.end_block = i;
 	get_block(mini);
 }
@@ -78,7 +82,7 @@ static int	trim_cmd(t_minishell *mini)
 static int	parse(t_minishell *mini)
 {
 	char	*arg;
-	
+
 	arg = ft_strtrim(mini->arg, " \t\n");
 	free(mini->arg);
 	if (!arg)

@@ -3,8 +3,8 @@
 // this function add / and command at the end of all possible path find in env
 void	join_path_command(char **path, char *command)
 {
-	int	i_path;
-	char *path1;
+	int		i_path;
+	char	*path1;
 
 	i_path = 0;
 	if (!path)
@@ -34,8 +34,8 @@ char	*test_path(char **path)
 	int		path_len;
 
 	i_path = 0;
-	if(!path)
-		return(NULL);
+	if (!path)
+		return (NULL);
 	while (path[i_path])
 	{
 		if (access(path[i_path], X_OK) == 0)
