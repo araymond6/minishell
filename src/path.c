@@ -4,19 +4,24 @@
 void	join_path_command(char **path, char *command)
 {
 	int	i_path;
+	char *path1;
 
 	i_path = 0;
 	if (!path)
 		return ;
 	while (path[i_path])
 	{
-		path[i_path] = ft_strjoin(path[i_path], "/");
+		path1 = path[i_path];
+		path[i_path] = ft_strjoin(path1, "/");
+		free(path1);
 		i_path++;
 	}
 	i_path = 0;
 	while (path[i_path])
 	{
-		path[i_path] = ft_strjoin(path[i_path], command);
+		path1 = path[i_path];
+		path[i_path] = ft_strjoin(path1, command);
+		free(path1);
 		i_path++;
 	}
 }
