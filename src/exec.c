@@ -39,11 +39,12 @@ int execute_cmd_buildin(t_minishell *mini)
 			len++;
 		}
 		ft_strlcpy(cmd, mini->s_cmd->path, ft_strlen(mini->s_cmd->path));
-		if (execve(cmd, tab_path, NULL) == -1)
+		free_scmd(mini->s_cmd);
+		if (execve(cmd, tab_path, mini->envp) == -1)
 		{
 			free(cmd);
 			free_array(tab_path);
-			return (message_perror("EXECVE"));
+			exit(message_perror("EXECVE"));
 		}
 	}
 	return (0);
@@ -51,24 +52,26 @@ int execute_cmd_buildin(t_minishell *mini)
 // parent side of the process
 int parent(t_cmd *cmd)
 {
-    int originalstdin;
-    originalstdin = dup(STDIN_FILENO);
-    close(cmd->fd[1]);
-    if (cmd->prev->cmd != NULL)
-    {
-        if (dup2(cmd->prev->fd[0], STDIN_FILENO) == -1)
-        {
-            close(cmd->fd[0]);
-            exit(EXIT_FAILURE);
-        }
-    }
-    if (cmd->prev->cmd != NULL)
-        close(cmd->prev->fd[0]);
-    if (cmd->next->cmd == NULL)
-        close(cmd->fd[0]);
-    if (dup2(originalstdin, STDIN_FILENO) == -1)
-        return (message_perror("Error restoring stdin"));
-    return (0);
+	int originalstdin;
+	originalstdin = dup(STDIN_FILENO);
+	close(cmd->fd[1]);
+	if (cmd->prev->cmd != NULL)
+	{
+		if (dup2(cmd->prev->fd[0], STDIN_FILENO) == -1)
+		{
+			close(cmd->fd[0]);
+			close(originalstdin);
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (cmd->prev->cmd != NULL)
+		close(cmd->prev->fd[0]);
+	if (cmd->next->cmd == NULL)
+		close(cmd->fd[0]);
+	if (dup2(originalstdin, STDIN_FILENO) == -1)
+		return (message_perror("Error restoring stdin"));
+	close(originalstdin);
+	return (0);
 }
 // child side of the process - make the execution
 int child(t_minishell *mini)
@@ -136,19 +139,14 @@ int	forker(int n, int *pids, t_minishell *mini)
 		}
 		else if(isbuildin(mini->s_cmd->cmd) == 0)
 		{
-			if(mini->s_cmd->next)
-			{
-				originalstdout = dup(STDOUT_FILENO);
-				if (dup2(mini->s_cmd->prev->fd[1], STDOUT_FILENO) == -1)
-					return(close(mini->s_cmd->fd[1]), close(mini->s_cmd->fd[0]), EXIT_FAILURE);
-			}
+			originalstdout = dup(STDOUT_FILENO);
+			if (dup2(mini->s_cmd->fd[1], STDOUT_FILENO) == -1)
+				return(close(mini->s_cmd->fd[1]), close(mini->s_cmd->fd[0]), EXIT_FAILURE);
 			execute_buildin(mini);
 			parent(mini->s_cmd);
-			if(mini->s_cmd->next)
-			{
-				if (dup2(originalstdout, STDIN_FILENO) == -1)
-					return (message_perror("Error restoring stdout"));
-			}
+			if (dup2(originalstdout, STDOUT_FILENO) == -1)
+				return (message_perror("Error restoring stdout"));
+			close(originalstdout);
 			mini->s_cmd = mini->s_cmd->next;
 			forker(n - 1, pids +1, mini);
 		}
@@ -200,9 +198,8 @@ int process(t_minishell *mini)
 		forker(n, pids, mini);
 	i = 0;
 	while (i < n)
-	{		waitpid(pids[i], &mini->s_cmd->status, 0);
-		if (WEXITSTATUS(mini->s_cmd->status) == 1)
-			message_perror("WEXITSTATUS");
+	{	
+		waitpid(pids[i], &mini->s_cmd->status, 0);
 		i++;
 	}
 	return (0);
