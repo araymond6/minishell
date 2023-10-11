@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 //this function check if command is a buildin to program
 int	isbuildin(char *isbuildin)
 {

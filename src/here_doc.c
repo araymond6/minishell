@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 // function who read the entry and put it in the here_doc file
 int	read_write(char *delimiter, int fd)
 {
@@ -14,7 +16,7 @@ int	read_write(char *delimiter, int fd)
 		i = 1;
 	else
 	{
-		write(fd, new_line, strlen(new_line));
+		write(fd, new_line, ft_strlen(new_line));
 		write(fd, "\n", 1);
 	}
 	free(new_line);

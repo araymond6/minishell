@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 void	parse_exit(t_minishell *mini)
 {
 	perror("Error");
@@ -50,7 +52,7 @@ static char	*while_env(t_minishell *mini, int *i, int *k, char *new)
 	return (NULL);
 }
 
-// checks our minishell's envp for the env variable, returns char *;
+// checks our minishell's envp for the env variable, returns char* if found;
 char	*check_env(t_minishell *mini, char *arg)
 {
 	int		i;
@@ -77,13 +79,14 @@ void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		kill(0, 0);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
-		rl_redisplay();
 	}
 	else if (signal == SIGQUIT)
 	{
+		kill(0, 0);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
-		rl_redisplay();
 	}
 }

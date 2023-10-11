@@ -35,6 +35,7 @@ typedef struct s_cmd
 	int				narg;
 	int				status;
 	int				fd_stdin_out[2];
+	int				splen;
 	int				qlen;
 }	t_cmd;
 
@@ -78,7 +79,7 @@ int		child(t_minishell *mini);
 int		process(t_minishell *mini);
 
 //here_doc.c
-int		read_write(t_cmd *cmd, char *delimiter, int fd);
+int		read_write(char *delimiter, int fd);
 int		here_doc(char *delimiter);
 
 //parsing_exec.c
@@ -98,7 +99,7 @@ int		select_redirection(t_minishell *mini, int i, int j);
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
-int		s_cmd_arg_cmd_first(t_minishell *mini);
+int		s_cmd_arg_cmd_first(t_minishell *mini, int i, int j);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
 int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
 
@@ -125,6 +126,7 @@ int		quote_check(t_minishell *mini, int *i);
 void	special_char_check(t_minishell *mini, int *i);
 void	add_exitcode(t_minishell *mini, int *j, char *arg);
 int		redir_parsing(t_minishell *mini);
+char	*env_parsing(t_minishell *mini, int *i, int *j);
 
 //execution
 // *surprised pikachu face* THERE'S NOTHING
@@ -157,10 +159,15 @@ int		ft_echo(t_cmd *cmd);
 int		ft_env(t_minishell *mini);
 int		ft_export(t_minishell *mini);
 int		ft_unset(t_minishell *mini);
+int		while_table(t_minishell *mini, int *j, int *c, char **table);
+int		set_table(t_minishell *mini, char **table, int *j, int *k);
 void	free_scmd(t_cmd *cmd);
 int		count_quote(char *cmd, int i);
 void	free_scmd(t_cmd *cmd);
 void	ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
+int	forker(int n, int *pids, t_minishell *mini);
+void	free_scmd_execve(t_cmd *cmd);
+int	count_quote2(char *cmd, int i);
 
 #endif

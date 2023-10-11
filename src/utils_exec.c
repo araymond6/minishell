@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 //free an array
 void	free_array(char **array)
 {
