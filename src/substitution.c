@@ -37,16 +37,19 @@ int	sub_dollar(t_minishell *mini, int *i, int *j)
 		(*i)++;
 		return (free(arg), 0);
 	}
-	add_from_env(mini, j, arg);
+	if (add_from_env(mini, j, arg))
+	{
+		if (mini->arg[*i] && (mini->arg[*i + 1] == ' ' || \
+		mini->arg[*i + 1] == '\t' || mini->arg[*i + 1] == '\n'))
+			(*i)++;
+	}
 	if (mini->arg[*i] == '$')
 		sub_dollar(mini, i, j);
 	return (free(arg), 0);
 }
 
-static int	count_sub_exception(t_minishell *mini, char *arg, int *i)
+static int	count_sub_exception(t_minishell *mini, char *arg, int *i, char *exception)
 {
-	char	*exception;
-
 	if (mini->arg[*i] == '?' && mini->arg[*i - 1] == '$')
 	{
 		exception = ft_itoa(mini->exit_code);
@@ -61,7 +64,12 @@ static int	count_sub_exception(t_minishell *mini, char *arg, int *i)
 		(*i)++;
 		return (0);
 	}
-	add_sub_env(mini, arg);
+	if (add_sub_env(mini, arg))
+	{
+		if (mini->arg[*i] && (mini->arg[*i + 1] == ' ' || \
+		mini->arg[*i + 1] == '\t' || mini->arg[*i + 1] == '\n'))
+			(*i)++;
+	}
 	if (mini->arg[*i] == '$')
 		count_sub_dollar(mini, i);
 	free(arg);
@@ -88,6 +96,6 @@ int	count_sub_dollar(t_minishell *mini, int *i)
 		arg[j++] = mini->arg[(*i)++];
 		mini->parse.sub--;
 	}
-	count_sub_exception(mini, arg, i);
+	count_sub_exception(mini, arg, i, NULL);
 	return (0);
 }

@@ -72,16 +72,19 @@ static int	trim_cmd(t_minishell *mini)
 		free(temp);
 		temp = NULL;
 	}
-	i = 0;
-	while (mini->cmd[i]) // make sure this is handled properly depending on parsing
-	{
-		if (mini->cmd[i][0] == '\0')
-		{
-			parsing_error(mini);
-			return (1);
-		}
-		i++;
-	}
+	// if (count_2darray(mini->cmd) > 1)
+	// {
+	// 	i = 0;
+	// 	while (mini->cmd[i]) // make sure this is handled properly depending on parsing
+	// 	{
+	// 		if (mini->cmd[i][0] == '\0')
+	// 		{
+	// 			parsing_error(mini);
+	// 			return (1);
+	// 		}
+	// 		i++;
+	// 	}
+	// }
 	return (0);
 }
 

@@ -1,17 +1,17 @@
 #include "../include/minishell.h"
 
 // adds to mini->parse.sub the c count if found
-void	add_sub_env(t_minishell *mini, char *arg)
+int	add_sub_env(t_minishell *mini, char *arg)
 {
 	int		i;
 	char	*new;
 
 	i = 0;
 	if (!arg || arg[0] == '\0')
-		return ;
+		return (0);
 	new = check_env(mini, arg);
 	if (!new || new[0] == '\0')
-		return ;
+		return (1);
 	while (new[i] != '=')
 		i++;
 	i++;
@@ -21,10 +21,11 @@ void	add_sub_env(t_minishell *mini, char *arg)
 		i++;
 	}
 	free(new);
+	return (0);
 }
 
 //adds the substitution of the env var to mini->cmd
-void	add_from_env(t_minishell *mini, int *j, char *arg)
+int	add_from_env(t_minishell *mini, int *j, char *arg)
 {
 	char	*new;
 	int		k;
@@ -32,13 +33,14 @@ void	add_from_env(t_minishell *mini, int *j, char *arg)
 	k = 0;
 	new = check_env(mini, arg);
 	if (!new || new[0] == '\0' || !arg || arg[0] == '\0')
-		return ;
+		return (1);
 	while (new[k] != '=')
 		k++;
 	k++;
 	while (new[k])
 		mini->cmd[mini->parse.c][(*j)++] = new[k++];
 	free(new);
+	return (0);
 }
 
 //exit_code exception
