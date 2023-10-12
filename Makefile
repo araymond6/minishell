@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -g #-fsanitize=address #-Wall -Wextra -Werror
+CFLAGS = -fsanitize=address -Wall -Wextra -Werror
 
 LFLAGS = -lreadline -lncurses
 
@@ -41,7 +41,9 @@ SRCS =	build-in.c \
 		env_utils.c \
 		utils.c \
 		pwd_cd_echo.c \
-		exit.c  
+		exit.c \
+		fork.c \
+		child_parent.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 

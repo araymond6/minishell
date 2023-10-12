@@ -38,7 +38,7 @@ void	p_echo(char **str, int r, int n)
 			write(1, " ", 1);
 	}
 	if (n == 0 || n == 2)
-		printf("\n");
+		write(1, "\n", 1);
 }
 
 int	ft_echo(t_cmd *cmd)

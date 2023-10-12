@@ -74,7 +74,7 @@ int		change_out(char c, char *file);
 int		check_command(t_minishell *mini, int i, int j);
 
 //exec.c
-int		execute_cmd_buildin(t_minishell *mini);
+int		execute_cmd(t_minishell *mini);
 int		parent(t_cmd *cmd);
 int		child(t_minishell *mini);
 int		process(t_minishell *mini);
@@ -100,7 +100,7 @@ int		select_redirection(t_minishell *mini, int i, int j);
 //s_cmd_attribution.c
 void	initialize_s_cmd(t_cmd *cmd);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
-int		s_cmd_arg_cmd_first(t_minishell *mini, int i, int j);
+int		s_cmd_arg_cmd_first(t_minishell *mini);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
 int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
 
@@ -169,7 +169,11 @@ void	ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
 int		forker(int n, int *pids, t_minishell *mini);
 void	print_env(t_minishell *mini);
-void	free_scmd_execve(t_cmd *cmd);
 int		count_quote2(char *cmd, int i);
+void	all_here_doc(t_minishell *mini);
+int		forker(int n, int *pids, t_minishell *mini);
+int		to_fork(t_minishell *mini, int *pids, int i, int n);
+int		child(t_minishell *mini);
+int		parent(t_cmd *cmd);
 
 #endif

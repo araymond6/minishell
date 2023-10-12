@@ -13,7 +13,7 @@ int	check_command(t_minishell *mini, int i, int j)
 	mini->s_cmd->cmd_arg = ft_calloc(mini->s_cmd->narg + 2, sizeof(char *));
 	if (mini->cmd[i][j] == ' ')
 		j++;
-	if (!mini->s_cmd->cmd_arg || s_cmd_arg_cmd_first(mini, i, j) == -1)
+	if (!mini->s_cmd->cmd_arg || s_cmd_arg_cmd_first(mini) == -1)
 		return (-1);
 	if (mini->s_cmd->narg > 0)
 	{
