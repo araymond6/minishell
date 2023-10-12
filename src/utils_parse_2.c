@@ -81,12 +81,7 @@ void	signal_handler(int signal)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-	}
-	else if (signal == SIGTSTP)
-	{
-		kill(0, 0);
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
+		rl_redisplay();
 	}
 	else if (signal == SIGQUIT)
 	{

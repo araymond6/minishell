@@ -62,7 +62,6 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 	if (!mini->s_cmd->cmd_arg[k])
 		return (free_scmd(mini->s_cmd), -1);
 	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
-	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
 	{
 		while (mini->cmd[i][j] != '\"' && mini->cmd[i][j] != '\'' && \
 		mini->cmd[i][j] != ' ' && mini->cmd[i][j])

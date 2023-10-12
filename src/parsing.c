@@ -1,7 +1,5 @@
 #include "../include/minishell.h"
 
-//TODO: FIX PARSE_ERROR
-
 // main parsing func, block++ for amount of char* necessary to malloc.
 static int	count_blocks(t_minishell *mini)
 {
@@ -63,14 +61,14 @@ static int	trim_cmd(t_minishell *mini)
 	while (mini->cmd[++i])
 	{
 		temp = mini->cmd[i];
-		mini->cmd[i] = ft_strtrim(mini->cmd[i], " ");
+		mini->cmd[i] = ft_strtrim(temp, " ");
+		free(temp);
+		temp = NULL;
 		if (!mini->cmd[i])
 		{
 			mini->cmd[i]= NULL;
 			return (malloc_error(mini, mini->cmd), 1);
 		}
-		free(temp);
-		temp = NULL;
 	}
 	// if (count_2darray(mini->cmd) > 1)
 	// {
@@ -95,6 +93,7 @@ static int	parse(t_minishell *mini)
 	arg = ft_strtrim(mini->arg, " \t\n");
 	if (!arg)
 		return (malloc_error(mini, NULL), 1);
+	free(mini->arg);
 	mini->arg = arg;
 	if (count_blocks(mini))
 		return (1);
@@ -126,6 +125,5 @@ void	read_input(t_minishell *mini)
 			if (create_list(mini) == 0)
 				x_comm(mini);
 		}
-		clear_mini(mini);
 	}
 }

@@ -26,7 +26,6 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	mini->sigact.sa_handler = signal_handler;
 	sigaction(SIGINT, &mini->sigact, NULL);
 	sigaction(SIGQUIT, &mini->sigact, NULL);
-	sigaction(SIGTSTP, &mini->sigact, NULL);
 }
 
 // will need at some point
@@ -61,7 +60,6 @@ void	clear_mini(t_minishell *mini)
 	}
 	if (mini->cmd)
 		free_array(mini->cmd);
-	mini->cmd = NULL;
 }
 
 // sets error code to 1, prints error message 
@@ -71,5 +69,5 @@ void	malloc_error(t_minishell *mini, char **to_free)
 	mini->exit_code = 1;
 	if (to_free)
 		free_array(to_free);
-	message_perror("malloc");
+	printf("malloc error\n");
 }

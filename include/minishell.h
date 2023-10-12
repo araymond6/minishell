@@ -21,7 +21,6 @@
 # include "readline/history.h"
 # include "../libft/src/libft.h"
 
-//TODO check diffrence and change for the aurelias env
 typedef struct s_cmd
 {
 	char			*redir;
@@ -43,7 +42,7 @@ typedef struct s_cmd
 typedef struct s_parse
 {
 	int		block_count;
-	int		c; // remove the funny comment in here somewhere
+	int		c;
 	int		sub;
 	int		start_block;
 	int		end_block;
@@ -128,9 +127,6 @@ int		special_char_check(t_minishell *mini, int *i);
 void	add_exitcode(t_minishell *mini, int *j, char *arg);
 int		redir_parsing(t_minishell *mini);
 char	*env_parsing(t_minishell *mini, int *i, int *j);
-
-//execution
-// *surprised pikachu face* THERE'S NOTHING
 
 //errors
 void	parsing_error(t_minishell *mini);

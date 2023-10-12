@@ -6,6 +6,7 @@ int	forker(int n, int *pids, t_minishell *mini)
 	int	originalstdout;
 
 	i = 0;
+	clear_mini(mini);
 	if (pipe(mini->s_cmd->fd) == -1)
 		return (free_scmd(mini->s_cmd), message_perror("Pipe"));
 	if (n > 0)
