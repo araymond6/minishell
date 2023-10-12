@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"__tuple": "c",
-		"array": "c",
-		"sstream": "c",
-		"minishell.h": "c"
-	}
-}

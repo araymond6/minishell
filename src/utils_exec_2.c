@@ -13,16 +13,16 @@ int	nbr_arg(t_minishell *mini, int i, int j)
 		&& mini->cmd[i][j + k] != '>'
 		&& mini->cmd[i][j + k] != '<')
 	{
-		if(mini->cmd[i][j+k] == '\'')
+		if (mini->cmd[i][j + k] == '\'')
 		{
 			k++;
-			while(mini->cmd[i][j+k] != '\'')
+			while (mini->cmd[i][j + k] != '\'')
 				k++;
 		}
-		if(mini->cmd[i][j+k] == '\"')
+		if (mini->cmd[i][j + k] == '\"')
 		{
 			k++;
-			while(mini->cmd[i][j+k] != '\"')
+			while (mini->cmd[i][j + k] != '\"')
 				k++;
 		}
 		if (mini->cmd[i][j + k] == ' '
@@ -33,8 +33,6 @@ int	nbr_arg(t_minishell *mini, int i, int j)
 	}
 	return (space);
 }
-
-
 
 int	file_n_redir_calloc(t_minishell *mini, int c)
 {
