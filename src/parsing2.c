@@ -5,7 +5,7 @@ int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 	if (mini->arg[*i] == '\'')
 		quote_cmd(mini, i, j);
 	else if (mini->arg[*i] == '\"')
-		doublequote_cmd(mini, i, j);
+		*spec = doublequote_cmd(mini, i, j);
 	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' \
 	&& mini->arg[*i + 1] != '\0')
 		*spec = sub_dollar(mini, i, j);
@@ -20,10 +20,12 @@ int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 			(*i)++;
 		(*i)--;
 	}
+	if (*spec == 1)
+		return (1);
 	return (0);
 }
 
-void	get_block(t_minishell *mini)
+int	get_block(t_minishell *mini)
 {
 	int	i;
 	int	j;
@@ -35,11 +37,12 @@ void	get_block(t_minishell *mini)
 	while (i < mini->parse.end_block)
 	{
 		if (special_check(mini, &i, &j, &spec))
-			return ;
+			return (1);
 		if (spec == 0)
 			mini->cmd[mini->parse.c][j++] = mini->arg[i++];
 		spec = 0;
 	}
+	return (0);
 }
 
 int	quote_check(t_minishell *mini, int *i)
@@ -63,30 +66,41 @@ int	quote_check(t_minishell *mini, int *i)
 	return (1);
 }
 
-static void	pipe_parse(t_minishell *mini, int *i)
+static int	pipe_parse(t_minishell *mini, int *i)
 {
 	mini->cmd[mini->parse.c] = \
 	ft_calloc((*i + mini->parse.sub + 1), sizeof(char));
 	if (!mini->cmd[mini->parse.c])
-		malloc_error(mini); //TODO: same malloc stuff here
+	{
+		mini->cmd[mini->parse.c] = NULL;
+		return (malloc_error(mini, mini->cmd), 1);
+	}
 	mini->parse.end_block = *i - 1;
-	get_block(mini);
+	if (get_block(mini))
+		return (1);
 	mini->parse.start_block = *i + 1;
 	mini->parse.sub = 0;
 	mini->parse.c++;
+	return (0);	
 }
 
-void	special_char_check(t_minishell *mini, int *i)
+int	special_char_check(t_minishell *mini, int *i)
 {
+	int	error;
+
+	error = 0;
 	if (mini->arg[*i] == '\'')
 		quote_parse(mini, i);
 	else if (mini->arg[*i] == '\"')
-		doublequote_parse(mini, i);
+	{
+		if (doublequote_parse(mini, i))
+			return (1);
+	}
 	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' \
 	&& mini->arg[*i + 1] != '\0')
-		count_sub_dollar(mini, i);
+		error = count_sub_dollar(mini, i);
 	else if (mini->arg[*i] == '|')
-		pipe_parse(mini, i);
+		error = pipe_parse(mini, i);
 	else if (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || \
 	mini->arg[*i] == '\n')
 	{
@@ -99,4 +113,7 @@ void	special_char_check(t_minishell *mini, int *i)
 		}
 		(*i)--;
 	}
+	if (error == 1)
+		return (1);
+	return (0);
 }

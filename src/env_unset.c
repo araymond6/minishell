@@ -26,7 +26,7 @@ static int	unset_parsing(t_minishell *mini, int *i)
 		return (free(str), -1);
 	str = ft_strjoin(mini->s_cmd->cmd_arg[*i], "=");
 	if (!str)
-		return (malloc_error(mini), -1);
+		return (malloc_error(mini, NULL), -1);
 	while (mini->envp[j])
 	{
 		if (!ft_strncmp(mini->envp[j], str, ft_strlen(str)))
@@ -69,7 +69,7 @@ static char	**unset_table(t_minishell *mini, int *i, int *c)
 	if (!table)
 	{
 		(*i)++;
-		return (NULL);
+		return (malloc_error(mini, NULL), NULL);
 	}
 	j = 0;
 	if (!ft_strncmp(mini->envp[*c], "PATH=", 5))
@@ -101,6 +101,5 @@ int	ft_unset(t_minishell *mini)
 		mini->envp = table;
 		mini->envpset = 1;
 	}
-	mini->exit_code = 0;
 	return (0);
 }

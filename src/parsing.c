@@ -13,28 +13,29 @@ static int	count_blocks(t_minishell *mini)
 		if (mini->arg[i] == '\'' || mini->arg[i] == '\"')
 		{
 			if (!quote_check(mini, &i))
-				return (0);
+				return (1);
 		}
 		else if (mini->arg[i] == '|')
 			mini->parse.block_count++;
 		i++;
 	}
 	mini->parse.block_count++;
-	return (1);
+	return (0);
 }
 
 // mallocs char*s the necessary amount of char
-static void	allocate_cmd(t_minishell *mini)
+static int	allocate_cmd(t_minishell *mini)
 {
 	int	i;
 
 	i = 0;
 	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
 	if (!mini->cmd)
-		malloc_error(mini, NULL); //TODO: make sure there's a way out of this function in case of malloc errors
+		return (malloc_error(mini, NULL), 1);
 	while (mini->arg[i])
 	{
-		special_char_check(mini, &i);
+		if (special_char_check(mini, &i))
+			return (1);
 		if (!mini->arg[i])
 			break ;
 		i++;
@@ -45,10 +46,12 @@ static void	allocate_cmd(t_minishell *mini)
 	{
 		mini->cmd[mini->parse.c] = NULL;
 		malloc_error(mini, mini->cmd);
-		return ;
+		return (1);
 	}
 	mini->parse.end_block = i;
-	get_block(mini);
+	if (get_block(mini))
+		return (1);
+	return (0);
 }
 
 static int	trim_cmd(t_minishell *mini)
@@ -62,12 +65,15 @@ static int	trim_cmd(t_minishell *mini)
 		temp = mini->cmd[i];
 		mini->cmd[i] = ft_strtrim(mini->cmd[i], " ");
 		if (!mini->cmd[i])
-			malloc_error(mini);
+		{
+			mini->cmd[i]= NULL;
+			return (malloc_error(mini, mini->cmd), 1);
+		}
 		free(temp);
 		temp = NULL;
 	}
 	i = 0;
-	while (mini->cmd[i])
+	while (mini->cmd[i]) // make sure this is handled properly depending on parsing
 	{
 		if (mini->cmd[i][0] == '\0')
 		{
@@ -84,13 +90,13 @@ static int	parse(t_minishell *mini)
 	char	*arg;
 
 	arg = ft_strtrim(mini->arg, " \t\n");
-	free(mini->arg);
 	if (!arg)
-		malloc_error(mini);
+		return (malloc_error(mini, NULL), 1);
 	mini->arg = arg;
-	if (!count_blocks(mini))
+	if (count_blocks(mini))
 		return (1);
-	allocate_cmd(mini);
+	if (allocate_cmd(mini))
+		return (1);
 	if (trim_cmd(mini))
 		return (1);
 	if (redir_parsing(mini))
@@ -105,7 +111,7 @@ void	read_input(t_minishell *mini)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
-			break ;
+			continue ;
 		if (mini->arg[0] == '\0' || spacentabs_check(mini))
 		{
 			free(mini->arg);

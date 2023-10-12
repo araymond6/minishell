@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:59:05 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/11 15:14:32 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:51:24 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ int	ft_export(t_minishell *mini)
 	int		c;
 
 	i = 1;
-	mini->exit_code = 0;
 	if (!mini->s_cmd->cmd_arg[i])
 		print_env(mini);
 	while (mini->s_cmd->cmd_arg[i])
