@@ -54,8 +54,6 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 {
 	int	len;
 	int	r;
-	int	len;
-	int	r;
 
 	r = 0;
 	len = 0;
@@ -63,7 +61,6 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 	mini->s_cmd->cmd_arg[k] = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->cmd_arg[k])
 		return (free_scmd(mini->s_cmd), -1);
-	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
 	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
 	{
 		while (mini->cmd[i][j] != '\"' && mini->cmd[i][j] != '\'' && \
@@ -92,8 +89,6 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 // s_cmd : attribute a value to arg_cmd[last]
 int	s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
 {
-	int	len;
-	int	r;
 	int	len;
 	int	r;
 

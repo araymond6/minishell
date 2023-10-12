@@ -1,20 +1,18 @@
 #include "../include/minishell.h"
 
-#include "libft.h"
-
 int	ft_atoll(const char *str)
 {
-	int	i;
-	int	j;
-	int	nb;
+	int			i;
+	int			sign;
+	long long	nb;
 
 	i = 0;
-	j = 0;
+	sign = 1;
 	nb = 0;
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')
-			j = 1;
+			sign = -1;
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
@@ -22,7 +20,5 @@ int	ft_atoll(const char *str)
 		nb = nb * 10 + (str[i] - 48);
 		i++;
 	}
-	if (j)
-		return (-nb);
-	return (nb);
+	return (sign * nb);
 }

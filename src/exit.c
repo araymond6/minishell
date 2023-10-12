@@ -1,13 +1,5 @@
 #include "../include/minishell.h"
 
-//TODO prend un long long
-
-//TODO exit | exit ne ferme pas voir bash. Ne ferme que les pipe
-
-//TODO quand le premier argument est valide et un des autres non il ferme pas voir bash 
-
-//TODO quand il y a plus de 1 argument il ne ferme pas et dir trop d<argument exit 
-
 void	free_scmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
@@ -31,9 +23,28 @@ void	free_scmd(t_cmd *cmd)
 	}
 }
 
-void	ft_exit(t_minishell *mini)
+int	is_valid_exit_code(t_minishell *mini)
 {
-	int	nb_arg;
+	int	i;
+
+	i = 0;
+	if (mini->s_cmd->cmd_arg[1][0] == '+' || \
+		mini->s_cmd->cmd_arg[1][0] == '-')
+		i++;
+	while (mini->s_cmd->cmd_arg[1][i])
+	{
+		if (mini->s_cmd->cmd_arg[1][i] >= '0' \
+			&& mini->s_cmd->cmd_arg[1][i] <= '9')
+			i++;
+		else
+			return (1);
+	}
+	return(0);
+}
+
+int	ft_exit(t_minishell *mini)
+{
+	int			nb_arg;
 
 	nb_arg = 0;
 	while (mini->s_cmd->cmd_arg[nb_arg])
@@ -43,15 +54,27 @@ void	ft_exit(t_minishell *mini)
 		free_scmd(mini->s_cmd);
 		exit_program(mini);
 	}
-	//non valide = pas chiffre (Prends chiffre negatif aussi)
 	if (nb_arg == 2)
 	{
-		// un argument valide -> sort
-		// un argument non valide -> ne sort pas
+		if (is_valid_exit_code(mini) == 1)
+			return (printf("Not a numeric argument\n"), 1);
+		mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
+		free_scmd(mini->s_cmd);
+		exit_program(mini);
 	}
 	else if (nb_arg > 2)
 	{
+		if (is_valid_exit_code(mini) == 0)
+			return (printf("Too many arguments\n"), 1);
+		if (is_valid_exit_code(mini) == 1)
+		{
+			free_scmd(mini->s_cmd);
+			exit_program(mini);
+		}
+	}
+	return (0);
+}
+		// un argument non valide -> ne sort pas
+		// un argument valide -> sort
 		// plusieurs argument avec le premier valide -> ne sort pas
 		// plusieurs argument avec le premier invalide -> sort
-	}
-}

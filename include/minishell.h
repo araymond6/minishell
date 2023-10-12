@@ -20,8 +20,8 @@
 # include "readline/readline.h"
 # include "readline/history.h"
 # include "../libft/src/libft.h"
+# include <limits.h>
 
-//TODO check diffrence and change for the aurelias env
 typedef struct s_cmd
 {
 	char			*redir;
@@ -165,7 +165,7 @@ int		set_table(t_minishell *mini, char **table, int *j, int *k);
 void	free_scmd(t_cmd *cmd);
 int		count_quote(char *cmd, int i);
 void	free_scmd(t_cmd *cmd);
-void	ft_exit(t_minishell *mini);
+int		ft_exit(t_minishell *mini);
 int		file_n_redir_calloc(t_minishell *mini, int c);
 int		forker(int n, int *pids, t_minishell *mini);
 void	print_env(t_minishell *mini);
@@ -175,5 +175,6 @@ int		forker(int n, int *pids, t_minishell *mini);
 int		to_fork(t_minishell *mini, int *pids, int i, int n);
 int		child(t_minishell *mini);
 int		parent(t_cmd *cmd);
+int		ft_atoll(const char *str);
 
 #endif
