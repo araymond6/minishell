@@ -20,6 +20,7 @@ int	execute_cmd(t_minishell *mini)
 	else
 	{
 		signal(SIGQUIT, SIG_DFL);
+		clear_mini(mini);
 		if (execve(mini->s_cmd->path, mini->s_cmd->cmd_arg, NULL) == -1)
 			cmd = ft_calloc(ft_strlen(mini->s_cmd->path) + 1, sizeof(char));
 		if (cmd == NULL)

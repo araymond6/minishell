@@ -17,7 +17,7 @@ char	*get_path(t_minishell *mini)
 	return (NULL);
 }
 
-// zeroes t_minishell and set envp
+// zeroes t_minishell and set envp and signal handlers
 void	initialize_mini(t_minishell *mini, char **envp)
 {
 	ft_bzero(mini, sizeof(t_minishell));

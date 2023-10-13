@@ -77,14 +77,15 @@ void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		kill(0, 0);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (signal == SIGQUIT)
 	{
-		kill(0, 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
+	(void)signal;
 }

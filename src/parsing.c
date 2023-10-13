@@ -113,7 +113,7 @@ void	read_input(t_minishell *mini)
 	{
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
-			continue ;
+			break ;
 		if (mini->arg[0] == '\0' || spacentabs_check(mini))
 		{
 			free(mini->arg);

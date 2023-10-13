@@ -21,6 +21,7 @@ int	count_2darray(char **table)
 	return (i);
 }
 
+// checks for space and tabs to see if it's ONLY that
 int	spacentabs_check(t_minishell *mini)
 {
 	int	i;
