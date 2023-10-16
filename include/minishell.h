@@ -172,7 +172,7 @@ void	print_env(t_minishell *mini);
 int		count_quote2(char *cmd, int i);
 void	all_here_doc(t_minishell *mini);
 int		forker(int n, int *pids, t_minishell *mini);
-int		to_fork(t_minishell *mini, int *pids, int i, int n);
+int		to_fork(t_minishell *mini, int *pids, int n);
 int		child(t_minishell *mini);
 int		parent(t_cmd *cmd);
 int		ft_atoll(const char *str);

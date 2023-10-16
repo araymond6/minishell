@@ -5,31 +5,37 @@
 int	nbr_arg(t_minishell *mini, int i, int j)
 {
 	int	space;
-	int	k;
 
 	space = 0;
-	k = 0;
-	while (mini->cmd[i][j + k]
-		&& mini->cmd[i][j + k] != '>'
-		&& mini->cmd[i][j + k] != '<')
+	if (mini->cmd[i][j] && mini->cmd[i][j] != '>'
+		&& mini->cmd[i][j] != '<')
+		space = 1;
+	while (mini->cmd[i][j] && mini->cmd[i][j] != '>'
+		&& mini->cmd[i][j] != '<')
 	{
-		if (mini->cmd[i][j + k] == '\'')
+		while (mini->cmd[i][j] != '\"' && mini->cmd[i][j] != '\'' && \
+			mini->cmd[i][j] != ' ' && mini->cmd[i][j] && \
+			mini->cmd[i][j] != '>' && mini->cmd[i][j] != '<')
+			j++;
+		if (mini->cmd[i][j] == '\"')
 		{
-			k++;
-			while (mini->cmd[i][j + k] != '\'')
-				k++;
+			j++;
+			while (mini->cmd[i][j] != '\"')
+				j++;
+			j++;
 		}
-		if (mini->cmd[i][j + k] == '\"')
+		if (mini->cmd[i][j] == '\'')
 		{
-			k++;
-			while (mini->cmd[i][j + k] != '\"')
-				k++;
+			j++;
+			while (mini->cmd[i][j] != '\'')
+				j++;
+			j++;
 		}
-		if (mini->cmd[i][j + k] == ' '
-			&& mini->cmd[i][j + k + 1] != '>'
-			&& mini->cmd[i][j + k + 1] != '<')
+		if (mini->cmd[i][j] == ' ')
+		{
 			space++;
-		k++;
+			j++;
+		}
 	}
 	return (space);
 }

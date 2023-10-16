@@ -120,11 +120,9 @@ int	redir_quote(t_minishell *mini, int i, int j, int r)
 int	redirection(t_minishell *mini, int i, int j, char c)
 {
 	int	r;
-	int	index;
 
 	mini->s_cmd->qlen = 0;
 	r = 0;
-	index = -1;
 	if (file_n_redir_calloc(mini, c) == 1)
 		return (1);
 	if (mini->cmd[i][j] == ' ')

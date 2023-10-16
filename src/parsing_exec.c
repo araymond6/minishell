@@ -2,9 +2,6 @@
 
 int	calloc_node(t_minishell *mini)
 {
-	int		j;
-
-	j = 0;
 	if (!mini->s_cmd)
 	{
 		mini->s_cmd = ft_calloc(1, sizeof(t_cmd));
@@ -52,9 +49,6 @@ int	create_list(t_minishell *mini)
 	t_cmd	*copy;
 
 	i = 0;
-	copy = ft_calloc(1, sizeof(t_cmd));
-	if (copy == NULL)
-		return (1);
 	while (mini->cmd[i] != NULL)
 	{
 		if (parsing_command(mini, i) == 1)

@@ -22,9 +22,7 @@ int	ft_cd(t_cmd *cmd)
 void	p_echo(char **str, int r, int n)
 {
 	int	i;
-	int	q;
 
-	q = 0;
 	i = 0;
 	while (str[r] != NULL)
 	{

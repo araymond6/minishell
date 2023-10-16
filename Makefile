@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 LFLAGS = -lreadline -lncurses
 
@@ -10,7 +10,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 INC_DIR = include/
 LIB_DIR = libft
-RL_DIR = include/readline/
+RL_DIR = include/readline
 RL = readline-8.2
 RLINE = $(RL_DIR)/libreadline.a
 
@@ -68,7 +68,7 @@ $(OBJ_DIR)%.o: %.c $(DEP_PRE)
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(GREEN)----$(MAGENTA)Compiling minishell..$(GREEN)----$(RESET)"
-	$(CC) $(CFLAGS) $(RLINE) $(LFLAGS) $(LIBFT) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(RLINE) $(LFLAGS)
 	@echo "$(GREEN)-----$(MAGENTA)Minishell compiled!$(GREEN)-----$(RESET)"
 
 readline:

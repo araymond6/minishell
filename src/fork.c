@@ -1,18 +1,31 @@
 #include "../include/minishell.h"
 
-int	forker(int n, int *pids, t_minishell *mini)
+int	 forker(int n, int *pids, t_minishell *mini)
 {
-	int	i;
+	int	r;
 	int	originalstdout;
 
-	i = 0;
+	r = 0;
 	if (pipe(mini->s_cmd->fd) == -1)
 		return (free_scmd(mini->s_cmd), message_perror("Pipe"));
 	if (n > 0)
 	{
 		if (mini->s_cmd->cmd == NULL)
 		{
+			originalstdout = dup(STDOUT_FILENO);
+			if (mini->s_cmd->redir)
+			{
+				while (mini->s_cmd->redir[r])
+				{
+					change_inf(mini->s_cmd->redir[r], mini->s_cmd->file[r]);
+					change_out(mini->s_cmd->redir[r], mini->s_cmd->file[r]);
+					r++;
+				}
+			}
 			parent(mini->s_cmd);
+			if (dup2(originalstdout, STDOUT_FILENO) == -1)
+				return (message_perror("Error restoring stdout"));
+			close(originalstdout);
 			mini->s_cmd = mini->s_cmd->next;
 			forker(n - 1, pids +1, mini);
 		}
@@ -21,6 +34,15 @@ int	forker(int n, int *pids, t_minishell *mini)
 			originalstdout = dup(STDOUT_FILENO);
 			if (dup2(mini->s_cmd->fd[1], STDOUT_FILENO) == -1)
 				return (close(mini->s_cmd->fd[1]), close(mini->s_cmd->fd[0]), EXIT_FAILURE);
+			if (mini->s_cmd->redir)
+			{
+				while (mini->s_cmd->redir[r])
+				{
+					change_inf(mini->s_cmd->redir[r], mini->s_cmd->file[r]);
+					change_out(mini->s_cmd->redir[r], mini->s_cmd->file[r]);
+					r++;
+				}
+			}
 			execute_buildin(mini);
 			parent(mini->s_cmd);
 			if (dup2(originalstdout, STDOUT_FILENO) == -1)
@@ -31,28 +53,42 @@ int	forker(int n, int *pids, t_minishell *mini)
 		}
 		else if (isbuildin(mini->s_cmd->cmd) == 0 && n == 1)
 		{
+			originalstdout = dup(STDOUT_FILENO);
+			if (mini->s_cmd->redir)
+			{
+				while (mini->s_cmd->redir[r])
+				{
+					change_inf(mini->s_cmd->redir[r], mini->s_cmd->file[r]);
+					change_out(mini->s_cmd->redir[r], mini->s_cmd->file[r]);
+					r++;
+				}
+			}
 			execute_buildin(mini);
 			parent(mini->s_cmd);
+			if (dup2(originalstdout, STDOUT_FILENO) == -1)
+				return (message_perror("Error restoring stdout"));
+			close(originalstdout);
 			mini->s_cmd = mini->s_cmd->next;
+			return(0);
 		}
 		else
-			if (to_fork(mini, pids, i, n))
+			if (to_fork(mini, pids, n))
 				return (1);
 	}
 	return (0);
 }
 
-int	to_fork(t_minishell *mini, int *pids, int i, int n)
+int	to_fork(t_minishell *mini, int *pids, int n)
 {
-	pids[i] = fork();
-	if (pids[i] < 0)
-		return (free_scmd(mini->s_cmd), message_perror("Fork"));
-	else if (pids[i] == 0)
+	*pids = fork();
+	if (*pids < 0)
 	{
-		child(mini);
-		mini->s_cmd = mini->s_cmd->next;
+		free(pids);
+		return (free_scmd(mini->s_cmd), message_perror("Fork"));
 	}
-	else if (pids[i] > 0)
+	else if (*pids == 0)
+		child(mini);
+	else if (*pids > 0)
 	{
 		parent(mini->s_cmd);
 		mini->s_cmd = mini->s_cmd->next;

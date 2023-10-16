@@ -4,22 +4,26 @@ void	free_scmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
 
-	temp = cmd;
-	while (temp)
+	if(cmd)
 	{
-		if (temp->redir)
-			free(temp->redir);
-		if (temp->cmd)
-			free(temp->cmd);
-		if (temp->path)
-			free(temp->path);
-		if (temp->cmd_arg)
-			free_array(temp->cmd_arg);
-		if (cmd->file)
-			free_array(temp->file);
-		temp = temp->next;
-		free(cmd);
-		cmd = temp;
+		free(cmd->prev);
+		temp = cmd;
+		while (temp)
+		{
+			if (temp->redir)
+				free(temp->redir);
+			if (temp->cmd)
+				free(temp->cmd);
+			if (temp->path)
+				free(temp->path);
+			if (temp->cmd_arg)
+				free_array(temp->cmd_arg);
+			if (cmd->file)
+				free_array(temp->file);
+			temp = temp->next;
+			free(cmd);
+			cmd = temp;
+		}
 	}
 }
 
@@ -66,11 +70,8 @@ int	ft_exit(t_minishell *mini)
 	{
 		if (is_valid_exit_code(mini) == 0)
 			return (printf("Too many arguments\n"), 1);
-		if (is_valid_exit_code(mini) == 1)
-		{
-			free_scmd(mini->s_cmd);
-			exit_program(mini);
-		}
+		free_scmd(mini->s_cmd);
+		exit_program(mini);
 	}
 	return (0);
 }
