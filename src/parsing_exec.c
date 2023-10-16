@@ -1,5 +1,24 @@
 #include "../include/minishell.h"
 
+static int	check_heredoc(t_minishell *mini)
+{
+	int	j;
+
+	j = 0;
+	if (mini->s_cmd->redir)
+	{
+		while (mini->s_cmd->redir[j])
+		{
+			if (mini->s_cmd->redir[j] == '2')
+				mini->heredoc_count++;
+			j++;
+		}
+		if (set_flag(mini))
+			return (1);
+	}
+	return (0);
+}
+
 int	calloc_node(t_minishell *mini)
 {
 	int		j;
@@ -49,11 +68,9 @@ int	parsing_command(t_minishell *mini, int i)
 int	create_list(t_minishell *mini)
 {
 	int		i;
-	int		j;
 	t_cmd	*copy;
 
 	i = 0;
-	j = 0;
 	copy = ft_calloc(1, sizeof(t_cmd));
 	if (copy == NULL)
 		return (1);
@@ -63,21 +80,12 @@ int	create_list(t_minishell *mini)
 			return (free_scmd(mini->s_cmd), 1);
 		copy = mini->s_cmd;
 		mini->s_cmd = mini->s_cmd->next;
-		mini->s_cmd->prev = copy;
+		mini->s_cmd->prev = copy; //TODO: do we need to free copy or nah?
 		i++;
 	}
 	while (i-- > 0)
 		mini->s_cmd = mini->s_cmd->prev;
-	if (mini->s_cmd->redir) //TODO: put this in a different function
-	{
-		while (mini->s_cmd->redir[j])
-		{
-			if (mini->s_cmd->redir[j] == '2')
-				mini->heredoc_count++;
-			j++;
-		}
-		if (set_flag(mini))
-			return (1);
-	}
+	if (check_heredoc(mini) == 1)
+		return (1);
 	return (0);
 }

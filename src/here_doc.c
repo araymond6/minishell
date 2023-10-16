@@ -1,11 +1,38 @@
 #include "../include/minishell.h"
 
-// sets flag for heredoc behaviour
-int	set_flag(t_minishell *mini) //TODO: shorten function, start substitution
+static void	redir_loop(t_minishell *mini, int i)
+{
+	int j;
+
+	j = 0;
+	while(mini->cmd[i][j])
+	{
+		if (mini->cmd[i][j] == '<')
+		{
+			j++;
+			if (mini->cmd[i][j] == '<')
+			{
+				j++;
+				if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
+					j++;
+				while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+				{
+					if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
+						mini->heredoc_flag[mini->heredoc_count] = 1;
+					j++;
+				}
+				mini->heredoc_count++;
+			}
+		}
+		else
+			j++;
+	}
+}
+
+// sets flags for heredoc behaviour
+int	set_flag(t_minishell *mini)
 {
 	int	i;
-	int	j;
-	int test;
 
 	i = 0;
 	mini->heredoc_flag = ft_calloc(mini->heredoc_count + 1, sizeof(char));
@@ -14,29 +41,7 @@ int	set_flag(t_minishell *mini) //TODO: shorten function, start substitution
 	mini->heredoc_count = 0;
 	while (mini->cmd[i])
 	{
-		j = 0;
-		while(mini->cmd[i][j])
-		{
-			if (mini->cmd[i][j] == '<')
-			{
-				j++;
-				if (mini->cmd[i][j] == '<')
-				{
-					j++;
-					if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
-						j++;
-					while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
-					{
-						if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-							mini->heredoc_flag[mini->heredoc_count] = 1;
-						j++;
-					}
-					mini->heredoc_count++;
-				}
-			}
-			else
-				j++;
-		}
+		redir_loop(mini, i);
 		i++;
 	}
 	return (0);
@@ -56,7 +61,7 @@ void	all_here_doc(t_minishell *mini)
 			while (cmd2->file[f])
 			{
 				if (cmd2->redir[f] == '2')
-					here_doc(cmd2->file[f]);
+					here_doc(mini, cmd2->file[f]);
 				f++;
 			}
 		}
@@ -66,16 +71,27 @@ void	all_here_doc(t_minishell *mini)
 }
 
 // function who read the entry and put it in the here_doc file
-int	read_write(char *delimiter, int fd)
+static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make this cleaner cause wtf me
 {
 	char	*new_line;
+	char	*new_sub;
 	int		i;
 
 	i = 0;
+	new_sub = NULL;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (close(fd), message_perror("2.1"));
-	//TODO: substitution
+	if (mini->heredoc_flag[mini->heredoc_count] == 0)
+	{
+		if (heredoc_sub(mini, new_line, new_sub))
+			return (free(new_line), 1);
+	}
+	if (new_sub)
+	{
+		free(new_line);
+		new_line = new_sub;
+	}
 	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;
 	else
@@ -88,7 +104,7 @@ int	read_write(char *delimiter, int fd)
 }
 
 // function for the << redirection
-int	here_doc(char *delimiter)
+int	here_doc(t_minishell *mini, char *delimiter)
 {
 	int		fd;
 	int		i;
@@ -98,7 +114,7 @@ int	here_doc(char *delimiter)
 	if (fd == -1)
 		return (close(fd), message_perror("2"));
 	while (i == 0)
-		i = read_write(delimiter, fd);
+		i = read_write(mini, delimiter, fd);
 	close(fd);
 	return (0);
 }

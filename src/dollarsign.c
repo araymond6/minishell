@@ -50,7 +50,5 @@ void	add_exitcode(t_minishell *mini, int *j, char *arg)
 
 	k = -1;
 	while (arg[++k])
-	{
 		mini->cmd[mini->parse.c][(*j)++] = arg[k];
-	}
 }
