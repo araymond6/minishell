@@ -39,8 +39,8 @@ int	sub_dollar(t_minishell *mini, int *i, int *j)
 	}
 	if (add_from_env(mini, j, arg))
 	{
-		if (mini->arg[*i] && (mini->arg[*i + 1] == ' ' || \
-		mini->arg[*i + 1] == '\t' || mini->arg[*i + 1] == '\n'))
+		if (mini->arg[*i] == ' ' || \
+		mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
 			(*i)++;
 	}
 	if (mini->arg[*i] == '$')
@@ -66,8 +66,8 @@ static int	count_sub_exception(t_minishell *mini, char *arg, int *i, char *excep
 	}
 	if (add_sub_env(mini, arg))
 	{
-		if (mini->arg[*i] && (mini->arg[*i + 1] == ' ' || \
-		mini->arg[*i + 1] == '\t' || mini->arg[*i + 1] == '\n'))
+		if (mini->arg[*i] == ' ' || \
+		mini->arg[*i] == '\t' || mini->arg[*i] == '\n')
 			(*i)++;
 	}
 	if (mini->arg[*i] == '$')

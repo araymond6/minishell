@@ -70,6 +70,7 @@ int	s_cmd_arg_cmd_first(t_minishell *mini)
 // s_cmd : attribute a value to arg_cmd betwenn arg_cmd[0] and arg_cmd[last]
 int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 {
+	int	len;
 	int	r;
 
 	r = 0;
@@ -105,6 +106,7 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 // s_cmd : attribute a value to arg_cmd[last]
 int	s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
 {
+	int	len;
 	int	r;
 
 	r = 0;
