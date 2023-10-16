@@ -3,6 +3,8 @@
 int	x_comm(t_minishell *mini)
 {
 	process(mini);
+	if(mini->s_cmd)
+		free_scmd(mini->s_cmd);
 	mini->s_cmd = NULL;
 	return (0);
 }

@@ -46,9 +46,6 @@ void	free_mini(t_minishell *mini)
 
 void	clear_mini(t_minishell *mini)
 {
-	int	i;
-
-	i = 0;
 	mini->parse.block_count = 0;
 	mini->parse.c = 0;
 	mini->parse.end_block = 0;
