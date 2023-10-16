@@ -49,9 +49,11 @@ int	parsing_command(t_minishell *mini, int i)
 int	create_list(t_minishell *mini)
 {
 	int		i;
+	int		j;
 	t_cmd	*copy;
 
 	i = 0;
+	j = 0;
 	copy = ft_calloc(1, sizeof(t_cmd));
 	if (copy == NULL)
 		return (1);
@@ -66,5 +68,16 @@ int	create_list(t_minishell *mini)
 	}
 	while (i-- > 0)
 		mini->s_cmd = mini->s_cmd->prev;
+	if (mini->s_cmd->redir) //TODO: put this in a different function
+	{
+		while (mini->s_cmd->redir[j])
+		{
+			if (mini->s_cmd->redir[j] == '2')
+				mini->heredoc_count++;
+			j++;
+		}
+		if (set_flag(mini))
+			return (1);
+	}
 	return (0);
 }

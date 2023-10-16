@@ -1,5 +1,47 @@
 #include "../include/minishell.h"
 
+// sets flag for heredoc behaviour
+int	set_flag(t_minishell *mini) //TODO: shorten function, start substitution
+{
+	int	i;
+	int	j;
+	int test;
+
+	i = 0;
+	mini->heredoc_flag = ft_calloc(mini->heredoc_count + 1, sizeof(char));
+	if (!mini->heredoc_flag)
+		return (1);
+	mini->heredoc_count = 0;
+	while (mini->cmd[i])
+	{
+		j = 0;
+		while(mini->cmd[i][j])
+		{
+			if (mini->cmd[i][j] == '<')
+			{
+				j++;
+				if (mini->cmd[i][j] == '<')
+				{
+					j++;
+					if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
+						j++;
+					while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+					{
+						if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
+							mini->heredoc_flag[mini->heredoc_count] = 1;
+						j++;
+					}
+					mini->heredoc_count++;
+				}
+			}
+			else
+				j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	all_here_doc(t_minishell *mini)
 {
 	int		f;
@@ -29,13 +71,12 @@ int	read_write(char *delimiter, int fd)
 	char	*new_line;
 	int		i;
 
-
 	i = 0;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (close(fd), message_perror("2.1"));
 	//TODO: substitution
-	if (ft_strncmp(delimiter, new_line, ft_strlen(delimiter)) == 0)
+	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;
 	else
 	{

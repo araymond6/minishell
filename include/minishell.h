@@ -59,6 +59,8 @@ typedef struct s_minishell
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
 	unsigned char		exit_code;
+	char				*heredoc_flag;
+	int					heredoc_count;
 }	t_minishell;
 
 //build-in.c
@@ -81,6 +83,8 @@ int		process(t_minishell *mini);
 //here_doc.c
 int		read_write(char *delimiter, int fd);
 int		here_doc(char *delimiter);
+int		set_flag(t_minishell *mini);
+int		count_heredoc(t_minishell *mini, int count);
 
 //parsing_exec.c
 int		parsing_command(t_minishell *mini, int i);

@@ -77,6 +77,7 @@ void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		kill(0, 0);
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);

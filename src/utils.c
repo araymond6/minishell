@@ -1,5 +1,33 @@
 #include "../include/minishell.h"
 
+// int	count_heredoc(t_minishell *mini, int count)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	while (mini->cmd[i])
+// 	{
+// 		j = 0;
+// 		while (mini->cmd[i][j])
+// 		{
+// 			if (mini->cmd[i][j] == '<')
+// 			{
+// 				j++;
+// 				if (mini->cmd[i][j] == '<')
+// 				{
+// 					j++;
+// 					count++;
+// 				}
+// 			}
+// 			else
+// 				j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (count);
+// }
+
 // clears history, frees mini's uses and exits program
 void	exit_program(t_minishell *mini)
 {
