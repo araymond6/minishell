@@ -84,7 +84,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make t
 		return (close(fd), message_perror("2.1"));
 	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		if (heredoc_sub(mini, new_line, new_sub))
+		if (heredoc_sub(mini, new_line, new_sub)) //TODO: make mini->cmd usable or make new functions
 			return (free(new_line), 1);
 	}
 	if (new_sub)

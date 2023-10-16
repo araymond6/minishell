@@ -43,6 +43,7 @@ SRCS =	build-in.c \
 		pwd_cd_echo.c \
 		exit.c \
 		fork.c \
+		heredoc_substitution.c \
 		child_parent.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
