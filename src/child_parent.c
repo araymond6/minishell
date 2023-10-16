@@ -6,7 +6,6 @@ int	child(t_minishell *mini)
 	int	i;
 
 	i = -1;
-	printf("hi");
 	if (mini->s_cmd->prev->cmd != NULL)
 		if (dup2(mini->s_cmd->prev->fd[0], STDIN_FILENO) == -1)
 			return (close(mini->s_cmd->fd[0]), \

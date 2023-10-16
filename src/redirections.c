@@ -94,24 +94,40 @@ int	redir_quote(t_minishell *mini, int i, int j, int r)
 	int	index;
 
 	index = 0;
-	if (mini->cmd[i][j] == '\"')
+	while(mini->cmd[i][j] && mini->cmd[i][j] != ' ')
 	{
-		while (mini->cmd[i][++j] != '\"')
-			mini->s_cmd->file[r][index++] = mini->cmd[i][j];
-		j++;
-	}
-	else if (mini->cmd[i][j] == '\'')
-	{
-		while (mini->cmd[i][++j] != '\'')
-			mini->s_cmd->file[r][index++] = mini->cmd[i][j];
-		j++;
-	}
-	else
-	{
-		index = -1;
-		while (++index < mini->s_cmd->qlen)
-			mini->s_cmd->file[r][index] = mini->cmd[i][j + index];
-		j += index;
+		if (mini->cmd[i][j] == '\"')
+		{
+			j++;
+			while (mini->cmd[i][j] != '\"')
+			{
+				mini->s_cmd->file[r][index] = mini->cmd[i][j];
+				j++;
+				index++;
+			}
+			j++;
+		}
+		else if (mini->cmd[i][j] == '\'')
+		{
+			j++;
+			while (mini->cmd[i][j] != '\'')
+			{
+				mini->s_cmd->file[r][index] = mini->cmd[i][j];
+				j++;
+				index++;
+			}
+			j++;
+		}
+		else
+		{
+			while (mini->cmd[i][j] != '\'' && mini->cmd[i][j] != '\"'
+				&& mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+			{
+				mini->s_cmd->file[r][index] = mini->cmd[i][j];
+				j++;
+				index++;
+			}
+		}
 	}
 	return (j);
 }
@@ -121,16 +137,11 @@ int	redirection(t_minishell *mini, int i, int j, char c)
 {
 	int	r;
 
-	mini->s_cmd->qlen = 0;
 	r = 0;
 	if (file_n_redir_calloc(mini, c) == 1)
 		return (1);
 	if (mini->cmd[i][j] == ' ')
 		j++;
-	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-		mini->s_cmd->qlen = count_quote(mini->cmd[i], j) - j - 1;
-	else 
-		mini->s_cmd->qlen = len_until_space(mini, i, j);
 	while (mini->s_cmd->file[r])
 		r++;
 	mini->s_cmd->file[r] = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));

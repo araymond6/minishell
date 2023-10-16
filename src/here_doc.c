@@ -7,7 +7,7 @@ void	all_here_doc(t_minishell *mini)
 
 	f = 0;
 	cmd2 = mini->s_cmd;
-	while (cmd2->cmd)
+	while (cmd2)
 	{
 		if (cmd2->file)
 		{

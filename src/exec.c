@@ -36,7 +36,9 @@ int	execute_cmd(t_minishell *mini)
 {
 	char	*cmd;
 	char	**tab_path;
+	int		len;
 
+	len = 0;
 	if (ft_strlen(mini->s_cmd->cmd) == 0)
 		exit(0);
 	else if (isbuildin(mini->s_cmd->cmd) == 0)
@@ -50,7 +52,6 @@ int	execute_cmd(t_minishell *mini)
 		if (cmd == NULL)
 			return (free_scmd(mini->s_cmd), 1);
 		ft_strlcpy(cmd, mini->s_cmd->path, ft_strlen(mini->s_cmd->path) + 1);
-		printf("path2_>%s\n", cmd);
 		while (mini->s_cmd->cmd_arg[len])
 			len++;
 		tab_path = ft_calloc(len + 1, sizeof(char*));
@@ -61,11 +62,15 @@ int	execute_cmd(t_minishell *mini)
 		{
 			tab_path[len] = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[len]) + 1, sizeof(char));
 			if (tab_path == NULL)
-				return (free(cmd), free_array(tab_path), free_scmd(mini->s_cmd), 1);
-			ft_strlcpy(tab_path[len], mini->s_cmd->cmd_arg[len], ft_strlen(mini->s_cmd->path) + 1);
+			{
+				free(cmd);
+				free_array(tab_path);
+				free_scmd(mini->s_cmd);
+				return (1);
+			}
+			ft_strlcpy(tab_path[len], mini->s_cmd->cmd_arg[len], ft_strlen(mini->s_cmd->cmd_arg[len] + 1));
 			len++;
 		}
-		printf("tab->%s\n", tab_path[0]);
 		free_scmd(mini->s_cmd);
 		if (execve(cmd, tab_path, mini->envp) == -1)
 		{
@@ -76,6 +81,7 @@ int	execute_cmd(t_minishell *mini)
 	}
 	return (0);
 }
+
 
 // the processus
 int	process(t_minishell *mini)
