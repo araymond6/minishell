@@ -138,7 +138,6 @@ void	malloc_error(t_minishell *mini, char **to_free);
 
 //utils
 void	initialize_mini(t_minishell *mini, char **envp);
-void	free_mini(t_minishell *mini);
 void	clear_mini(t_minishell *mini);
 void	exit_program(t_minishell *mini);
 char	*check_env(t_minishell *mini, char *arg);

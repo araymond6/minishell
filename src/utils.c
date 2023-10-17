@@ -7,7 +7,9 @@ void	exit_program(t_minishell *mini)
 
 	exit_code = mini->exit_code;
 	clear_history();
-	free_mini(mini);
+	clear_mini(mini);
+	if (mini->envpset == 1)
+		free_array(mini->envp);
 	exit(exit_code);
 }
 
