@@ -87,6 +87,8 @@ int	last_buildin(t_minishell *mini)
 			r++;
 		}
 	}
+	if (ft_strncmp("exit", mini->s_cmd->cmd, 5) == 0)
+		close(originalstdout);
 	execute_buildin(mini);
 	parent(mini->s_cmd);
 	if (dup2(originalstdout, STDOUT_FILENO) == -1)
@@ -139,7 +141,7 @@ int	to_fork(t_minishell *mini, int *pids, int n)
 	}
 	else if (*pids == 0)
 	{
-		free(pids);
+		//free(pids);
 		child(mini);
 	}
 	else if (*pids > 0)

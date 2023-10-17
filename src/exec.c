@@ -86,7 +86,7 @@ int	execute_cmd(t_minishell *mini)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		clear_mini(mini);
-		cmd = ft_calloc(ft_strlen(mini->s_cmd->path) + 1, sizeof(char));
+		cmd = ft_calloc(ft_strlen(mini->s_cmd->path) + 2, sizeof(char));
 		if (cmd == NULL)
 			return (free_scmd(mini->s_cmd), 1);
 		ft_strlcpy(cmd, mini->s_cmd->path, ft_strlen(mini->s_cmd->path) + 1);
@@ -100,24 +100,20 @@ int	execute_cmd(t_minishell *mini)
 		while (mini->s_cmd->cmd_arg[mini->s_cmd->c])
 		{
 			tab_path[mini->s_cmd->c] = \
-				ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[mini->s_cmd->c]), \
+				ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[mini->s_cmd->c]) + 1, \
 				sizeof(char));
-			if (tab_path == NULL)
+			if (tab_path[mini->s_cmd->c] == NULL)
 				return (1);
 			ft_strlcpy(tab_path[mini->s_cmd->c], \
 				mini->s_cmd->cmd_arg[mini->s_cmd->c], ft_strlen(mini->s_cmd->path));
 			mini->s_cmd->c++;
 		}
-		printf("%s", tab_path[0]);
-		if (tab_path == NULL)
-			return (1);
 		free_scmd(mini->s_cmd);
 		if (execve(cmd, tab_path, mini->envp) == -1)
 			free_execve(cmd, tab_path);
 	}
 	return (0);
 }
-
 
 // the processus
 int	process(t_minishell *mini)

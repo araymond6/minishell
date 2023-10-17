@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:59:05 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/12 10:51:24 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:43:56 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	export_error_check(t_minishell *mini, int *i, int *c)
 
 static int	add_to_table(t_minishell *mini, char **table, int *i, int *j)
 {
-	int param;
+	int	param;
 
 	param = 0;
 	table[*j] = ft_calloc(sizeof(char), \

@@ -74,7 +74,6 @@ void	all_here_doc(t_minishell *mini)
 	}
 }
 
-// function who read the entry and put it in the here_doc file
 static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make this cleaner cause wtf me
 {
 	char	*new_line;
