@@ -27,7 +27,7 @@ int	parsing_command(t_minishell *mini, int i)
 	j = 0;
 	if (calloc_node(mini) == 1)
 		return (1);
-	mini->s_cmd->nredir = redir_count(mini->cmd[i]);
+	mini->s_cmd->nredir = redir_count(mini, mini->cmd[i]);
 	while (mini->cmd[i][j] && mini->cmd[i])
 	{
 		if (mini->cmd[i][j] == '<' || mini->cmd[i][j] == '>')
@@ -42,7 +42,6 @@ int	parsing_command(t_minishell *mini, int i)
 	return (0);
 }
 
-// create the s_cmd list 
 int	create_list(t_minishell *mini)
 {
 	int		i;
@@ -61,4 +60,32 @@ int	create_list(t_minishell *mini)
 	while (i-- > 0)
 		mini->s_cmd = mini->s_cmd->prev;
 	return (0);
+}
+
+int	check_command(t_minishell *mini, int i, int j)
+{
+	int	k;
+
+	k = 1;
+	j = s_cmd_cmd(mini, i, j);
+	if (find_path(mini) == -1)
+		return (-1);
+	mini->s_cmd->narg = nbr_arg(mini, i, j);
+	mini->s_cmd->cmd_arg = ft_calloc(mini->s_cmd->narg + 2, sizeof(char *));
+	if (!mini->s_cmd->cmd_arg)
+		return (-1);
+	if (s_cmd_arg_cmd_first(mini) == -1)
+		return (-1);
+	if (mini->s_cmd->narg > 0)
+	{
+		while (k < mini->s_cmd->narg)
+		{
+			j = s_cmd_arg_cmd_middle(mini, i, j, k);
+			if (j == -1)
+				return (-1);
+			k++;
+		}
+		j = s_cmd_arg_cmd_end(mini, i, j, k);
+	}
+	return (j);
 }

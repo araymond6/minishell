@@ -17,20 +17,8 @@ int	nbr_arg(t_minishell *mini, int i, int j)
 			mini->cmd[i][j] != ' ' && mini->cmd[i][j] && \
 			mini->cmd[i][j] != '>' && mini->cmd[i][j] != '<')
 			j++;
-		if (mini->cmd[i][j] == '\"')
-		{
-			j++;
-			while (mini->cmd[i][j] != '\"')
-				j++;
-			j++;
-		}
-		if (mini->cmd[i][j] == '\'')
-		{
-			j++;
-			while (mini->cmd[i][j] != '\'')
-				j++;
-			j++;
-		}
+		j = quote_jump(mini->cmd[i], j, '\"');
+		j = quote_jump(mini->cmd[i], j, '\'');
 		if (mini->cmd[i][j] == ' ')
 		{
 			space++;

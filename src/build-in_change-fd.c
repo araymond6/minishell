@@ -1,6 +1,5 @@
 #include "../include/minishell.h"
 
-// change the STDIN for the infile if a < or << is in the command line
 int	change_inf(char c, char *file)
 {
 	int	fd;
@@ -24,7 +23,6 @@ int	change_inf(char c, char *file)
 	return (0);
 }
 
-// change the STDIN for the infile if a > or >> is in the command line
 int	change_out(char c, char *file)
 {
 	int	fd;
@@ -48,7 +46,6 @@ int	change_out(char c, char *file)
 	return (0);
 }
 
-//this function check if command is a buildin to program
 int	isbuildin(char *isbuildin)
 {
 	if (ft_strncmp(isbuildin, "echo", 5) == 0

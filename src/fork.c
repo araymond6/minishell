@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int null_command(t_minishell * mini, int *pids, int n)
+int	null_command(t_minishell *mini, int *pids, int n)
 {
 	int	originalstdout;
 	int	originalstdin;
@@ -39,19 +39,19 @@ int null_command(t_minishell * mini, int *pids, int n)
 	close(originalstdout);
 	mini->s_cmd = mini->s_cmd->next;
 	forker(n - 1, pids +1, mini);
-	return(0);
+	return (0);
 }
 
-int exec_buildin(t_minishell * mini, int *pids, int n)
+int	exec_buildin(t_minishell *mini, int *pids, int n)
 {
-	int originalstdout;
+	int	originalstdout;
 	int	r;
 
 	r = 0;
-
 	originalstdout = dup(STDOUT_FILENO);
 	if (dup2(mini->s_cmd->fd[1], STDOUT_FILENO) == -1)
-		return (close(mini->s_cmd->fd[1]), close(mini->s_cmd->fd[0]), EXIT_FAILURE);
+		return (close(mini->s_cmd->fd[1]), \
+			close(mini->s_cmd->fd[0]), EXIT_FAILURE);
 	if (mini->s_cmd->redir)
 	{
 		while (mini->s_cmd->redir[r])
@@ -68,16 +68,15 @@ int exec_buildin(t_minishell * mini, int *pids, int n)
 	close(originalstdout);
 	mini->s_cmd = mini->s_cmd->next;
 	forker(n - 1, pids +1, mini);
-	return(0);
+	return (0);
 }
 
-int last_buildin(t_minishell * mini)
+int	last_buildin(t_minishell *mini)
 {
-	int originalstdout;
+	int	originalstdout;
 	int	r;
 
 	r = 0;
-
 	originalstdout = dup(STDOUT_FILENO);
 	if (mini->s_cmd->redir)
 	{
@@ -94,10 +93,10 @@ int last_buildin(t_minishell * mini)
 		return (message_perror("Error restoring stdout"));
 	close(originalstdout);
 	mini->s_cmd = mini->s_cmd->next;
-	return(0);
+	return (0);
 }
 
-int	 forker(int n, int *pids, t_minishell *mini)
+int	forker(int n, int *pids, t_minishell *mini)
 {
 	int	r;
 
@@ -108,18 +107,18 @@ int	 forker(int n, int *pids, t_minishell *mini)
 	{
 		if (mini->s_cmd->cmd == NULL)
 		{
-			if(null_command(mini, pids, n) == 1)
-				return(1);
+			if (null_command(mini, pids, n) == 1)
+				return (1);
 		}
 		else if (isbuildin(mini->s_cmd->cmd) == 0 && n > 1)
 		{
-			if(exec_buildin(mini, pids, n) == 1)
-				return(1);
+			if (exec_buildin(mini, pids, n) == 1)
+				return (1);
 		}
 		else if (isbuildin(mini->s_cmd->cmd) == 0 && n == 1)
 		{
-			if(last_buildin(mini) == 1)
-				return(1);
+			if (last_buildin(mini) == 1)
+				return (1);
 		}
 		else
 		{

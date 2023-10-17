@@ -36,8 +36,8 @@ typedef struct s_cmd
 	int				narg;
 	int				status;
 	int				fd_stdin_out[2];
-	int				splen;
 	int				qlen;
+	int				c;
 }	t_cmd;
 
 typedef struct s_parse
@@ -93,7 +93,7 @@ char	*test_path(char **path);
 int		find_path(t_minishell *mini);
 
 //redirections.c
-int		redir_count(char *cmd);
+int		redir_count(t_minishell *mini, char *cmd);
 int		redirection(t_minishell *mini, int i, int j, char c);
 int		select_redirection(t_minishell *mini, int i, int j);
 
@@ -176,5 +176,8 @@ int		to_fork(t_minishell *mini, int *pids, int n);
 int		child(t_minishell *mini);
 int		parent(t_cmd *cmd);
 int		ft_atoll(const char *str);
+int		quote_jump(char *cmd, int i, char c);
+int		redirection_jump(t_minishell *mini, char *cmd, int i, char c);
+int		redir_quote(t_minishell *mini, int i, int j, int r);
 
 #endif

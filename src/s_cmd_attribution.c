@@ -14,12 +14,12 @@ void	initialize_s_cmd(t_cmd *cmd)
 	cmd->redir = NULL;
 	cmd->narg = 0;
 	cmd->status = 0;
+	cmd->c = 0;
 }
 
-// s_cmd : attribute a value to cmd
 int	s_cmd_cmd(t_minishell *mini, int i, int j)
 {
-	int r;
+	int	r;
 
 	r = 0;
 	if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
@@ -54,7 +54,6 @@ int	s_cmd_cmd(t_minishell *mini, int i, int j)
 	return (j);
 }
 
-// s_cmd : attribute a value to arg_cmd[0]
 int	s_cmd_arg_cmd_first(t_minishell *mini)
 {
 	int	len;
@@ -67,10 +66,8 @@ int	s_cmd_arg_cmd_first(t_minishell *mini)
 	return (0);
 }
 
-// s_cmd : attribute a value to arg_cmd betwenn arg_cmd[0] and arg_cmd[last]
 int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 {
-	int	len;
 	int	r;
 
 	r = 0;
@@ -103,10 +100,8 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 	return (j);
 }
 
-// s_cmd : attribute a value to arg_cmd[last]
 int	s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
 {
-	int	len;
 	int	r;
 
 	r = 0;

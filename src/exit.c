@@ -4,7 +4,7 @@ void	free_scmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
 
-	if(cmd)
+	if (cmd)
 	{
 		free(cmd->prev);
 		temp = cmd;
@@ -43,7 +43,7 @@ int	is_valid_exit_code(t_minishell *mini)
 		else
 			return (1);
 	}
-	return(0);
+	return (0);
 }
 
 int	ft_exit(t_minishell *mini)
@@ -75,7 +75,3 @@ int	ft_exit(t_minishell *mini)
 	}
 	return (0);
 }
-		// un argument non valide -> ne sort pas
-		// un argument valide -> sort
-		// plusieurs argument avec le premier valide -> ne sort pas
-		// plusieurs argument avec le premier invalide -> sort

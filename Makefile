@@ -14,14 +14,13 @@ RL_DIR = include/readline
 RL = readline-8.2
 RLINE = $(RL_DIR)/libreadline.a
 
-SRCS =	build-in.c \
-		change_fd.c \
-		command.c \
+SRCS =	build-in_change-fd.c \
 		exec.c \
 		here_doc.c \
 		parsing_exec.c \
 		path.c \
-		redirections.c \
+		redirection.c \
+		redirection2.c \
 		s_cmd_attribution.c \
 		utils_exec_2.c \
 		utils_exec.c \
