@@ -44,7 +44,7 @@ int	add_from_env(t_minishell *mini, int *j, char *arg, char *str)
 }
 
 //exit_code exception
-void	add_exitcode(t_minishell *mini, int *j, char *arg, char *str)
+void	add_exitcode(int *j, char *arg, char *str)
 {
 	int	k;
 

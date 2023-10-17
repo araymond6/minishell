@@ -31,7 +31,6 @@ char	*heredoc_count(t_minishell *mini, char *new_line)
 {
 	char	*new_sub;
 	int		i;
-	int		j;
 	int		error;
 
 	i = 0;
@@ -46,7 +45,7 @@ char	*heredoc_count(t_minishell *mini, char *new_line)
 			error = count_sub_dollar(mini, &i);
 		else
 			i++;
-		if (error == 1) //TODO: shorten this function
+		if (error == 1)
 			return (free(new_line), NULL);
 	}
 	new_sub = heredoc_sub(mini, new_line);
