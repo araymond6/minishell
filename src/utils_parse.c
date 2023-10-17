@@ -17,7 +17,7 @@ char	*get_path(t_minishell *mini)
 	return (NULL);
 }
 
-// zeroes t_minishell and set envp
+// zeroes t_minishell and set envp and signal handlers
 void	initialize_mini(t_minishell *mini, char **envp)
 {
 	ft_bzero(mini, sizeof(t_minishell));
@@ -26,22 +26,6 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	mini->sigact.sa_handler = signal_handler;
 	sigaction(SIGINT, &mini->sigact, NULL);
 	sigaction(SIGQUIT, &mini->sigact, NULL);
-	sigaction(SIGTSTP, &mini->sigact, NULL);
-}
-
-// will need at some point
-void	free_mini(t_minishell *mini)
-{
-	int	i;
-
-	i = -1;
-	if (mini->cmd)
-	{
-		while (mini->cmd[++i])
-			free(mini->cmd[i]);
-		free(mini->cmd);
-		mini->cmd = NULL;
-	}
 }
 
 void	clear_mini(t_minishell *mini)
@@ -50,7 +34,7 @@ void	clear_mini(t_minishell *mini)
 	mini->parse.c = 0;
 	mini->parse.end_block = 0;
 	mini->parse.start_block = 0;
-	mini->parse.sub = 0;
+	mini->parse.sub = 0; //TODO: free shit (envp and more)
 	if (mini->arg)
 	{
 		free(mini->arg);
@@ -58,7 +42,6 @@ void	clear_mini(t_minishell *mini)
 	}
 	if (mini->cmd)
 		free_array(mini->cmd);
-	mini->cmd = NULL;
 }
 
 // sets error code to 1, prints error message 
@@ -68,5 +51,5 @@ void	malloc_error(t_minishell *mini, char **to_free)
 	mini->exit_code = 1;
 	if (to_free)
 		free_array(to_free);
-	message_perror("malloc");
+	printf("malloc error\n");
 }

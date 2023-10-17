@@ -9,7 +9,7 @@ int	doublequote_cmd(t_minishell *mini, int *i, int *j)
 		if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' \
 		&& mini->arg[*i + 1] != '\0')
 		{
-			if (sub_dollar(mini, i, j))
+			if (sub_dollar(mini, i, j, mini->cmd[mini->parse.c]))
 				return (1);
 		}
 		mini->cmd[mini->parse.c][(*j)++] = mini->arg[(*i)++];

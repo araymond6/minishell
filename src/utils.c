@@ -7,7 +7,9 @@ void	exit_program(t_minishell *mini)
 
 	exit_code = mini->exit_code;
 	clear_history();
-	free_mini(mini);
+	clear_mini(mini);
+	if (mini->envpset == 1)
+		free_array(mini->envp);
 	exit(exit_code);
 }
 
@@ -21,6 +23,7 @@ int	count_2darray(char **table)
 	return (i);
 }
 
+// checks for space and tabs to see if it's ONLY that
 int	spacentabs_check(t_minishell *mini)
 {
 	int	i;
