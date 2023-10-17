@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 10:16:53 by araymond          #+#    #+#             */
-/*   Updated: 2023/02/14 16:18:30 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:12:11 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	ft_strcopy(char *new, const char *s1, int dstsize)
 			new[i] = s1[i];
 			i++;
 		}
-		new[i] = '\0';
 	}
 }
 
@@ -47,7 +46,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (ft_strchr(set, s1[j]) && j >= 0)
 		j--;
 	k = j - i + 2;
-	new = (char *)malloc(sizeof(*new) * k);
+	new = ft_calloc(sizeof(*new), k);
 	if (!new)
 		return (NULL);
 	ft_strcopy(new, &s1[i], k);

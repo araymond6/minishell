@@ -8,7 +8,7 @@ int	special_check(t_minishell *mini, int *i, int *j, int *spec)
 		*spec = doublequote_cmd(mini, i, j);
 	else if (mini->arg[*i] == '$' && mini->arg[*i + 1] != ' ' \
 	&& mini->arg[*i + 1] != '\0')
-		*spec = sub_dollar(mini, i, j);
+		*spec = sub_dollar(mini, i, j, mini->cmd[mini->parse.c]);
 	else if (mini->arg[*i] == '|')
 		return (1);
 	else if (mini->arg[*i] == ' ' || mini->arg[*i] == '\t' || \
