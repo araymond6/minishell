@@ -108,22 +108,22 @@ int	forker(int n, int *pids, t_minishell *mini)
 		if (mini->s_cmd->cmd == NULL)
 		{
 			if (null_command(mini, pids, n) == 1)
-				return (1);
+				return (free(pids), 1);
 		}
 		else if (isbuildin(mini->s_cmd->cmd) == 0 && n > 1)
 		{
 			if (exec_buildin(mini, pids, n) == 1)
-				return (1);
+				return (free(pids), 1);
 		}
 		else if (isbuildin(mini->s_cmd->cmd) == 0 && n == 1)
 		{
 			if (last_buildin(mini) == 1)
-				return (1);
+				return (free(pids), 1);
 		}
 		else
 		{
 			if (to_fork(mini, pids, n))
-				return (1);
+				return (free(pids), 1);
 		}
 	}
 	return (0);
@@ -138,7 +138,10 @@ int	to_fork(t_minishell *mini, int *pids, int n)
 		return (free_scmd(mini->s_cmd), message_perror("Fork"));
 	}
 	else if (*pids == 0)
+	{
+		free(pids);
 		child(mini);
+	}
 	else if (*pids > 0)
 	{
 		parent(mini->s_cmd);

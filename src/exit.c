@@ -25,6 +25,7 @@ void	free_scmd(t_cmd *cmd)
 			cmd = temp;
 		}
 	}
+	
 }
 
 int	is_valid_exit_code(t_minishell *mini)

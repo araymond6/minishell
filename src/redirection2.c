@@ -12,6 +12,8 @@ int	redirection(t_minishell *mini, int i, int j, char c)
 		j++;
 	while (mini->s_cmd->file[r])
 		r++;
+	mini->s_cmd->qlen = count_quote(mini->cmd[i], j);
+	mini->s_cmd->qlen = mini->s_cmd->qlen - j + 1;
 	mini->s_cmd->file[r] = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->file[r])
 		return (free_scmd(mini->s_cmd), 1);
