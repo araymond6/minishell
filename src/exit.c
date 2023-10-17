@@ -11,7 +11,9 @@ void	free_scmd(t_cmd *cmd)
 		while (temp)
 		{
 			if (temp->redir)
+			{
 				free(temp->redir);
+			}
 			if (temp->cmd)
 				free(temp->cmd);
 			if (temp->path)
@@ -25,7 +27,6 @@ void	free_scmd(t_cmd *cmd)
 			cmd = temp;
 		}
 	}
-	
 }
 
 int	is_valid_exit_code(t_minishell *mini)
