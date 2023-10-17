@@ -34,7 +34,7 @@ int	read_write(char *delimiter, int fd)
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (close(fd), message_perror("2.1"));
-	else if (ft_strncmp(delimiter, new_line, ft_strlen(delimiter)) == 0)
+	else if (ft_strncmp(delimiter, new_line, ft_strlen(delimiter) + 1) == 0)
 		i = 1;
 	else
 	{
