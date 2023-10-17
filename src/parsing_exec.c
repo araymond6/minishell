@@ -55,7 +55,7 @@ int	parsing_command(t_minishell *mini, int i)
 			j++;
 		else
 			j = check_command(mini, i, j);
-		if (j == 1)
+		if (j == 1 || j == -1)
 			return (1);
 	}
 	return (0);

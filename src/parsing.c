@@ -25,6 +25,7 @@ static int	count_blocks(t_minishell *mini)
 static int	allocate_cmd(t_minishell *mini)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
@@ -49,6 +50,8 @@ static int	allocate_cmd(t_minishell *mini)
 	mini->parse.end_block = i;
 	if (get_block(mini))
 		return (1);
+	j = 0;
+	printf("%d: %s\n", j, mini->cmd[j]);
 	return (0);
 }
 
@@ -123,10 +126,7 @@ void	read_input(t_minishell *mini)
 		if (parse(mini) == 0)
 		{
 			if (create_list(mini) == 0)
-			{
-				//clear_mini(mini);
 				x_comm(mini);
-			}
 		}
 	}
 }

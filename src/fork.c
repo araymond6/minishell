@@ -38,7 +38,7 @@ int	null_command(t_minishell *mini, int *pids, int n)
 	close(originalstdin);
 	close(originalstdout);
 	mini->s_cmd = mini->s_cmd->next;
-	forker(n - 1, pids +1, mini);
+	forker(n - 1, pids + 1, mini);
 	return (0);
 }
 
@@ -67,7 +67,7 @@ int	exec_buildin(t_minishell *mini, int *pids, int n)
 		return (message_perror("Error restoring stdout"));
 	close(originalstdout);
 	mini->s_cmd = mini->s_cmd->next;
-	forker(n - 1, pids +1, mini);
+	forker(n - 1, pids + 1, mini);
 	return (0);
 }
 
@@ -146,7 +146,7 @@ int	to_fork(t_minishell *mini, int *pids, int n)
 	{
 		parent(mini->s_cmd);
 		mini->s_cmd = mini->s_cmd->next;
-		forker(n - 1, pids +1, mini);
+		forker(n - 1, pids + 1, mini);
 	}
 	return (0);
 }

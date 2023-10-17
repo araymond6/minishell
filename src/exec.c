@@ -101,7 +101,7 @@ int	execute_cmd(t_minishell *mini)
 			tab_path[mini->s_cmd->c] = \
 				ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[mini->s_cmd->c]), \
 				sizeof(char));
-			if (tab_path == NULL)
+			if (tab_path[mini->s_cmd->c] == NULL)
 				return (1);
 			ft_strlcpy(tab_path[mini->s_cmd->c], \
 				mini->s_cmd->cmd_arg[mini->s_cmd->c], ft_strlen(mini->s_cmd->path));
