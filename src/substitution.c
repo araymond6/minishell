@@ -33,7 +33,7 @@ int	sub_dollar(t_minishell *mini, int *i, int *j, char *str)
 		exception = ft_itoa(mini->exit_code);
 		if (!exception)
 			return (malloc_error(mini, NULL), 1);
-		add_exitcode(mini, j, exception, str);
+		add_exitcode(j, exception, str);
 		(*i)++;
 		return (free(arg), 0);
 	}

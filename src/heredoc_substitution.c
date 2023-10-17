@@ -31,7 +31,6 @@ char	*heredoc_count(t_minishell *mini, char *new_line)
 {
 	char	*new_sub;
 	int		i;
-	int		j;
 	int		error;
 
 	i = 0;

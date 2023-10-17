@@ -127,7 +127,7 @@ void	parse_exit(t_minishell *mini);
 int		sub_dollar(t_minishell *mini, int *i, int *j, char *str);
 int		add_sub_env(t_minishell *mini, char *arg);
 int		add_from_env(t_minishell *mini, int *j, char *arg, char *str);
-void	add_exitcode(t_minishell *mini, int *j, char *arg, char *str);
+void	add_exitcode(int *j, char *arg, char *str);
 int		quote_check(t_minishell *mini, int *i);
 int		special_char_check(t_minishell *mini, int *i);
 int		redir_parsing(t_minishell *mini);
