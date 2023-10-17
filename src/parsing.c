@@ -28,7 +28,7 @@ static int	allocate_cmd(t_minishell *mini)
 	int	j;
 
 	i = 0;
-	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *));
+	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *)); //TODO: find LEAK
 	if (!mini->cmd)
 		return (malloc_error(mini, NULL), 1);
 	while (mini->arg[i])
@@ -51,7 +51,6 @@ static int	allocate_cmd(t_minishell *mini)
 	if (get_block(mini))
 		return (1);
 	j = 0;
-	printf("%d: %s\n", j, mini->cmd[j]);
 	return (0);
 }
 
@@ -64,7 +63,7 @@ static int	trim_cmd(t_minishell *mini)
 	while (mini->cmd[++i])
 	{
 		temp = mini->cmd[i];
-		mini->cmd[i] = ft_strtrim(temp, " ");
+		mini->cmd[i] = ft_strtrim(temp, " "); // TODO: Make sure you free mini->arg
 		free(temp);
 		temp = NULL;
 		if (!mini->cmd[i])
