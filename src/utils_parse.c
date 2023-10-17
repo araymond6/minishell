@@ -28,21 +28,6 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	sigaction(SIGQUIT, &mini->sigact, NULL);
 }
 
-// will need at some point
-void	free_mini(t_minishell *mini)
-{
-	int	i;
-
-	i = -1;
-	if (mini->cmd)
-	{
-		while (mini->cmd[++i])
-			free(mini->cmd[i]);
-		free(mini->cmd);
-		mini->cmd = NULL;
-	}
-}
-
 void	clear_mini(t_minishell *mini)
 {
 	int	i;
@@ -52,7 +37,7 @@ void	clear_mini(t_minishell *mini)
 	mini->parse.c = 0;
 	mini->parse.end_block = 0;
 	mini->parse.start_block = 0;
-	mini->parse.sub = 0;
+	mini->parse.sub = 0; //TODO: free shit (envp and more)
 	if (mini->arg)
 	{
 		free(mini->arg);

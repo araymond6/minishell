@@ -85,6 +85,7 @@ void	signal_handler(int signal)
 	}
 	else if (signal == SIGQUIT)
 	{
+		kill(0, 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}

@@ -54,6 +54,7 @@ void	all_here_doc(t_minishell *mini)
 
 	f = 0;
 	cmd2 = mini->s_cmd;
+	mini->heredoc_count = 0;
 	while (cmd2->cmd)
 	{
 		if (cmd2->file)
@@ -61,9 +62,12 @@ void	all_here_doc(t_minishell *mini)
 			while (cmd2->file[f])
 			{
 				if (cmd2->redir[f] == '2')
+				{
 					here_doc(mini, cmd2->file[f]);
+				}
 				f++;
 			}
+			mini->heredoc_count++;
 		}
 		f = 0;
 		cmd2 = cmd2->next;
@@ -74,23 +78,20 @@ void	all_here_doc(t_minishell *mini)
 static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make this cleaner cause wtf me
 {
 	char	*new_line;
-	char	*new_sub;
 	int		i;
 
 	i = 0;
-	new_sub = NULL;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (close(fd), message_perror("2.1"));
 	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		if (heredoc_sub(mini, new_line, new_sub)) //TODO: make mini->cmd usable or make new functions
-			return (free(new_line), 1);
-	}
-	if (new_sub)
-	{
-		free(new_line);
-		new_line = new_sub;
+		new_line = heredoc_count(mini, new_line);
+		if (!new_line)
+		{
+			mini->arg = NULL;
+			return (1);
+		}
 	}
 	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;
@@ -100,6 +101,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make t
 		write(fd, "\n", 1);
 	}
 	free(new_line);
+	new_line = NULL;
 	return (i);
 }
 

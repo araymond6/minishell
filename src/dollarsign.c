@@ -25,7 +25,7 @@ int	add_sub_env(t_minishell *mini, char *arg)
 }
 
 //adds the substitution of the env var to mini->cmd
-int	add_from_env(t_minishell *mini, int *j, char *arg)
+int	add_from_env(t_minishell *mini, int *j, char *arg, char *str)
 {
 	char	*new;
 	int		k;
@@ -38,17 +38,17 @@ int	add_from_env(t_minishell *mini, int *j, char *arg)
 		k++;
 	k++;
 	while (new[k])
-		mini->cmd[mini->parse.c][(*j)++] = new[k++];
+		str[(*j)++] = new[k++];
 	free(new);
 	return (0);
 }
 
 //exit_code exception
-void	add_exitcode(t_minishell *mini, int *j, char *arg)
+void	add_exitcode(t_minishell *mini, int *j, char *arg, char *str)
 {
 	int	k;
 
 	k = -1;
 	while (arg[++k])
-		mini->cmd[mini->parse.c][(*j)++] = arg[k];
+		str[(*j)++] = arg[k];
 }

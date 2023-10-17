@@ -84,6 +84,7 @@ int		process(t_minishell *mini);
 //here_doc.c
 int		here_doc(t_minishell *mini, char *delimiter);
 int		set_flag(t_minishell *mini);
+char	*heredoc_count(t_minishell *mini, char *new_line);
 
 //parsing_exec.c
 int		parsing_command(t_minishell *mini, int i);
@@ -122,12 +123,12 @@ int		get_block(t_minishell *mini);
 int		doublequote_cmd(t_minishell *mini, int *i, int *j);
 void	quote_cmd(t_minishell *mini, int *i, int *j);
 void	parse_exit(t_minishell *mini);
-int		sub_dollar(t_minishell *mini, int *i, int *j);
+int		sub_dollar(t_minishell *mini, int *i, int *j, char *str);
 int		add_sub_env(t_minishell *mini, char *arg);
-int		add_from_env(t_minishell *mini, int *j, char *arg);
+int		add_from_env(t_minishell *mini, int *j, char *arg, char *str);
+void	add_exitcode(t_minishell *mini, int *j, char *arg, char *str);
 int		quote_check(t_minishell *mini, int *i);
 int		special_char_check(t_minishell *mini, int *i);
-void	add_exitcode(t_minishell *mini, int *j, char *arg);
 int		redir_parsing(t_minishell *mini);
 char	*env_parsing(t_minishell *mini, int *i, int *j);
 

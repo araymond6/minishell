@@ -125,5 +125,6 @@ void	read_input(t_minishell *mini)
 			if (create_list(mini) == 0)
 				x_comm(mini);
 		}
+		clear_mini(mini);
 	}
 }
