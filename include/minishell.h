@@ -143,6 +143,7 @@ void	clear_mini(t_minishell *mini);
 void	exit_program(t_minishell *mini);
 char	*check_env(t_minishell *mini, char *arg);
 void	signal_handler(int signal);
+void	sigint_handler(int signal);
 void	free_array(char **array);
 int		len_until_space(t_minishell *mini, int i, int j);
 int		len_until_redirections(t_minishell *mini, int i, int j);

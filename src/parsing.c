@@ -25,7 +25,6 @@ static int	count_blocks(t_minishell *mini)
 static int	allocate_cmd(t_minishell *mini)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	mini->cmd = ft_calloc((mini->parse.block_count + 1), sizeof(char *)); //TODO: find LEAK
@@ -50,7 +49,9 @@ static int	allocate_cmd(t_minishell *mini)
 	mini->parse.end_block = i;
 	if (get_block(mini))
 		return (1);
-	j = 0;
+	mini->parse.sub = 0;
+	mini->parse.c++;
+	mini->cmd[mini->parse.c] = NULL;
 	return (0);
 }
 
@@ -127,5 +128,6 @@ void	read_input(t_minishell *mini)
 			if (create_list(mini) == 0)
 				x_comm(mini);
 		}
+		clear_mini(mini);
 	}
 }

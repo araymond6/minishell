@@ -5,16 +5,19 @@ static int	check_heredoc(t_minishell *mini)
 	int	j;
 
 	j = 0;
-	if (mini->s_cmd->redir)
+	if (mini->s_cmd)
 	{
-		while (mini->s_cmd->redir[j])
+		if (mini->s_cmd->redir)
 		{
-			if (mini->s_cmd->redir[j] == '2')
-				mini->heredoc_count++;
-			j++;
+			while (mini->s_cmd->redir[j])
+			{
+				if (mini->s_cmd->redir[j] == '2')
+					mini->heredoc_count++;
+				j++;
+			}
+			if (set_flag(mini))
+				return (1);
 		}
-		if (set_flag(mini))
-			return (1);
 	}
 	return (0);
 }

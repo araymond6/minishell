@@ -74,6 +74,7 @@ int	find_path(t_minishell *mini)
 		join_path_command(tab_path, mini->s_cmd->cmd);
 		mini->s_cmd->path = test_path(tab_path);
 		free_array(tab_path);
+		tab_path = NULL;
 	}
 	return (0);
 }

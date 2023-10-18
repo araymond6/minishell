@@ -55,6 +55,7 @@ char	**create_tab(t_minishell *mini, char *cmd)
 		{
 			free(cmd);
 			free_array(tab_path);
+			tab_path = NULL;
 			free_scmd(mini->s_cmd);
 			return (NULL);
 		}
@@ -67,7 +68,10 @@ void	free_execve(char *cmd, char **tab_path)
 	if (cmd)
 		free(cmd);
 	if (tab_path)
+	{
 		free_array(tab_path);
+		tab_path = NULL;
+	}
 	exit(message_perror("EXECVE"));
 }
 
@@ -84,7 +88,10 @@ int	execute_cmd(t_minishell *mini)
 		exit(execute_buildin(mini));
 	else
 	{
+		mini->sigact.sa_handler = sigint_handler;
 		signal(SIGQUIT, SIG_DFL);
+		sigaction(SIGINT, &mini->sigact, NULL);
+		mini->sigact.sa_handler = signal_handler;
 		cmd = ft_calloc(ft_strlen(mini->s_cmd->path) + 2, sizeof(char));
 		if (cmd == NULL)
 			return (free_scmd(mini->s_cmd), 1);

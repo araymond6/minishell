@@ -30,18 +30,15 @@ void	initialize_mini(t_minishell *mini, char **envp)
 
 void	clear_mini(t_minishell *mini)
 {
-	mini->parse.block_count = 0;
-	mini->parse.c = 0;
-	mini->parse.end_block = 0;
-	mini->parse.start_block = 0;
-	mini->parse.sub = 0; //TODO: free shit (envp and more)
+	ft_bzero(&mini->parse, sizeof(t_parse));
 	if (mini->arg)
 	{
 		free(mini->arg);
 		mini->arg = NULL;
 	}
-	if (mini->cmd)
+	if (mini->cmd != NULL)
 		free_array(mini->cmd);
+	mini->cmd = NULL;
 }
 
 // sets error code to 1, prints error message 
@@ -50,6 +47,9 @@ void	malloc_error(t_minishell *mini, char **to_free)
 {
 	mini->exit_code = 1;
 	if (to_free)
+	{
 		free_array(to_free);
+		to_free = NULL;
+	}
 	printf("malloc error\n");
 }

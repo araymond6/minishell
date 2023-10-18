@@ -24,6 +24,7 @@ static int	unset_parsing(t_minishell *mini, int *i)
 		return (-1);
 	if (mini->s_cmd->cmd_arg[*i][k] == '=')
 		return (free(str), -1);
+	free(str);
 	str = ft_strjoin(mini->s_cmd->cmd_arg[*i], "=");
 	if (!str)
 		return (malloc_error(mini, NULL), -1);
@@ -78,7 +79,10 @@ static char	**unset_table(t_minishell *mini, int *i, int *c)
 	table[j] = NULL;
 	(*i)++;
 	if (param == 1)
+	{
 		free_array(table);
+		table = NULL;
+	}
 	return (table);
 }
 
