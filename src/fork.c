@@ -133,6 +133,7 @@ int	forker(int n, int *pids, t_minishell *mini)
 
 int	to_fork(t_minishell *mini, int *pids, int n)
 {
+	set_signal_for_process(mini);
 	*pids = fork();
 	if (*pids < 0)
 	{

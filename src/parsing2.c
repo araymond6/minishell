@@ -68,6 +68,8 @@ int	quote_check(t_minishell *mini, int *i)
 
 static int	pipe_parse(t_minishell *mini, int *i)
 {
+	if (spacentabs_check(&mini->arg[*i + 1]))
+		return (parsing_error(mini), 1);
 	mini->cmd[mini->parse.c] = \
 	ft_calloc((*i + mini->parse.sub + 1), sizeof(char));
 	if (!mini->cmd[mini->parse.c])

@@ -24,22 +24,21 @@ int	count_2darray(char **table)
 }
 
 // checks for space and tabs to see if it's ONLY that
-int	spacentabs_check(t_minishell *mini)
+int	spacentabs_check(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (mini->arg[i])
+	while (str[i])
 	{
-		while (mini->arg[i] == ' ')
-		{
+		while (str[i] == ' ')
 			i++;
-		}
-		while (mini->arg[i] == '\t')
-		{
+		while (str[i] == '\t')
 			i++;
-		}
-		if (mini->arg[i] != ' ' && mini->arg[i] != '\t' && mini->arg[i] != '\0')
+		while (str[i] == '\n')
+			i++;
+		if (str[i] != ' ' && str[i] != '\t' && \
+		str[i] != '\n' && str[i] != '\0')
 			return (0);
 	}
 	return (1);
