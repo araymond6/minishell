@@ -101,6 +101,12 @@ void	read_input(t_minishell *mini)
 {
 	while (1)
 	{
+		// reset
+		// {
+		// 	signal_reset
+		// 	close
+		// 	clear_mini
+		// }
 		signal_reset(mini);
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
