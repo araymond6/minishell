@@ -151,6 +151,8 @@ int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 int		count_2darray(char **table);
 int		spacentabs_check(t_minishell *mini);
+void	set_signal_for_process(t_minishell *mini);
+void	signal_reset(t_minishell *mini);
 
 // buildins and start of exec
 int		x_comm(t_minishell *mini);

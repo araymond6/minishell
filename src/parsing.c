@@ -73,19 +73,6 @@ static int	trim_cmd(t_minishell *mini)
 			return (malloc_error(mini, mini->cmd), 1);
 		}
 	}
-	// if (count_2darray(mini->cmd) > 1)
-	// {
-	// 	i = 0;
-	// 	while (mini->cmd[i]) // make sure this is handled properly depending on parsing
-	// 	{
-	// 		if (mini->cmd[i][0] == '\0')
-	// 		{
-	// 			parsing_error(mini);
-	// 			return (1);
-	// 		}
-	// 		i++;
-	// 	}
-	// }
 	return (0);
 }
 
@@ -114,6 +101,7 @@ void	read_input(t_minishell *mini)
 {
 	while (1)
 	{
+		signal_reset(mini);
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
 			break ;

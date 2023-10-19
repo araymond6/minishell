@@ -72,31 +72,3 @@ char	*check_env(t_minishell *mini, char *arg)
 		return (NULL);
 	return (new);
 }
-
-void	signal_handler(int signal)
-{
-	if (signal == SIGINT) // TODO: MAKE IT NOT REDISPLAY WHEN IN A PROCESS
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else if (signal == SIGQUIT)
-	{
-		kill(0, 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	(void)signal;
-}
-
-void	sigint_handler(int signal)
-{
-	if (signal == SIGINT)
-	{
-		kill(0, 0);
-		printf("\n");
-		rl_on_new_line();
-	}
-}

@@ -28,7 +28,7 @@ char	**create_tab_path(t_minishell *mini, char **tab_path)
 		if (tab_path == NULL)
 			return (NULL);
 		ft_strlcpy(tab_path[mini->s_cmd->c], \
-			mini->s_cmd->cmd_arg[mini->s_cmd->c], ft_strlen(mini->s_cmd->path));
+			mini->s_cmd->cmd_arg[mini->s_cmd->c], ft_strlen(mini->s_cmd->path) + 1);
 		mini->s_cmd->c++;
 	}
 	return (tab_path);

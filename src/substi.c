@@ -79,9 +79,7 @@ static int	exitcode_exception(t_minishell *mini, int *i)
 	{
 		exception = ft_itoa(mini->exit_code);
 		if (!exception)
-		{
 			return (malloc_error(mini, NULL), 1);
-		}
 		mini->parse.sub += ft_strlen(exception);
 		free(exception);
 		(*i)++;

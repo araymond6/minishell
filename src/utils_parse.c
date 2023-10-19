@@ -23,9 +23,7 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	ft_bzero(mini, sizeof(t_minishell));
 	mini->envp = envp;
 	mini->path = get_path(mini);
-	mini->sigact.sa_handler = signal_handler;
-	sigaction(SIGINT, &mini->sigact, NULL);
-	sigaction(SIGQUIT, &mini->sigact, NULL);
+	signal_reset(mini);
 }
 
 void	clear_mini(t_minishell *mini)
