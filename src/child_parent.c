@@ -6,7 +6,7 @@ int	child(t_minishell *mini)
 	int	i;
 
 	i = -1;
-	if (mini->s_cmd->prev->cmd != NULL)
+	if (mini->s_cmd->prev != NULL)
 		if (dup2(mini->s_cmd->prev->fd[0], STDIN_FILENO) == -1)
 			return (close(mini->s_cmd->fd[0]), \
 				close(mini->s_cmd->fd[1]), EXIT_FAILURE);
@@ -14,7 +14,7 @@ int	child(t_minishell *mini)
 		if (dup2(mini->s_cmd->fd[1], STDOUT_FILENO) == -1)
 			return (close(mini->s_cmd->fd[0]), \
 				close(mini->s_cmd->fd[1]), EXIT_FAILURE);
-	if (mini->s_cmd->prev->cmd != NULL)
+	if (mini->s_cmd->prev != NULL)
 		close(mini->s_cmd->prev->fd[0]);
 	if (mini->s_cmd->next->cmd == NULL)
 		close(mini->s_cmd->fd[0]);
@@ -36,7 +36,7 @@ int	parent(t_cmd *cmd)
 
 	originalstdin = dup(STDIN_FILENO);
 	close(cmd->fd[1]);
-	if (cmd->prev->cmd != NULL)
+	if (cmd->prev != NULL)
 	{
 		if (dup2(cmd->prev->fd[0], STDIN_FILENO) == -1)
 		{
@@ -45,7 +45,7 @@ int	parent(t_cmd *cmd)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (cmd->prev->cmd != NULL)
+	if (cmd->prev != NULL)
 		close(cmd->prev->fd[0]);
 	if (cmd->next->cmd == NULL)
 		close(cmd->fd[0]);
