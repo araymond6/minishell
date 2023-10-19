@@ -10,7 +10,7 @@ void	initialize_s_cmd(t_cmd *cmd)
 	cmd->file = NULL;
 	cmd->next = NULL;
 	cmd->nredir = 0;
-	cmd->prev = ft_calloc(1, sizeof(t_cmd));
+	cmd->prev = NULL;
 	cmd->redir = NULL;
 	cmd->narg = 0;
 	cmd->status = 0;

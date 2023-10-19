@@ -9,7 +9,7 @@ int	null_command(t_minishell *mini, int *pids, int n)
 	r = 0;
 	originalstdin = dup(STDIN_FILENO);
 	originalstdout = dup(STDOUT_FILENO);
-	if (mini->s_cmd->prev->cmd != NULL)
+	if (mini->s_cmd->prev != NULL)
 		close(mini->s_cmd->prev->fd[0]);
 	if (mini->s_cmd->next->cmd == NULL)
 		close(mini->s_cmd->fd[0]);
