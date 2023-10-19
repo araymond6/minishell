@@ -40,6 +40,11 @@ typedef struct s_cmd
 	int				c;
 }	t_cmd;
 
+typedef struct s_token
+{
+	char *token;
+}	t_token;
+
 typedef struct s_parse
 {
 	int		block_count;
@@ -56,6 +61,7 @@ typedef struct s_minishell
 	char				**cmd;
 	char				**envp;
 	int					envpset;
+	struct s_token		token; //TODO: mess with tokenization, try to find something to makr $ARG work with everything else
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
