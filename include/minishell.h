@@ -54,7 +54,8 @@ typedef enum e_type
 	REDIRECT_OUTPUT = 9, // >
 	REDIRECT_INPUT = 10, // <
 	EQUAL = 11, // =
-	OTHER = 12 // all other characters that are not used
+	OTHER = 12, // all other characters that are not used
+	SUB = 13 // characters that have been substituted
 }	t_type;
 
 typedef struct s_token
@@ -210,5 +211,8 @@ int		ft_atoll(const char *str);
 int		quote_jump(char *cmd, int i, char c);
 int		redirection_jump(t_minishell *mini, char *cmd, int i, char c);
 int		redir_quote(t_minishell *mini, int i, int j, int r);
+
+//tokenize and new parsing
+t_token	*tokenize(t_minishell *mini, const char *arg);
 
 #endif

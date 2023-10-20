@@ -96,17 +96,34 @@ static int	parse(t_minishell *mini)
 	return (0);
 }
 
-// reads user input w/ readline
+// // reads user input w/ readline
+// void	read_input(t_minishell *mini)
+// {
+// 	while (1)
+// 	{
+// 		signal_reset(mini);
+// 		mini->arg = readline("\033[92mminishell % \033[0m");
+// 		if (mini->arg == NULL)
+// 			break ;
+// 		if (mini->arg[0] == '\0' || spacentabs_check(mini->arg))
+// 		{
+// 			free(mini->arg);
+// 			continue ;
+// 		}
+// 		add_history(mini->arg);
+// 		if (parse(mini) == 0)
+// 		{
+// 			if (create_list(mini) == 0)
+// 				x_comm(mini);
+// 		}
+// 		clear_mini(mini);
+// 	}
+// }
+
 void	read_input(t_minishell *mini)
 {
 	while (1)
 	{
-		// reset
-		// {
-		// 	signal_reset
-		// 	close
-		// 	clear_mini
-		// }
 		signal_reset(mini);
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
@@ -117,10 +134,10 @@ void	read_input(t_minishell *mini)
 			continue ;
 		}
 		add_history(mini->arg);
-		if (parse(mini) == 0)
+		if (tokenize(mini, mini->arg) == 0)
 		{
-			if (create_list(mini) == 0)
-				x_comm(mini);
+			// if (create_list(mini) == 0)
+			// 	x_comm(mini);
 		}
 		clear_mini(mini);
 	}
