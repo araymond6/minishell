@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/20 15:27:49 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:29:55 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ t_token	*tokenize(t_minishell *mini, const char *arg)
 	printf("%d\n", token_count);
 	while (++i < token_count)
 	{
-		len_to_skip += get_token(&tokens[i], arg, len_to_skip);
+		len_to_skip += get_token(&tokens[i], arg, len_to_skip); // TODO: review this function, may not be the best option
 	}
 	return (tokens);
 }
