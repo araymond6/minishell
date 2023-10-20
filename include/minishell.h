@@ -40,9 +40,30 @@ typedef struct s_cmd
 	int				c;
 }	t_cmd;
 
+typedef enum e_type
+{
+	WHITESPACE = 0, // space, tabs or newlines
+	CHAR = 1, // words or letters
+	PIPE = 2, // |
+	DOLLAR_SIGN = 3, // $
+	SINGLE_QUOTE = 4, // '
+	DOUBLE_QUOTE = 5, // "
+	DIGIT = 6, // 0123456789
+	APPEND = 7, // >>
+	HERE_DOC = 8, // <<
+	REDIRECT_OUTPUT = 9, // >
+	REDIRECT_INPUT = 10, // <
+	EQUAL = 11, // =
+	OTHER = 12 // all other characters that are not used
+}	t_type;
+
 typedef struct s_token
 {
-	char *token;
+	char	*token;
+	size_t	len;
+	t_type	type;
+	char	inquote;
+	char	indoublequote;
 }	t_token;
 
 typedef struct s_parse
@@ -61,7 +82,8 @@ typedef struct s_minishell
 	char				**cmd;
 	char				**envp;
 	int					envpset;
-	struct s_token		token; //TODO: mess with tokenization, try to find something to makr $ARG work with everything else
+	struct s_token		*token;
+	int					token_count;
 	struct s_parse		parse;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
