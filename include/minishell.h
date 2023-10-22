@@ -33,7 +33,8 @@ typedef struct s_cmd
 	int				*pipe;
 	int				narg;
 	int				status;
-	int				fd_stdin_out[2];
+	int				fd_stdin;
+	int				fd_stdout;
 	int				qlen;
 	int				c;
 	int				*new_cmd;
@@ -62,6 +63,7 @@ typedef struct s_token
 	t_type	type;
 	char	inquote;
 	char	indoublequote;
+	int		no_cmd;
 }	t_token;
 
 typedef struct s_parse
@@ -89,7 +91,7 @@ typedef struct s_minishell
 	char				*heredoc_flag;
 	int					heredoc_count;
 	int					count;
-	int					nb_c;
+	int					total_cmd;
 }	t_minishell;
 
 //build-in.c

@@ -9,9 +9,9 @@ void	initialize_s_cmd(t_minishell *mini)
 	n = 0;
 	mini->s_cmd->path = NULL;
 	mini->s_cmd->cmd_arg = NULL;
-	mini->s_cmd->pids = ft_calloc(mini->nb_c, sizeof(pid_t));
-	mini->s_cmd->pipe = ft_calloc(2 * (mini->nb_c), sizeof(int));
-	while(n < mini->nb_c)
+	mini->s_cmd->pids = ft_calloc(mini->total_cmd, sizeof(pid_t));
+	mini->s_cmd->pipe = ft_calloc(2 * (mini->total_cmd), sizeof(int));
+	while(n < mini->total_cmd)
 	{
 		if (pipe(pipes) == -1)
 			return (free_scmd(mini->s_cmd), message_perror("Pipe"));
@@ -21,8 +21,8 @@ void	initialize_s_cmd(t_minishell *mini)
 	}
 	mini->s_cmd->narg = 0;
 	mini->s_cmd->status = 0;
-	mini->s_cmd->fd_stdin_out[0] == 0;
-	mini->s_cmd->fd_stdin_out[1] == 0;
+	mini->s_cmd->stdin == dup(STDIN_FILENO);
+	mini->s_cmd->stdout == dup(STDOUT_FILENO);
 	mini->s_cmd->pids[0] = 1
 }
 
