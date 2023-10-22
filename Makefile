@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 LFLAGS = -lreadline -lncurses
 
@@ -101,6 +101,13 @@ lib:
 
 debug: CFLAGS+=-g
 debug: all
+
+val: CFLAGS+=-g
+val: all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=supp.txt ./minishell 
+
+run: all
+	./$(NAME)
 
 re: fclean all
 

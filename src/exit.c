@@ -48,6 +48,12 @@ int	is_valid_exit_code(t_minishell *mini)
 	return (0);
 }
 
+int free_exit(t_minishell *mini)
+{
+	free_scmd(mini->s_cmd);
+	exit_program(mini);
+}
+
 int	ft_exit(t_minishell *mini)
 {
 	int			nb_arg;
@@ -56,24 +62,19 @@ int	ft_exit(t_minishell *mini)
 	while (mini->s_cmd->cmd_arg[nb_arg])
 		nb_arg++;
 	if (nb_arg == 1)
-	{
-		free_scmd(mini->s_cmd);
-		exit_program(mini);
-	}
+		free_exit(t_minishell *mini);
 	if (nb_arg == 2)
 	{
 		if (is_valid_exit_code(mini) == 1)
 			return (printf("Not a numeric argument\n"), 1);
 		mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
-		free_scmd(mini->s_cmd);
-		exit_program(mini);
+		free_exit(t_minishell *mini);
 	}
 	else if (nb_arg > 2)
 	{
 		if (is_valid_exit_code(mini) == 0)
 			return (printf("Too many arguments\n"), 1);
-		free_scmd(mini->s_cmd);
-		exit_program(mini);
+		free_exit(mini);
 	}
 	return (0);
 }

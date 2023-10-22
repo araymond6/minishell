@@ -45,9 +45,43 @@ int	redir_count(t_minishell *mini, char *cmd)
 	return (mini->s_cmd->c);
 }
 
+int	check_quote_redir(char *cmd, char *file, int j, int index)
+{
+	int j_index[2];
+
+	if (cmd[j] == '\"')
+	{
+		j++;
+		while (cmd[j] != '\"')
+		{
+			file[index] = cmd[j];
+			j++;
+			index++;
+		}
+		j++;
+	}
+	else if (cmd[j] == '\'')
+	{
+		j++;
+		while (cmd[j] != '\'')
+		{
+			file[index] = cmd[j];
+			j++;
+			index++;
+		}
+		j++;
+	}
+	j_index[0] = j;
+	j_index[1] = index;
+	return()
+}
+
+
+
 int	redir_quote(t_minishell *mini, int i, int j, int r)
 {
 	int	index;
+	int j_index[2];
 
 	index = 0;
 	while (mini->cmd[i][j] && mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t')
