@@ -54,7 +54,7 @@ int	parsing_command(t_minishell *mini, int i)
 	{
 		if (mini->cmd[i][j] == '<' || mini->cmd[i][j] == '>')
 			j = select_redirection(mini, i, j + 1);
-		else if (mini->cmd[i][j] == ' ')
+		else if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
 			j++;
 		else
 			j = check_command(mini, i, j);

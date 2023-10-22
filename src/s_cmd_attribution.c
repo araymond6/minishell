@@ -29,10 +29,10 @@ int	s_cmd_cmd(t_minishell *mini, int i, int j)
 	mini->s_cmd->cmd = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->cmd)
 		return (free_scmd(mini->s_cmd), 1);
-	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t' && mini->cmd[i][j])
 	{
 		while (mini->cmd[i][j] != '\"' && mini->cmd[i][j] != '\'' && \
-			mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+			mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t' && mini->cmd[i][j])
 			mini->s_cmd->cmd[r++] = mini->cmd[i][j++];
 		if (mini->cmd[i][j] == '\"')
 		{
@@ -49,7 +49,7 @@ int	s_cmd_cmd(t_minishell *mini, int i, int j)
 			j++;
 		}
 	}
-	if (mini->cmd[i][j] == ' ')
+	if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
 		j++;
 	return (j);
 }
@@ -78,7 +78,7 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
 	{
 		while (mini->cmd[i][j] != '\"' && mini->cmd[i][j] != '\'' && \
-		mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+		mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t' && mini->cmd[i][j] != '\t' && mini->cmd[i][j])
 			mini->s_cmd->cmd_arg[k][r++] = mini->cmd[i][j++];
 		if (mini->cmd[i][j] == '\"')
 		{
@@ -95,7 +95,7 @@ int	s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k)
 			j++;
 		}
 	}
-	if (mini->cmd[i][j] == ' ')
+	if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
 		j++;
 	return (j);
 }
@@ -109,11 +109,11 @@ int	s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
 	mini->s_cmd->cmd_arg[k] = ft_calloc(mini->s_cmd->qlen + 1, sizeof(char));
 	if (!mini->s_cmd->cmd_arg[k])
 		return (free_scmd(mini->s_cmd), -1);
-	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '<' && \
+	while (mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t' && mini->cmd[i][j] != '<' && \
 	mini->cmd[i][j] != '>' && mini->cmd[i][j])
 	{
 		while (mini->cmd[i][j] != '\"' && mini->cmd[i][j] != '\'' \
-		&& mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '<' && \
+		&& mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t' && mini->cmd[i][j] != '<' && \
 		mini->cmd[i][j] != '>' && mini->cmd[i][j])
 			mini->s_cmd->cmd_arg[k][r++] = mini->cmd[i][j++];
 		if (mini->cmd[i][j] == '\"')
@@ -131,7 +131,7 @@ int	s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k)
 			j++;
 		}
 	}
-	if (mini->cmd[i][j] == ' ')
+	if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
 		j++;
 	return (j);
 }

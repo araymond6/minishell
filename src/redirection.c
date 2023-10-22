@@ -50,7 +50,7 @@ int	redir_quote(t_minishell *mini, int i, int j, int r)
 	int	index;
 
 	index = 0;
-	while (mini->cmd[i][j] && mini->cmd[i][j] != ' ')
+	while (mini->cmd[i][j] && mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t')
 	{
 		if (mini->cmd[i][j] == '\"')
 		{
@@ -77,7 +77,7 @@ int	redir_quote(t_minishell *mini, int i, int j, int r)
 		else
 		{
 			while (mini->cmd[i][j] != '\'' && mini->cmd[i][j] != '\"'
-				&& mini->cmd[i][j] != ' ' && mini->cmd[i][j])
+				&& mini->cmd[i][j] != ' ' && mini->cmd[i][j] != '\t' && mini->cmd[i][j])
 			{
 				mini->s_cmd->file[r][index] = mini->cmd[i][j];
 				j++;

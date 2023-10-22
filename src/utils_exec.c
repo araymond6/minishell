@@ -24,7 +24,7 @@ int	len_until_space(t_minishell *mini, int i, int j)
 	int	len;
 
 	len = 0;
-	while (mini->cmd[i][j + len] != ' ' && mini->cmd[i][j + len] != '>'
+	while (mini->cmd[i][j + len] != ' ' && mini->cmd[i][j + len] != '\t' && mini->cmd[i][j + len] != '>'
 		&& mini->cmd[i][j + len] != '<' && mini->cmd[i][j + len])
 		len++;
 	return (len);
