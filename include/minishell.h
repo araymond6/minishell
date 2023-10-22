@@ -24,37 +24,35 @@
 
 typedef struct s_cmd
 {
-	char			*redir;
+	int				*redir;
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
 	char			**file;
-	struct s_cmd	*next;
 	int				nredir;
-	struct s_cmd	*prev;
-	int				fd[2];
+	int				*pipe;
 	int				narg;
 	int				status;
 	int				fd_stdin_out[2];
 	int				qlen;
 	int				c;
+	int				*new_cmd;
+	int				*pids;
 }	t_cmd;
+
 
 typedef enum e_type
 {
 	WHITESPACE = 0, // space, tabs or newlines
-	CHAR = 1, // words or letters
+	STRING = 1, // words or letters
 	PIPE = 2, // |
 	DOLLAR_SIGN = 3, // $
 	SINGLE_QUOTE = 4, // '
 	DOUBLE_QUOTE = 5, // "
-	DIGIT = 6, // 0123456789
-	APPEND = 7, // >>
-	HERE_DOC = 8, // <<
-	REDIRECT_OUTPUT = 9, // >
-	REDIRECT_INPUT = 10, // <
-	EQUAL = 11, // =
-	OTHER = 12 // all other characters that are not used
+	APPEND = 6, // >>
+	HERE_DOC = 7, // <<
+	REDIRECT_OUTPUT = 8, // >
+	REDIRECT_INPUT = 9, // <
 }	t_type;
 
 typedef struct s_token
@@ -91,6 +89,7 @@ typedef struct s_minishell
 	char				*heredoc_flag;
 	int					heredoc_count;
 	int					count;
+	int					nb_c;
 }	t_minishell;
 
 //build-in.c
@@ -130,7 +129,7 @@ int		redirection(t_minishell *mini, int i, int j, char c);
 int		select_redirection(t_minishell *mini, int i, int j);
 
 //s_cmd_attribution.c
-void	initialize_s_cmd(t_cmd *cmd);
+void	initialize_s_cmd(t_minishell *mini);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
 int		s_cmd_arg_cmd_first(t_minishell *mini);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);

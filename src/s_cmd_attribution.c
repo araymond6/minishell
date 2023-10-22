@@ -1,20 +1,29 @@
 #include "../include/minishell.h"
 
 //initialize s_cmd
-void	initialize_s_cmd(t_cmd *cmd)
+void	initialize_s_cmd(t_minishell *mini)
 {
-	cmd->redir = NULL;
-	cmd->cmd = NULL;
-	cmd->path = NULL;
-	cmd->cmd_arg = NULL;
-	cmd->file = NULL;
-	cmd->next = NULL;
-	cmd->nredir = 0;
-	cmd->prev = NULL;
-	cmd->redir = NULL;
-	cmd->narg = 0;
-	cmd->status = 0;
-	cmd->c = 0;
+	int n;
+	int pipes[2];
+
+	n = 0;
+	mini->s_cmd->path = NULL;
+	mini->s_cmd->cmd_arg = NULL;
+	mini->s_cmd->pids = ft_calloc(mini->nb_c, sizeof(pid_t));
+	mini->s_cmd->pipe = ft_calloc(2 * (mini->nb_c), sizeof(int));
+	while(n < mini->nb_c)
+	{
+		if (pipe(pipes) == -1)
+			return (free_scmd(mini->s_cmd), message_perror("Pipe"));
+		mini->s_cmd->pipe[2 * n] = pipes[0];
+		mini->s_cmd->pipe[(2 * n) -1] = pipes[1];
+		n++;
+	}
+	mini->s_cmd->narg = 0;
+	mini->s_cmd->status = 0;
+	mini->s_cmd->fd_stdin_out[0] == 0;
+	mini->s_cmd->fd_stdin_out[1] == 0;
+	mini->s_cmd->pids[0] = 1
 }
 
 int	s_cmd_cmd(t_minishell *mini, int i, int j)
