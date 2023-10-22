@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/20 15:29:55 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/22 11:03:41 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,15 +148,42 @@ int	count_tokens(char *arg)
 	return (count);
 }
 
-int	get_token(t_token *token, char *arg, int len_to_skip)
+int	get_inquote(t_token *token, char *arg, char *new, int len_to_skip)
 {
+	int		i;
+	int		len;
+	t_type	type;
+	t_type	quote_type;
+	
+	arg += len_to_skip;
+	quote_type = get_type(arg);
+	arg++;
+	len++;
+	type = get_type(arg);
+	while (type != quote_type)
+	{
+		if (quote_type == DOUBLE_QUOTE && type == DOLLAR_SIGN) // TODO: do DB_Q exception with *new
+		{
+			
+		}
+		type = get_type(arg);
+	}
+}
+
+// returns -1 in case of error, len to skip otherwise
+int	get_token(t_minishell *mini, t_token *token, char *arg, int len_to_skip)
+{
+	char	*new;
+	t_type	type;
 	int		len;
 	int		i;
-	t_type	type;
 
 	if (arg[0] == '\0')
 		return (0);
 	arg += len_to_skip;
+	new = ft_calloc(ft_strlen(&arg[0]), sizeof(char));
+	if (!new)
+		return (malloc_error(mini, NULL), -1);
 	len = 0;
 	i = 0;
 	type = get_type;
@@ -165,15 +192,19 @@ int	get_token(t_token *token, char *arg, int len_to_skip)
 		type == REDIRECT_OUTPUT || type == EQUAL || \
 		type == PIPE)
 	{
-		token->token = arg[0];
+		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
+		{
+			return (get_inquote(token, arg, new, len_to_skip));
+		}
+		new[0] = arg[0];
 		arg++;
-		len = 1;
+		len++;
 	}
 	else if (type == APPEND || type == HERE_DOC)
 	{
 		while(len < 2)
 		{
-			token->token[i++] =  arg[0];
+			new[i++] =  arg[0];
 			arg++;
 			len++;
 		}
@@ -184,6 +215,7 @@ int	get_token(t_token *token, char *arg, int len_to_skip)
 		{
 			token->token[i++] = arg[0];
 			arg++;
+			len++;
 			type = get_type(arg);
 		}
 	}
@@ -193,6 +225,7 @@ int	get_token(t_token *token, char *arg, int len_to_skip)
 		{
 			token->token[i++] = arg[0];
 			arg++;
+			len++;
 			type = get_type(arg);
 		}
 	}
@@ -202,6 +235,7 @@ int	get_token(t_token *token, char *arg, int len_to_skip)
 		{
 			token->token[i++] = arg[0];
 			arg++;
+			len++;
 			type = get_type(arg);
 		}
 	}
@@ -211,6 +245,7 @@ int	get_token(t_token *token, char *arg, int len_to_skip)
 		{
 			token->token[i++] = arg[0];
 			arg++;
+			len++;
 			type = get_type(arg);
 		}
 	}
@@ -218,18 +253,25 @@ int	get_token(t_token *token, char *arg, int len_to_skip)
 			type == DOLLAR_SIGN && arg[1] == '?'))
 	{
 		arg++;
+		len++;
 		if (arg[0] == '?')
 		{
 			arg++;
+			len++;
 			//TODO: make sure this else if works properly
 		}
-		type = get_type(arg);
-		while(type == CHAR || type == DIGIT)
+		else
 		{
-			arg++;
 			type = get_type(arg);
+			while(type == CHAR || type == DIGIT)
+			{
+				arg++;
+				type = get_type(arg);
+			}
 		}
 	}
+	token->token = new;
+	new = NULL;
 	token->len = len;
 	return (len);
 }
@@ -248,7 +290,7 @@ t_token	*tokenize(t_minishell *mini, const char *arg)
 	printf("%d\n", token_count);
 	while (++i < token_count)
 	{
-		len_to_skip += get_token(&tokens[i], arg, len_to_skip); // TODO: review this function, may not be the best option
+		len_to_skip += get_token(mini, &tokens[i], arg, len_to_skip); // TODO: review this function, may not be the best option
 	}
 	return (tokens);
 }

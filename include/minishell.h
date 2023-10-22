@@ -55,7 +55,6 @@ typedef enum e_type
 	REDIRECT_INPUT = 10, // <
 	EQUAL = 11, // =
 	OTHER = 12, // all other characters that are not used
-	SUB = 13 // characters that have been substituted
 }	t_type;
 
 typedef struct s_token
