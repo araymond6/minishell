@@ -32,7 +32,7 @@ typedef struct s_cmd
 	int				nredir;
 	int				*pipe;
 	int				narg;
-	int				status;
+	int				*status;
 	int				fd_stdin;
 	int				fd_stdout;
 	int				qlen;
@@ -210,5 +210,33 @@ int		ft_atoll(const char *str);
 int		quote_jump(char *cmd, int i, char c);
 int		redirection_jump(t_minishell *mini, char *cmd, int i, char c);
 int		redir_quote(t_minishell *mini, int i, int j, int r);
+
+//new functions Valerie
+void	nb_carg(t_minishell *mini, int n);
+void	cpy_cmd(t_minishell *mini, int n, int i);
+void	find_cmd(t_minishell *mini, int n);
+int		null_command2(t_minishell *mini, int n);
+void	exec_buildin2(t_minishell *mini, int n);
+void	redirect_input(t_minishell *mini, int i);
+void	redirect_here_doc(void);
+void	redirect_output(t_minishell *mini, int i);
+void	redirect_append(t_minishell *mini, int i);
+void	manual_redirection(t_minishell *mini, int n);
+void	all_here_doc2(t_minishell *mini);
+void	clear_s_cmd(t_cmd *cmd);
+void	join_path_command2(char **path, char *command);
+char	*test_path2(char **path);
+void	find_path2(t_minishell *mini);
+void	child_redirection(t_minishell *mini, int n);
+void	child_path(t_minishell *mini);
+char	*child_path_execve(char *string);
+char	**child_array_execve(char **array);
+void	child_closenfree(t_minishell *mini);
+void	execve_failed(char *path_execve, char **array_execve);
+void	child2(t_minishell *mini, int n);
+int		parent2(t_minishell *mini, int n);
+void	exec_bash_cmd(t_minishell *mini, int n);
+int		forker2(t_minishell *mini);
+int		time_to_execute(t_minishell *mini);
 
 #endif

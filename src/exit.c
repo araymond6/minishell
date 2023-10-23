@@ -4,28 +4,21 @@ void	free_scmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
 
+	//TODO remettre a jour ave la struc au complet
 	if (cmd)
 	{
-		free(cmd->prev);
-		temp = cmd;
-		while (temp)
-		{
-			if (temp->redir)
-			{
-				free(temp->redir);
-			}
-			if (temp->cmd)
-				free(temp->cmd);
-			if (temp->path)
-				free(temp->path);
-			if (temp->cmd_arg)
-				free_array(temp->cmd_arg);
-			if (cmd->file)
-				free_array(temp->file);
-			temp = temp->next;
-			free(cmd);
-			cmd = temp;
-		}
+		if (temp->redir)
+			free(temp->redir);
+		if (temp->cmd)
+			free(temp->cmd);
+		if (temp->path)
+			free(temp->path);
+		if (temp->cmd_arg)
+			free_array(temp->cmd_arg);
+		if (cmd->file)
+			free_array(temp->file);
+		free(cmd);
+		cmd = NULL;
 	}
 }
 
@@ -62,13 +55,13 @@ int	ft_exit(t_minishell *mini)
 	while (mini->s_cmd->cmd_arg[nb_arg])
 		nb_arg++;
 	if (nb_arg == 1)
-		free_exit(t_minishell *mini);
+		free_exit(mini);
 	if (nb_arg == 2)
 	{
 		if (is_valid_exit_code(mini) == 1)
 			return (printf("Not a numeric argument\n"), 1);
 		mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
-		free_exit(t_minishell *mini);
+		free_exit(mini);
 	}
 	else if (nb_arg > 2)
 	{

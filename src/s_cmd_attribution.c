@@ -20,10 +20,10 @@ void	initialize_s_cmd(t_minishell *mini)
 		n++;
 	}
 	mini->s_cmd->narg = 0;
-	mini->s_cmd->status = 0;
-	mini->s_cmd->stdin == dup(STDIN_FILENO);
-	mini->s_cmd->stdout == dup(STDOUT_FILENO);
-	mini->s_cmd->pids[0] = 1
+	mini->s_cmd->status = ft_calloc(mini->total_cmd, sizeof(int));
+	mini->s_cmd->fd_stdin == dup(STDIN_FILENO);
+	mini->s_cmd->fd_stdout == dup(STDOUT_FILENO);
+	mini->s_cmd->pids[0] = 1;
 }
 
 int	s_cmd_cmd(t_minishell *mini, int i, int j)

@@ -44,7 +44,10 @@ SRCS =	build-in_change-fd.c \
 		fork.c \
 		heredoc_substitution.c \
 		signal.c \
-		child_parent.c 
+		child_parent.c \
+		execution2_0.c \
+		process2_0.c \
+		redirection2_0.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 
