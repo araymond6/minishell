@@ -16,7 +16,7 @@ void	all_here_doc2(t_minishell *mini)
 	}
 }
 
-clear_s_cmd(t_cmd *cmd)
+void	clear_s_cmd(t_cmd *cmd)
 {
 	if(cmd->path)
 	{
@@ -111,7 +111,7 @@ void	find_path2(t_minishell *mini)
 	return (0);
 }
 
-void child_redirection(t_minishell *mini, int n)
+void	child_redirection(t_minishell *mini, int n)
 {
 	if(n < mini->total_cmd)
 	{
@@ -126,7 +126,7 @@ void child_redirection(t_minishell *mini, int n)
 	manual_redirection(mini, n);
 }
 
-void child_path(t_minishell *mini)
+void	child_path(t_minishell *mini)
 {
 	find_path2(mini);
 	free(mini->s_cmd->cmd_arg[0]);
