@@ -43,18 +43,15 @@ typedef struct s_cmd
 typedef enum e_type
 {
 	WHITESPACE = 0, // space, tabs or newlines
-	CHAR = 1, // words or letters
+	STRING = 1, // words or letters
 	PIPE = 2, // |
 	DOLLAR_SIGN = 3, // $
 	SINGLE_QUOTE = 4, // '
 	DOUBLE_QUOTE = 5, // "
-	DIGIT = 6, // 0123456789
-	APPEND = 7, // >>
-	HERE_DOC = 8, // <<
-	REDIRECT_OUTPUT = 9, // >
-	REDIRECT_INPUT = 10, // <
-	EQUAL = 11, // =
-	OTHER = 12, // all other characters that are not used
+	APPEND = 6, // >>
+	HERE_DOC = 7, // <<
+	REDIRECT_OUTPUT = 8, // >
+	REDIRECT_INPUT = 9, // <
 }	t_type;
 
 typedef struct s_token
@@ -64,6 +61,7 @@ typedef struct s_token
 	t_type	type;
 	char	inquote;
 	char	indoublequote;
+	int		cmd_n;
 }	t_token;
 
 typedef struct s_parse
@@ -82,7 +80,7 @@ typedef struct s_minishell
 	char				**cmd;
 	char				**envp;
 	int					envpset;
-	struct s_token		*token;
+	struct s_token		*token; export lol='bin/ls'
 	int					token_count;
 	struct s_parse		parse;
 	struct sigaction	sigact;

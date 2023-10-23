@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/22 11:03:41 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/23 13:06:33 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_token	*initialize_tokens(t_minishell *mini, int token_count)
 		token[counter].token = NULL;
 		token[counter].len = 0;
 		token[counter].type = 0;
+		token[counter].cmd_n = 0;
 		counter++;
 	}
 	return (token);
@@ -46,16 +47,12 @@ t_type	get_type2(char *arg)
 		return (REDIRECT_INPUT);
 	else if (arg[0] == '>')
 		return (REDIRECT_OUTPUT);
-	return (OTHER);
+	return (STRING);
 }
 
 t_type	get_type(char *arg)
 {
-	if (ft_isdigit(arg[0]))
-		return (DIGIT);
-	else if (ft_isalpha(arg[0]))
-		return (CHAR);
-	else if (arg[0] == '\'')
+	if (arg[0] == '\'')
 		return (SINGLE_QUOTE);
 	else if (arg[0] == '\"')
 		return (DOUBLE_QUOTE);
@@ -63,8 +60,6 @@ t_type	get_type(char *arg)
 		return (PIPE);
 	else if (arg[0] == '$')
 		return (DOLLAR_SIGN);
-	else if (arg[0] == '=')
-		return (EQUAL);
 	return (get_type2(arg));
 }
 
@@ -74,20 +69,43 @@ only adding a count after the entire sequence of characters
 
 // this skips single characters that should be handled individually
 */
-int	count_tokens(char *arg)
+int	count_tokens(t_minishell *mini, char *arg)
 {
 	t_type	type;
 	int		count;
+	t_type	quote_type;
 
 	count = 0;
 	while (arg[0])
 	{
 		type = get_type(arg);
-		if ((type == DOLLAR_SIGN && !ft_isalnum(arg[1]) && arg[1] != '?') || type == SINGLE_QUOTE || \
-		type == DOUBLE_QUOTE || type == REDIRECT_INPUT || \
-		type == REDIRECT_OUTPUT || type == EQUAL || \
-		type == PIPE)
+		if (type == WHITESPACE)
 		{
+			while (type == WHITESPACE)
+			{
+				arg++;
+				type = get_type(arg);
+			}
+		}
+		else if ((type == DOLLAR_SIGN && (arg[1] != '?' || arg[1] != '_' || !ft_isalnum(arg[1]))) || \
+			type == REDIRECT_INPUT || type == REDIRECT_OUTPUT)
+		{
+			arg++;
+			count++;
+		}
+		else if (type == PIPE)
+			arg++;
+		else if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
+		{
+			quote_type = get_type(arg);
+			arg++;
+			while (type != quote_type && arg[0])
+			{
+				arg++;
+				type = get_type(arg);
+			}
+			if (type != quote_type)
+				return (parsing_error(mini), 1);
 			arg++;
 			count++;
 		}
@@ -96,111 +114,190 @@ int	count_tokens(char *arg)
 			arg += 2;
 			count++;
 		}
-		else if (type == OTHER)
+		else if (type == STRING && (arg[1] == '\'' || arg[1] == '\"'))
 		{
-			while (type == OTHER)
+			arg ++;
+			quote_type = get_type(arg);
+			arg++;
+			while (type != quote_type && arg[0])
+			{
+				arg++;
+				type = get_type(arg);
+			}
+			if (type != quote_type)
+				return (parsing_error(mini), 1);
+			arg++;
+			count++;
+		}
+		else if (type == STRING)
+		{
+			while (type == STRING)
 			{
 				arg++;
 				type = get_type(arg);
 			}
 			count++;
 		}
-		else if (type == CHAR)
-		{
-			while (type == CHAR)
-			{
-				arg++;
-				type = get_type(arg);
-			}
-			count++;
-		}
-		else if (type == DIGIT)
-		{
-			while (type == DIGIT)
-			{
-				arg++;
-				type = get_type(arg);
-			}
-			count++;
-		}
-		else if (type == WHITESPACE)
-		{
-			while (type == WHITESPACE)
-			{
-				arg++;
-				type = get_type(arg);
-			}
-			count++;
-		}
-		else if ((type == DOLLAR_SIGN && ft_isalnum(arg[1]) || \
-				type == DOLLAR_SIGN && arg[1] == '?'))
+		else if ((type == DOLLAR_SIGN && (ft_isalnum(arg[1]) || \
+				arg[1] == '?' || arg[1] == '_')))
 		{
 			arg++;
 			type = get_type(arg);
-			while(type == CHAR || type == DIGIT)
-			{
+			while (arg[0] && arg[0] == '_' && ft_isalnum(arg))
 				arg++;
-				type = get_type(arg);
-			}
 			count++;
 		}
 	}
 	return (count);
 }
 
-int	get_inquote(t_token *token, char *arg, char *new, int len_to_skip)
-{
-	int		i;
-	int		len;
-	t_type	type;
-	t_type	quote_type;
+// int	get_inquote(t_minishell *mini, t_token *token, char *arg, char *new)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*sub;
+// 	t_type	type;
+// 	t_type	quote_type;
 	
-	arg += len_to_skip;
-	quote_type = get_type(arg);
+// 	i = 0;
+// 	quote_type = get_type(arg);
+// 	sub = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
+// 	if (!sub)
+// 		return (free(new), -1);
+// 	arg++;
+// 	len++;
+// 	type = get_type(arg);
+// 	while (type != quote_type)
+// 	{
+// 		if (quote_type == DOUBLE_QUOTE && type == DOLLAR_SIGN) // TODO: do DB_Q exception with *new
+// 		{
+// 			len++;
+// 			arg++;
+// 			type = get_type(arg);
+// 			while (type == DIGIT || type == LETTERS || \
+// 				arg[0] == '_' || type == DOUBLE_QUOTE)
+// 			{
+// 				sub[i++] = arg[0];
+// 				len++;
+// 				arg++;	
+// 				type = get_type(arg);
+// 			}
+// 			if (sub[0] != '\0')
+// 			{
+// 				sub = check_env(mini, sub);
+// 				i = 0;
+// 				if (sub)
+// 				{
+					
+// 				}
+// 			}
+// 		}
+// 		type = get_type(arg);
+// 	}
+// }
+
+/*
+	Coller ce qui est entre guillemet apres une chaine de caractères s'il n'y a pas d'espace
+*/
+
+char	*get_exit_code(t_minishell *mini)
+{
+	char	*new;
+
+	new = ft_itoa(mini->exit_code);
+	if (!new)
+		return (malloc_error(mini, NULL), NULL);
+	return (new);
+}
+
+int	new_substitution(t_minishell *mini, t_token *token, char *arg, char *new)
+{
+	int		len;
+	char	*sub;
+	char	*temp;
+	int		i;
+
+	len = 1;
+	i = 0;
 	arg++;
-	len++;
-	type = get_type(arg);
-	while (type != quote_type)
+	sub = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
+	if (!sub)
+		return (-1);
+	while ((ft_isalnum(arg[0]) || arg[0] == '?' || arg[0] == '_') && arg[0])
 	{
-		if (quote_type == DOUBLE_QUOTE && type == DOLLAR_SIGN) // TODO: do DB_Q exception with *new
-		{
-			
-		}
-		type = get_type(arg);
+		sub[i] = arg[0];
+		arg++;
+		len++;
+		i++;
+		if ((arg[0] == '?' && i > 0) || sub[0] == '?')
+			break ;
 	}
+	if (sub[0] == '\0')
+		return (len);
+	if (sub[0] == '?')
+	{
+		free(sub);
+		sub = get_exit_code(mini);
+	}
+	temp = new;
+	new = ft_strjoin(new, sub); //TODO: make substitutions work with exit_code and the rest next
+	free(temp);
+	return (len);
 }
 
 // returns -1 in case of error, len to skip otherwise
-int	get_token(t_minishell *mini, t_token *token, char *arg, int len_to_skip)
+int	get_token(t_minishell *mini, t_token *token, char *arg, int len)
 {
 	char	*new;
 	t_type	type;
+	t_type	quote_type;
 	int		len;
 	int		i;
 
 	if (arg[0] == '\0')
 		return (0);
-	arg += len_to_skip;
 	new = ft_calloc(ft_strlen(&arg[0]), sizeof(char));
 	if (!new)
 		return (malloc_error(mini, NULL), -1);
 	len = 0;
 	i = 0;
 	type = get_type;
-	if ((type == DOLLAR_SIGN && !ft_isalnum(arg[1]) && arg[1] != '?') || type == SINGLE_QUOTE || \
-		type == DOUBLE_QUOTE || type == REDIRECT_INPUT || \
-		type == REDIRECT_OUTPUT || type == EQUAL || \
-		type == PIPE)
+	if (type == WHITESPACE)
 	{
-		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
+		while (type == WHITESPACE && arg)
 		{
-			return (get_inquote(token, arg, new, len_to_skip));
+			arg++;
+			len++;
+			type = get_type(arg);
 		}
-		new[0] = arg[0];
+	}
+	else if ((type == DOLLAR_SIGN && (arg[1] != '?' || arg[1] != '_' || !ft_isalnum(arg[1]))) || \
+			type == REDIRECT_INPUT || type == REDIRECT_OUTPUT)
+	{
+		new[i++] =  arg[0];
 		arg++;
 		len++;
 	}
-	else if (type == APPEND || type == HERE_DOC)
+	else if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
+	{
+		quote_type = get_type(arg);
+		arg++;
+		len++;
+		while (type != quote_type && arg[0])
+		{
+			new[i++] = arg[0];
+			arg++;
+			len++;
+			type = get_type(arg);
+			if (type == DOLLAR_SIGN && quote_type == DOUBLE_QUOTE \
+			&& (arg[1] == '?' || arg[1] == '_' || ft_isalnum(arg[1])))
+			{
+				len += new_substitution(mini, arg, new, &i);
+			}
+		}
+		arg++;
+	}
+	else if (type == APPEND || type == HERE_DOC) // ajouter les tiret aux caracteres
 	{
 		while(len < 2)
 		{
@@ -209,19 +306,9 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len_to_skip)
 			len++;
 		}
 	}
-	else if (type == OTHER)
+	else if (type == STRING)
 	{
-		while (type == OTHER && arg)
-		{
-			token->token[i++] = arg[0];
-			arg++;
-			len++;
-			type = get_type(arg);
-		}
-	}
-	else if (type == CHAR)
-	{
-		while (type == CHAR && arg)
+		while (type == STRING && arg)
 		{
 			token->token[i++] = arg[0];
 			arg++;
@@ -239,18 +326,8 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len_to_skip)
 			type = get_type(arg);
 		}
 	}
-	else if (type == WHITESPACE)
-	{
-		while (type == WHITESPACE && arg)
-		{
-			token->token[i++] = arg[0];
-			arg++;
-			len++;
-			type = get_type(arg);
-		}
-	}
 	else if ((type == DOLLAR_SIGN && ft_isalnum(arg[1]) || \
-			type == DOLLAR_SIGN && arg[1] == '?'))
+			type == DOLLAR_SIGN && arg[1] == '?') && token->indoublequote == 1)
 	{
 		arg++;
 		len++;
@@ -263,7 +340,7 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len_to_skip)
 		else
 		{
 			type = get_type(arg);
-			while(type == CHAR || type == DIGIT)
+			while(type == LETTERS || type == DIGIT)
 			{
 				arg++;
 				type = get_type(arg);
@@ -290,7 +367,7 @@ t_token	*tokenize(t_minishell *mini, const char *arg)
 	printf("%d\n", token_count);
 	while (++i < token_count)
 	{
-		len_to_skip += get_token(mini, &tokens[i], arg, len_to_skip); // TODO: review this function, may not be the best option
+		arg += get_token(mini, &tokens[i], arg); // TODO: review this function, may not be the best option
 	}
 	return (tokens);
 }
