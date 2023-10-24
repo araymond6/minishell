@@ -134,8 +134,15 @@ void	read_input(t_minishell *mini)
 			continue ;
 		}
 		add_history(mini->arg);
-		if (tokenize(mini, mini->arg) == 0)
+		mini->token = tokenize(mini, mini->arg);
+		if (mini->token)
 		{
+			int i = 0;
+
+			while (i < mini->token_count)
+			{
+				printf("%s\n", mini->token[i++].token);
+			}
 			// if (create_list(mini) == 0)
 			// 	x_comm(mini);
 		}

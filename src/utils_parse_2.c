@@ -68,7 +68,7 @@ char	*check_env(t_minishell *mini, char *arg)
 		return (malloc_error(mini, NULL), NULL);
 	}
 	new = while_env(mini, &i, &k, new);
-	if (!new || new[0] == '\0')
-		return (NULL);
+	if (!new)
+		return (ft_strdup(""));
 	return (new);
 }

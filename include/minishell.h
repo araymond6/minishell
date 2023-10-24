@@ -212,6 +212,11 @@ int		redirection_jump(t_minishell *mini, char *cmd, int i, char c);
 int		redir_quote(t_minishell *mini, int i, int j, int r);
 
 //tokenize and new parsing
-t_token	*tokenize(t_minishell *mini, const char *arg);
+t_token	*tokenize(t_minishell *mini, char *arg);
+int		get_tokens(t_minishell *mini, t_token *tokens, char *arg);
+int		count_tokens(t_minishell *mini, char *arg);
+int		new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
+char	*get_exit_code(t_minishell *mini);
+t_type	get_type(char *arg);
 
 #endif

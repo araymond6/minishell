@@ -46,6 +46,8 @@ SRCS =	build-in_change-fd.c \
 		signal.c \
 		token.c \
 		count_tokens.c \
+		get_tokens.c \
+		substitution2.c \
 		child_parent.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
