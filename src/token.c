@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/23 13:06:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:10:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,7 @@ t_token	*initialize_tokens(t_minishell *mini, int token_count)
 
 t_type	get_type2(char *arg)
 {
-	if (arg[0] == ' ' || arg[0] == '\t' || arg[0] == '\n' || \
-			arg[0] == '\v' || arg[0] == '\f' || arg[0] == '\r')
-		return (WHITESPACE);
-	else if (arg[0] == '<' && arg[1] == '<')
-		return (HERE_DOC);
-	else if (arg[0] == '>' && arg[1] == '>')
-		return (APPEND);
-	else if (arg[0] == '<')
-		return (REDIRECT_INPUT);
-	else if (arg[0] == '>')
-		return (REDIRECT_OUTPUT);
-	return (STRING);
+	
 }
 
 t_type	get_type(char *arg)
@@ -60,7 +49,18 @@ t_type	get_type(char *arg)
 		return (PIPE);
 	else if (arg[0] == '$')
 		return (DOLLAR_SIGN);
-	return (get_type2(arg));
+	else if (arg[0] == ' ' || arg[0] == '\t' || arg[0] == '\n' || \
+			arg[0] == '\v' || arg[0] == '\f' || arg[0] == '\r')
+		return (WHITESPACE);
+	else if (arg[0] == '<' && arg[1] == '<')
+		return (HERE_DOC);
+	else if (arg[0] == '>' && arg[1] == '>')
+		return (APPEND);
+	else if (arg[0] == '<')
+		return (REDIRECT_INPUT);
+	else if (arg[0] == '>')
+		return (REDIRECT_OUTPUT);
+	return (STRING);
 }
 
 /*
@@ -81,7 +81,7 @@ int	count_tokens(t_minishell *mini, char *arg)
 		type = get_type(arg);
 		if (type == WHITESPACE)
 		{
-			while (type == WHITESPACE)
+			while (type == WHITESPACE && arg[0])
 			{
 				arg++;
 				type = get_type(arg);
@@ -136,6 +136,7 @@ int	count_tokens(t_minishell *mini, char *arg)
 				arg++;
 				type = get_type(arg);
 			}
+			if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
 			count++;
 		}
 		else if ((type == DOLLAR_SIGN && (ft_isalnum(arg[1]) || \
@@ -238,6 +239,16 @@ int	new_substitution(t_minishell *mini, t_token *token, char *arg, char *new)
 	{
 		free(sub);
 		sub = get_exit_code(mini);
+		if (!sub)
+			return (-1);
+	}
+	else
+	{
+		temp = sub;
+		sub = check_env(mini, temp);
+		if (!sub)
+			return (-1);
+		free(temp);
 	}
 	temp = new;
 	new = ft_strjoin(new, sub); //TODO: make substitutions work with exit_code and the rest next
@@ -264,7 +275,7 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len)
 	type = get_type;
 	if (type == WHITESPACE)
 	{
-		while (type == WHITESPACE && arg)
+		while (type == WHITESPACE && arg[0])
 		{
 			arg++;
 			len++;
@@ -275,6 +286,11 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len)
 			type == REDIRECT_INPUT || type == REDIRECT_OUTPUT)
 	{
 		new[i++] =  arg[0];
+		arg++;
+		len++;
+	}
+	else if (type == PIPE)
+	{
 		arg++;
 		len++;
 	}
@@ -297,7 +313,7 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len)
 		}
 		arg++;
 	}
-	else if (type == APPEND || type == HERE_DOC) // ajouter les tiret aux caracteres
+	else if (type == APPEND || type == HERE_DOC)
 	{
 		while(len < 2)
 		{
@@ -306,15 +322,19 @@ int	get_token(t_minishell *mini, t_token *token, char *arg, int len)
 			len++;
 		}
 	}
-	else if (type == STRING)
+	else if (type == STRING && (arg[1] == '\'' || arg[1] == '\"'))
 	{
-		while (type == STRING && arg)
+		arg ++;
+		quote_type = get_type(arg);
+		arg++;
+		while (type != quote_type && arg[0])
 		{
-			token->token[i++] = arg[0];
 			arg++;
-			len++;
 			type = get_type(arg);
 		}
+		if (type != quote_type)
+			return (parsing_error(mini), 1);
+		arg++;
 	}
 	else if (type == DIGIT)
 	{
@@ -363,6 +383,8 @@ t_token	*tokenize(t_minishell *mini, const char *arg)
 	i = -1;
 	len_to_skip = 0;
 	token_count = count_tokens(arg);
+	if (token_count == -1)
+		return (NULL);
 	tokens = initialize_tokens(mini, token_count);
 	printf("%d\n", token_count);
 	while (++i < token_count)

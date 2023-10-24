@@ -80,15 +80,17 @@ typedef struct s_minishell
 	char				**cmd;
 	char				**envp;
 	int					envpset;
-	struct s_token		*token; export lol='bin/ls'
+	struct s_token		*token;
 	int					token_count;
 	struct s_parse		parse;
 	struct sigaction	sigact;
+
 	struct s_cmd		*s_cmd;
 	unsigned char		exit_code;
 	char				*heredoc_flag;
 	int					heredoc_count;
 	int					count;
+	int					cmd_n;
 }	t_minishell;
 
 //build-in.c
