@@ -1,5 +1,35 @@
 #include "../include/minishell.h"
 
+int	pipe_parsing(char *arg)
+{
+	int	i;
+	int	temp;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '|')
+		{
+			temp = i - 1;
+			while (temp >= 0)
+			{
+				if (get_type(&arg[temp]) != WHITESPACE) //TODO: finish pipe parsing
+					break ;
+				temp--;
+			}
+			temp = i + 1;
+			while (arg[temp])
+			{
+				if (get_type(&arg[temp]) != WHITESPACE)
+					break ;
+				else 
+				temp++;
+			}
+		}
+		i++;
+	}
+}
+
 void	read_input(t_minishell *mini)
 {
 	while (1)
@@ -8,7 +38,7 @@ void	read_input(t_minishell *mini)
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
 			break ;
-		if (mini->arg[0] == '\0' || whitespace_check(mini->arg))
+		if (mini->arg[0] == '\0' || whitespace_check(mini->arg) || pipe_parsing(mini->arg))
 		{
 			free(mini->arg);
 			continue ;

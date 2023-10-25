@@ -41,6 +41,12 @@ int	whitespace_check(char *str)
 	return (1);
 }
 
+void	skip_whitespace(char *arg, int *i)
+{
+	while (get_type(&arg[*i]) == WHITESPACE)
+		(*i)++;
+}
+
 int	ft_atoll(const char *str)
 {
 	int			i;
@@ -63,3 +69,5 @@ int	ft_atoll(const char *str)
 	}
 	return (sign * nb);
 }
+
+void	
