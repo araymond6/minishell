@@ -6,11 +6,24 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/25 09:19:05 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:51:26 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	count_heredoc(t_minishell *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->token_count)
+	{
+		if (mini->token[i].type == HERE_DOC)
+			mini->heredoc_count++;
+		i++;
+	}
+}
 
 t_token	*initialize_tokens(t_minishell *mini, int token_count)
 {
@@ -71,7 +84,7 @@ char	*get_exit_code(t_minishell *mini)
 t_token	*tokenize(t_minishell *mini, char *arg)
 {
 	t_token	*tokens;
-	int		token_count;
+	int		token_count; //TODO: PIPE PARSING BEFORE GETTING TOKENS
 
 	mini->cmd_n = 1;
 	token_count = count_tokens(mini, arg);
@@ -80,5 +93,7 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 	tokens = initialize_tokens(mini, token_count);
 	if (get_tokens(mini, tokens, arg) == 1)
 		return (parsing_error(mini), NULL);
+	count_heredoc(mini);
+	set_heredoc_flag(mini); //TODO: place after redir parse
 	return (tokens);
 }

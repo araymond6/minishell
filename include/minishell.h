@@ -57,34 +57,20 @@ typedef enum e_type
 typedef struct s_token
 {
 	char	*token;
-	size_t	len;
 	t_type	type;
 	char	inquote;
-	char	indoublequote;
 	int		cmd_n;
 }	t_token;
-
-typedef struct s_parse
-{
-	int		block_count;
-	int		c;
-	int		sub;
-	int		start_block;
-	int		end_block;
-}	t_parse;
 
 typedef struct s_minishell
 {
 	char				*arg;
 	char				*path;
-	char				**cmd;
 	char				**envp;
 	int					envpset;
-	struct s_token		*token;
 	int					token_count;
-	struct s_parse		parse;
+	struct s_token		*token;
 	struct sigaction	sigact;
-
 	struct s_cmd		*s_cmd;
 	unsigned char		exit_code;
 	char				*heredoc_flag;
@@ -112,7 +98,7 @@ int		process(t_minishell *mini);
 
 //here_doc.c
 int		here_doc(t_minishell *mini, char *delimiter);
-int		set_flag(t_minishell *mini);
+int		set_heredoc_flag(t_minishell *mini);
 char	*heredoc_count(t_minishell *mini, char *new_line);
 
 //parsing_exec.c
@@ -161,7 +147,7 @@ int		len_until_redirections(t_minishell *mini, int i, int j);
 int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 int		count_2darray(char **table);
-int		spacentabs_check(char *str);
+int		whitespace_check(char *str);
 void	set_signal_for_process(t_minishell *mini);
 void	signal_reset(t_minishell *mini);
 

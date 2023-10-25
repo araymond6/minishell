@@ -46,6 +46,7 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		{
 			if (str_loop2(mini, tokens, arg, i))
 				return (1);
+			tokens->inquote = 1;
 		}
 		else if (tokens->type == STRING)
 		{

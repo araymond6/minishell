@@ -130,8 +130,8 @@ int	process(t_minishell *mini)
 	int		n;
 
 	n = 0;
-	while (mini->cmd[n])
-		n++;
+	// while (mini->cmd[n])
+	// 	n++;
 	all_here_doc(mini);
 	pids = ft_calloc(n, sizeof(pid_t));
 	pids[0] = 1;

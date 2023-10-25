@@ -34,10 +34,11 @@ int	count_string_loop(char *arg, int *i, t_type type, t_type quote_type)
 
 int	count_type3(char *arg, int *i, int *count, t_type type)
 {
-	if ((type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
-			arg[*i + 1] == '?' || arg[*i + 1] == '_')))
+	if (type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
+			arg[*i + 1] == '?' || arg[*i + 1] == '_'))
 	{
-		(*i)++;
+		(*i)++; //TODO: fix substitution (prob not here, in get_tokens)
+		//error string: $PATH.allobonjour123ldkjdlkjdfglkjfglkj
 		type = get_type(arg);
 		while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
 			(*i)++;

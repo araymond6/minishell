@@ -1,36 +1,25 @@
 #include "../include/minishell.h"
 
-static void	redir_loop(t_minishell *mini, int i)
+static void	redir_loop(t_minishell *mini)
 {
-	int j;
+	int	i;
 
-	j = 0;
-	while(mini->cmd[i][j])
+	i = 0;
+	while (i < mini->token_count)
 	{
-		if (mini->cmd[i][j] == '<')
+		if (mini->token[i].type == HERE_DOC) // heredoc flags to test
 		{
-			j++;
-			if (mini->cmd[i][j] == '<')
-			{
-				j++;
-				if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
-					j++;
-				while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
-				{
-					if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-						mini->heredoc_flag[mini->heredoc_count] = 1;
-					j++;
-				}
-				mini->heredoc_count++;
-			}
+			if (mini->token[i + 1].inquote == 1)
+				mini->heredoc_flag[mini->token_count++] = 1;
+			else
+				mini->token_count++;
 		}
-		else
-			j++;
+		i++;
 	}
 }
 
 // sets flags for heredoc behaviour
-int	set_flag(t_minishell *mini)
+int	set_heredoc_flag(t_minishell *mini)
 {
 	int	i;
 
@@ -39,11 +28,7 @@ int	set_flag(t_minishell *mini)
 	if (!mini->heredoc_flag)
 		return (1);
 	mini->heredoc_count = 0;
-	while (mini->cmd[i])
-	{
-		redir_loop(mini, i);
-		i++;
-	}
+	redir_loop(mini);
 	return (0);
 }
 
@@ -85,7 +70,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make t
 		return (close(fd), message_perror("2.1"));
 	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		new_line = heredoc_count(mini, new_line);
+		new_line = heredoc_substitution(mini, new_line);
 		if (!new_line)
 		{
 			mini->arg = NULL;

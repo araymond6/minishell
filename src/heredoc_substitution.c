@@ -27,27 +27,27 @@ static char	*heredoc_sub(t_minishell *mini, char *new_line)
 	return (new_sub);
 }
 
-char	*heredoc_count(t_minishell *mini, char *new_line)
+char	*heredoc_substitution(t_minishell *mini)
 {
-	char	*new_sub;
+	char	*new;
 	int		i;
-	int		error;
+	int		j;
 
 	i = 0;
-	error = 0;
-	if (mini->arg)
-		free(mini->arg);
-	mini->arg = new_line;
-	mini->parse.sub = 0;
+	j = 0;
+	new = ft_calloc(ft_strlen(mini->arg) + 1, sizeof(char));
+	if (!new)
 	while (mini->arg[i])
 	{
 		if (mini->arg[i] == '$')
-			error = count_sub_dollar(mini, &i);
+		{
+			//heredoc_sub // TODO: finish heredoc substitution
+		}
 		else
-			i++;
-		if (error == 1)
-			return (free(new_line), NULL);
+		{
+			new[j] = mini->arg[i];
+		}
+		i++;
 	}
-	new_sub = heredoc_sub(mini, new_line);
-	return (new_sub);
+	return (new);
 }

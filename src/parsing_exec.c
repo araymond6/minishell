@@ -15,7 +15,7 @@ static int	check_heredoc(t_minishell *mini)
 					mini->heredoc_count++;
 				j++;
 			}
-			if (set_flag(mini))
+			if (set_heredoc_flag(mini))
 				return (1);
 		}
 	}
