@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -g #-fsanitize=address -Wall -Wextra -Werror
 
 LFLAGS = -lreadline -lncurses
 
@@ -14,26 +14,15 @@ RL_DIR = include/readline
 RL = readline-8.2
 RLINE = $(RL_DIR)/libreadline.a
 
-SRCS =	build-in_change-fd.c \
-		exec.c \
+SRCS =	build-in.c \
 		here_doc.c \
-		parsing_exec.c \
 		path.c \
-		redirection.c \
-		redirection2.c \
 		s_cmd_attribution.c \
-		utils_exec_2.c \
 		utils_exec.c \
 		main.c \
 		parsing.c \
-		parsing2.c \
-		parsing3.c \
 		utils_parse.c \
 		utils_parse_2.c \
-		quote.c \
-		doublequote.c \
-		dollarsign.c \
-		substitution.c \
 		utils.c \
 		export.c \
 		env_unset.c \
@@ -41,13 +30,18 @@ SRCS =	build-in_change-fd.c \
 		utils.c \
 		pwd_cd_echo.c \
 		exit.c \
-		fork.c \
 		heredoc_substitution.c \
 		signal.c \
-		child_parent.c \
+		token.c \
+		count_tokens.c \
+		get_tokens.c \
+		substitution2.c \
+		child.c \
 		execution2_0.c \
 		process2_0.c \
-		redirection2_0.c 
+		redirection2_0.c \
+		parsing_check2_0.c \
+		command_arg.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 

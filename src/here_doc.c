@@ -1,5 +1,21 @@
 #include "../include/minishell.h"
 
+void	all_here_doc2(t_minishell *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->token_count)
+	{
+		if (mini->token[i].type == HERE_DOC)
+		{
+			i++;
+			here_doc(mini, mini->token[i].token);
+		}
+		i++;
+	}
+}
+
 static void	redir_loop(t_minishell *mini, int i)
 {
 	int j;
@@ -47,33 +63,6 @@ int	set_flag(t_minishell *mini)
 	return (0);
 }
 
-void	all_here_doc(t_minishell *mini)
-{
-	int		f;
-	t_cmd	*cmd2;
-
-	f = 0;
-	cmd2 = mini->s_cmd;
-	mini->heredoc_count = 0;
-	while (cmd2)
-	{
-		if (cmd2->file)
-		{
-			while (cmd2->file[f])
-			{
-				if (cmd2->redir[f] == '2')
-				{
-					here_doc(mini, cmd2->file[f]);
-				}
-				f++;
-			}
-			mini->heredoc_count++;
-		}
-		f = 0;
-		cmd2 = cmd2->next;
-	}
-}
-
 static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make this cleaner cause wtf me
 {
 	char	*new_line;
@@ -85,7 +74,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make t
 		return (close(fd), message_perror("2.1"));
 	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		new_line = heredoc_count(mini, new_line);
+		//new_line = heredoc_count(mini, new_line);
 		if (!new_line)
 		{
 			mini->arg = NULL;

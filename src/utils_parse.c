@@ -28,6 +28,9 @@ void	initialize_mini(t_minishell *mini, char **envp)
 
 void	clear_mini(t_minishell *mini)
 {
+	int	i;
+
+	i = 0;
 	ft_bzero(&mini->parse, sizeof(t_parse));
 	if (mini->arg)
 	{
@@ -36,6 +39,12 @@ void	clear_mini(t_minishell *mini)
 	}
 	if (mini->cmd != NULL)
 		free_array(mini->cmd);
+	if (mini->token)
+	{
+		while (i < mini->token_count)
+			free(mini->token[i++].token);
+		free(mini->token);
+	}
 	mini->cmd = NULL;
 }
 

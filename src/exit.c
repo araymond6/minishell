@@ -7,17 +7,33 @@ void	free_scmd(t_cmd *cmd)
 	//TODO remettre a jour ave la struc au complet
 	if (cmd)
 	{
-		if (temp->redir)
-			free(temp->redir);
-		if (temp->cmd)
-			free(temp->cmd);
-		if (temp->path)
-			free(temp->path);
-		if (temp->cmd_arg)
-			free_array(temp->cmd_arg);
-		if (cmd->file)
-			free_array(temp->file);
-		free(cmd);
+		if(cmd->path)
+		{
+			free(cmd->path);
+			cmd->redir = NULL;
+		}
+		if(cmd->cmd_arg)
+		{
+			free_array(cmd->cmd_arg);
+			cmd->cmd_arg = NULL;
+		}
+		if(cmd->pipe)
+		{
+			free(cmd->pipe);
+			cmd->pipe = NULL;
+		}
+		if(cmd->status)
+		{
+			free(cmd->status);
+			cmd->redir = NULL;
+		}
+		if(cmd->pids)
+		{
+			free(cmd->pids);
+			cmd->pids = NULL;
+		}
+		close(cmd->fd_stdin);
+		close(cmd->fd_stdout);
 		cmd = NULL;
 	}
 }
@@ -45,6 +61,7 @@ int free_exit(t_minishell *mini)
 {
 	free_scmd(mini->s_cmd);
 	exit_program(mini);
+	return(0);
 }
 
 int	ft_exit(t_minishell *mini)

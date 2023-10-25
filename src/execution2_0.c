@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int	null_command2(t_minishell *mini, int n)
+void	null_command2(t_minishell *mini, int n)
 {
 	int i;
 
@@ -19,17 +19,26 @@ void exec_buildin2(t_minishell *mini, int n)
 	int i;
 
 	i = 0;
-	if(n < mini->total_cmd)
+	manual_redirection(mini, n);
+	execute_buildin(mini);
+	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
+		message_perror("Impossible to reassign the STDOUT");
+	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
+		message_perror("Impossible to reassign the STDIN");
+	clear_s_cmd(mini->s_cmd);
+}
+
+void	exec_bash_cmd(t_minishell *mini, int n)
+{
+	set_signal_for_process(mini);
+	mini->s_cmd->pids[n - 1] = fork();
+	if (mini->s_cmd->pids[n - 1] < 0)
 	{
-		if (dup2(mini->s_cmd->pipe[2 * (n - 1) + 1], STDOUT_FILENO) == -1)
-			message_perror("Impossible to write in the pipe");
-	}
-		manual_redirection(mini, n);
-		execute_buildin(mini);
-		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-			message_perror("Impossible to reassign the STDOUT");
-		if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-			message_perror("Impossible to reassign the STDIN");
+		message_perror("Crash in the fork function");
 		clear_s_cmd(mini->s_cmd);
-	return (0);
+	}
+	else if (mini->s_cmd->pids[n - 1] == 0)
+		child2(mini, n);
+	else
+		parent2(mini, n);
 }

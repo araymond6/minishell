@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static char	*heredoc_sub(t_minishell *mini, char *new_line)
+/*static char	*heredoc_sub(t_minishell *mini, char *new_line)
 {
 	char	*new_sub;
 	int		j;
@@ -50,4 +50,4 @@ char	*heredoc_count(t_minishell *mini, char *new_line)
 	}
 	new_sub = heredoc_sub(mini, new_line);
 	return (new_sub);
-}
+}*/
