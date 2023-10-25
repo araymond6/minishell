@@ -105,5 +105,5 @@ int	count_tokens(t_minishell *mini, char *arg)
 		if (count_type(arg, &i, &count, type) == -1)
 			return (parsing_error(mini), -1);
 	}
-	return (0);
+	return (count);
 }

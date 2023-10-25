@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/24 16:49:34 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/25 09:19:05 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,5 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 	tokens = initialize_tokens(mini, token_count);
 	if (get_tokens(mini, tokens, arg) == 1)
 		return (parsing_error(mini), NULL);
-	printf("%s\n", tokens->token);
 	return (tokens);
 }

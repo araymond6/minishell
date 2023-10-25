@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = #-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -g #-fsanitize=address -Wall -Wextra -Werror
 
 LFLAGS = -lreadline -lncurses
 
@@ -26,14 +26,8 @@ SRCS =	build-in_change-fd.c \
 		utils_exec.c \
 		main.c \
 		parsing.c \
-		parsing2.c \
-		parsing3.c \
 		utils_parse.c \
 		utils_parse_2.c \
-		quote.c \
-		doublequote.c \
-		dollarsign.c \
-		substitution.c \
 		utils.c \
 		export.c \
 		env_unset.c \

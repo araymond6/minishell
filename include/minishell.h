@@ -142,23 +142,6 @@ int		nbr_arg(t_minishell *mini, int i, int j);
 //utils_exec.c
 //parsing
 void	read_input(t_minishell *mini);
-int		quote_check(t_minishell *mini, int *i);
-int		end_doublequote(t_minishell *mini, int *i);
-int		end_quote(t_minishell *mini, int *i);
-int		doublequote_parse(t_minishell *mini, int *i);
-void	quote_parse(t_minishell *mini, int *i);
-int		count_sub_dollar(t_minishell *mini, int *i);
-int		get_block(t_minishell *mini);
-int		doublequote_cmd(t_minishell *mini, int *i, int *j);
-void	quote_cmd(t_minishell *mini, int *i, int *j);
-void	parse_exit(t_minishell *mini);
-int		sub_dollar(t_minishell *mini, int *i, int *j, char *str);
-int		add_sub_env(t_minishell *mini, char *arg);
-int		add_from_env(t_minishell *mini, int *j, char *arg, char *str);
-void	add_exitcode(int *j, char *arg, char *str);
-int		quote_check(t_minishell *mini, int *i);
-int		special_char_check(t_minishell *mini, int *i);
-int		redir_parsing(t_minishell *mini);
 char	*env_parsing(t_minishell *mini, int *i, int *j);
 
 //errors
