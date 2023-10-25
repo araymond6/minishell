@@ -14,7 +14,7 @@ static int	checks_after2(t_minishell *mini, int *i)
 		}
 		if (mini->token[*i].type == STRING
 			|| mini->token[*i].type == DOLLAR_SIGN
-			|| mini->token[*i].type == SINGLE_QUOTE   //TODO comment handle les quote apres ?
+			|| mini->token[*i].type == SINGLE_QUOTE
 			|| mini->token[*i].type == DOUBLE_QUOTE)
 			return(0);
 		else if(mini->token[*i].type == REDIRECT_INPUT
@@ -22,6 +22,23 @@ static int	checks_after2(t_minishell *mini, int *i)
 			|| mini->token[*i].type == HERE_DOC
 			|| mini->token[*i].type == APPEND
 			|| mini->token[*i].type == PIPE)
+			return (parsing_error(mini), 1);
+	}	
+}
+
+static int	checks_after_pipe(t_minishell *mini, int *i)
+{
+	if (*i == mini->token_count)
+		return (parsing_error(mini), 1);
+	else
+	{
+		if(mini->token[*i].type == WHITESPACE)
+		{
+			i++;
+			if(*i == mini->token_count)
+				return (parsing_error(mini), 1);
+		}
+		if(mini->token[*i].type == PIPE)
 			return (parsing_error(mini), 1);
 	}	
 }
@@ -40,7 +57,7 @@ static int	checks_before2(t_minishell *mini, int *i)
 	}
 	if (mini->token[*i].type == STRING
 		|| mini->token[*i].type == DOLLAR_SIGN
-		|| mini->token[*i].type == SINGLE_QUOTE   //TODO comment handle les quote apres ?
+		|| mini->token[*i].type == SINGLE_QUOTE
 		|| mini->token[*i].type == DOUBLE_QUOTE)
 		return(0);
 	else if(mini->token[*i].type == REDIRECT_INPUT
@@ -81,9 +98,9 @@ int	pipe_parsing2(t_minishell *mini)
 		if(mini->token[i].type == PIPE)
 		{
 			i++;
-			if (checks_after2(mini, &i) == 1)
+			if (checks_after_pipe(mini, &i) == 1)
 				return (1);
-			if (checks_before2(mini, &i) == 1)  //TODO est-ce que l'on a besoin de tout faire les check parce que si on a regarder apres les autrs pipes et les redirection ont a deja exclu les cas problematique sauf si | est en debut de string
+			if (checks_before2(mini, &i))
 				return (1);
 		}
 	}

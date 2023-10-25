@@ -238,10 +238,8 @@ int	parent2(t_minishell *mini, int n)
 	return (0);
 }
 
-void exec_bash_cmd(t_minishell *mini, int n)
+void	exec_bash_cmd(t_minishell *mini, int n)
 {
-	// le path n<est pas encore set//
-	
 	set_signal_for_process(mini);
 	mini->s_cmd->pids[n - 1] = fork();
 	if (mini->s_cmd->pids[n - 1] < 0)
@@ -259,7 +257,7 @@ void exec_bash_cmd(t_minishell *mini, int n)
 int	forker2(t_minishell *mini)
 {
 	int	r;
-	int n;
+	int	n;
 
 	r = 0;
 	n = 1;

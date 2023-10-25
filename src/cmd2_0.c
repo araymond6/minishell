@@ -39,8 +39,8 @@ void cpy_cmd(t_minishell *mini, int n, int i)
 		&& mini->token[i].no_cmd == n
 		&& mini->token[i].type == STRING)
 	{
-		mini->s_cmd->cmd_arg[r] = ft_calloc(mini->token[i].len + 1, sizeof(char));
-		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token, mini->token[i].len + 1);
+		mini->s_cmd->cmd_arg[r] = ft_calloc(ft_strlen(mini->token[i].token) + 1, sizeof(char));
+		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token, ft_strlen(mini->token[i].token) + 1);
 		i++;
 		r++;
 	}

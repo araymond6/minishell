@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/20 12:47:25 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:51:10 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_token	*initialize_token(int token_count)
 		token[counter].indoublequote = 0;
 		token[counter].inquote = 0;
 		token[counter].token = NULL;
-		token[counter].len = 0;
 		token[counter].type = 0;
 		counter++;
 	}
