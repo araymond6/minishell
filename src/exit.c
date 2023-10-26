@@ -4,28 +4,37 @@ void	free_scmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
 
+	//TODO remettre a jour ave la struc au complet
 	if (cmd)
 	{
-		free(cmd->prev);
-		temp = cmd;
-		while (temp)
+		if(cmd->path)
 		{
-			if (temp->redir)
-			{
-				free(temp->redir);
-			}
-			if (temp->cmd)
-				free(temp->cmd);
-			if (temp->path)
-				free(temp->path);
-			if (temp->cmd_arg)
-				free_array(temp->cmd_arg);
-			if (cmd->file)
-				free_array(temp->file);
-			temp = temp->next;
-			free(cmd);
-			cmd = temp;
+			free(cmd->path);
+			cmd->redir = NULL;
 		}
+		if(cmd->cmd_arg)
+		{
+			free_array(cmd->cmd_arg);
+			cmd->cmd_arg = NULL;
+		}
+		if(cmd->pipe)
+		{
+			free(cmd->pipe);
+			cmd->pipe = NULL;
+		}
+		if(cmd->status)
+		{
+			free(cmd->status);
+			cmd->redir = NULL;
+		}
+		if(cmd->pids)
+		{
+			free(cmd->pids);
+			cmd->pids = NULL;
+		}
+		close(cmd->fd_stdin);
+		close(cmd->fd_stdout);
+		cmd = NULL;
 	}
 }
 
@@ -48,6 +57,13 @@ int	is_valid_exit_code(t_minishell *mini)
 	return (0);
 }
 
+int free_exit(t_minishell *mini)
+{
+	free_scmd(mini->s_cmd);
+	exit_program(mini);
+	return(0);
+}
+
 int	ft_exit(t_minishell *mini)
 {
 	int			nb_arg;
@@ -56,24 +72,19 @@ int	ft_exit(t_minishell *mini)
 	while (mini->s_cmd->cmd_arg[nb_arg])
 		nb_arg++;
 	if (nb_arg == 1)
-	{
-		free_scmd(mini->s_cmd);
-		exit_program(mini);
-	}
+		free_exit(mini);
 	if (nb_arg == 2)
 	{
 		if (is_valid_exit_code(mini) == 1)
 			return (printf("Not a numeric argument\n"), 1);
 		mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
-		free_scmd(mini->s_cmd);
-		exit_program(mini);
+		free_exit(mini);
 	}
 	else if (nb_arg > 2)
 	{
 		if (is_valid_exit_code(mini) == 0)
 			return (printf("Too many arguments\n"), 1);
-		free_scmd(mini->s_cmd);
-		exit_program(mini);
+		free_exit(mini);
 	}
 	return (0);
 }

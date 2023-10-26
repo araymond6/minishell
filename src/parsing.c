@@ -60,8 +60,7 @@ void	read_input(t_minishell *mini)
 		set_heredoc_flag(mini); //TODO: place after redir parse
 		if (mini->token)
 		{
-			// if (create_list(mini) == 0)
-			// 	x_comm(mini);
+			//time_to_execute(mini);
 		}
 		clear_mini(mini);
 	}

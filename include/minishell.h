@@ -24,21 +24,23 @@
 
 typedef struct s_cmd
 {
-	char			*redir;
+	int				*redir;
 	char			*cmd;
 	char			*path;
 	char			**cmd_arg;
 	char			**file;
-	struct s_cmd	*next;
 	int				nredir;
-	struct s_cmd	*prev;
-	int				fd[2];
+	int				*pipe;
 	int				narg;
-	int				status;
-	int				fd_stdin_out[2];
+	int				*status;
+	int				fd_stdin;
+	int				fd_stdout;
 	int				qlen;
 	int				c;
+	int				*new_cmd;
+	int				*pids;
 }	t_cmd;
+
 
 typedef enum e_type
 {
@@ -80,24 +82,8 @@ typedef struct s_minishell
 	int					cmd_n;
 }	t_minishell;
 
-//build-in.c
 int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
-
-//change_fd.c
-int		change_inf(char c, char *file);
-int		change_out(char c, char *file);
-
-//command.c 
-int		check_command(t_minishell *mini, int i, int j);
-
-//exec.c
-int		execute_cmd(t_minishell *mini);
-int		parent(t_cmd *cmd);
-int		child(t_minishell *mini);
-int		process(t_minishell *mini);
-
-//here_doc.c
 int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
 char	*heredoc_substitution(t_minishell *mini);
@@ -144,9 +130,6 @@ char	*check_env(t_minishell *mini, char *arg);
 void	signal_handler(int signal);
 void	sigint_handler(int signal);
 void	free_array(char **array);
-int		len_until_space(t_minishell *mini, int i, int j);
-int		len_until_redirections(t_minishell *mini, int i, int j);
-int		ft_strjcpy(char *dst, char *src, int max, int j);
 int		message_perror(char *str);
 int		count_2darray(char **table);
 int		whitespace_check(char *str);
@@ -155,7 +138,6 @@ void	signal_reset(t_minishell *mini);
 void	print_tokens(t_token *tokens, int token_count);
 
 // buildins and start of exec
-int		x_comm(t_minishell *mini);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(void);
 int		ft_cd(t_cmd *cmd);
@@ -166,22 +148,36 @@ int		ft_unset(t_minishell *mini);
 int		while_table(t_minishell *mini, int *j, int *c, char **table);
 int		set_table(t_minishell *mini, char **table, int *j, int *k);
 void	free_scmd(t_cmd *cmd);
-int		count_quote(char *cmd, int i);
-void	free_scmd(t_cmd *cmd);
 int		ft_exit(t_minishell *mini);
-int		file_n_redir_calloc(t_minishell *mini, int c);
-int		forker(int n, int *pids, t_minishell *mini);
 void	print_env(t_minishell *mini);
-int		count_quote2(char *cmd, int i);
-void	all_here_doc(t_minishell *mini);
-int		forker(int n, int *pids, t_minishell *mini);
-int		to_fork(t_minishell *mini, int *pids, int n);
-int		child(t_minishell *mini);
-int		parent(t_cmd *cmd);
 int		ft_atoll(const char *str);
-int		quote_jump(char *cmd, int i, char c);
-int		redirection_jump(t_minishell *mini, char *cmd, int i, char c);
-int		redir_quote(t_minishell *mini, int i, int j, int r);
+
+//new functions Valerie
+void	nb_of_arg(t_minishell *mini, int n);
+void	cpy_cmd(t_minishell *mini, int n, int i);
+void	find_cmd(t_minishell *mini, int n);
+void	null_command2(t_minishell *mini, int n);
+void	exec_buildin2(t_minishell *mini, int n);
+void	redirect_input(t_minishell *mini, int i);
+void	redirect_here_doc(void);
+void	redirect_output(t_minishell *mini, int i);
+void	redirect_append(t_minishell *mini, int i);
+void	manual_redirection(t_minishell *mini, int n);
+void	all_here_doc2(t_minishell *mini);
+void	clear_s_cmd(t_cmd *cmd);
+void	join_path_command2(char **path, char *command);
+char	*test_path2(char **path);
+void	find_path2(t_minishell *mini);
+void	child_path(t_minishell *mini);
+char	*child_path_execve(char *string);
+char	**child_array_execve(char **array);
+void	child_closenfree(t_minishell *mini);
+void	execve_failed(char *path_execve, char **array_execve);
+void	child2(t_minishell *mini, int n);
+int		parent2(t_minishell *mini, int n);
+void	exec_bash_cmd(t_minishell *mini, int n);
+int		forker2(t_minishell *mini);
+void	time_to_execute(t_minishell *mini);
 
 //tokenize and new parsing
 t_token	*tokenize(t_minishell *mini, char *arg);
@@ -190,6 +186,8 @@ int		count_tokens(t_minishell *mini, char *arg);
 int		new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
 char	*get_exit_code(t_minishell *mini);
 t_type	get_type(char *arg);
+int		redir_parsing2(t_minishell *mini);
+void	find_cmd(t_minishell *mini, int n);
 int		pipe_parsing(t_minishell *mini, char *arg);
 
 #endif

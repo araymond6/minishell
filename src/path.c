@@ -1,19 +1,22 @@
 #include "../include/minishell.h"
 
-// this function add / and command at the end of all possible path find in env
-void	join_path_command(char **path, char *command)
+void	join_path_command2(char **path, char *command)
 {
 	int		i_path;
 	char	*path1;
 
 	i_path = 0;
 	if (!path)
+	{
+		message_perror("impossible to find PATH in the envp");
 		return ;
+	}
 	while (path[i_path])
 	{
 		path1 = path[i_path];
 		path[i_path] = ft_strjoin(path1, "/");
 		free(path1);
+		path1 = NULL;
 		i_path++;
 	}
 	i_path = 0;
@@ -22,12 +25,12 @@ void	join_path_command(char **path, char *command)
 		path1 = path[i_path];
 		path[i_path] = ft_strjoin(path1, command);
 		free(path1);
+		path1 = NULL;
 		i_path++;
 	}
 }
 
-// this function check if one of the path is able to access the command
-char	*test_path(char **path)
+char	*test_path2(char **path)
 {
 	int		i_path;
 	char	*good_path;
@@ -52,29 +55,28 @@ char	*test_path(char **path)
 	return (NULL);
 }
 
-//This function first check if the path is absolute or relative. 
-//Otherwise, it check if he can access the command whith env.
-int	find_path(t_minishell *mini)
+void	find_path2(t_minishell *mini)
 {
 	int		len;
 	char	**tab_path;
 
-	if (access(mini->s_cmd->cmd, X_OK) == 0
-		|| isbuildin(mini->s_cmd->cmd) == 0)
+	if (access(mini->s_cmd->cmd_arg[0], X_OK) == 0)
 	{
-		len = ft_strlen(mini->s_cmd->cmd);
+		len = ft_strlen(mini->s_cmd->cmd_arg[0]);
 		mini->s_cmd->path = ft_calloc((len + 1), sizeof(char));
 		if (!mini->s_cmd->path)
-			return (-1);
-		ft_strlcpy(mini->s_cmd->path, mini->s_cmd->cmd, len + 1);
+		{
+			message_perror("Malloc error");
+			return ;
+		}
+		ft_strlcpy(mini->s_cmd->path, mini->s_cmd->cmd_arg[0], len + 1);
 	}
 	else
 	{
-		tab_path = ft_split(mini->path, ':');
-		join_path_command(tab_path, mini->s_cmd->cmd);
-		mini->s_cmd->path = test_path(tab_path);
+		tab_path = ft_split(mini->path + 5, ':');
+		join_path_command2(tab_path, mini->s_cmd->cmd_arg[0]);
+		mini->s_cmd->path = test_path2(tab_path);
 		free_array(tab_path);
 		tab_path = NULL;
 	}
-	return (0);
 }
