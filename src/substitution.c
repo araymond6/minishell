@@ -51,10 +51,14 @@ int	new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	sub = sub_loop(mini, tokens, arg, i);
 	if (sub == NULL)
 		return (1);
-	while (sub[j] != '=') //TODO: make sure to fix exit_code subs to make them leave 
+	if (ft_strchr(sub, '='))
+	{
+		while (sub[j] != '=')
+			j++;
 		j++;
+	}
 	temp = tokens->token;
-	tokens->token = ft_strjoin(temp, &sub[++j]);
+	tokens->token = ft_strjoin(temp, &sub[j]);
 	free(temp);
 	free(sub);
 	if (!tokens->token)

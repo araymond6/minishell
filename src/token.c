@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/26 14:56:00 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:35:20 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*get_exit_code(t_minishell *mini)
 t_token	*tokenize(t_minishell *mini, char *arg)
 {
 	t_token	*tokens;
-	int		token_count; //TODO: PIPE PARSING BEFORE GETTING TOKENS
+	int		token_count;
 
 	mini->cmd_n = 1;
 	token_count = count_tokens(mini, arg);

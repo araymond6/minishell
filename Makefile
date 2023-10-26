@@ -40,9 +40,8 @@ SRCS =	build-in.c \
 		process2_0.c \
 		redirection2_0.c \
 		parsing_check2_0.c \
-		command_arg.c 
-		substitution.c \
-		child_parent.c 
+		command_arg.c \
+		substitution.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
 

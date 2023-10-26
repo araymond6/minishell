@@ -61,7 +61,7 @@ int	set_heredoc_flag(t_minishell *mini)
 	return (0);
 }
 
-static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make this cleaner cause wtf me
+static int	read_write(t_minishell *mini, char *delimiter, int fd)
 {
 	char	*new_line;
 	int		i;

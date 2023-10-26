@@ -1,6 +1,34 @@
 #include "../include/minishell.h"
 
-int	pipe_parsing(t_minishell *mini, char *arg) //TODO: Shorten this
+static int	check_pipe(char *arg, int *i, int *temp, t_type type)
+{
+	while (*temp >= 0)
+	{
+		type = get_type(&arg[*temp]);
+		if (type != WHITESPACE && type != PIPE) 
+			break ;
+		else if (type == PIPE)
+			return (1);
+		else
+			(*temp)--;
+	}
+	if (!arg[*i + 1] || arg[0] == '|')
+		return (1);
+	*temp = *i + 1;
+	while (arg[*temp])
+	{
+		type = get_type(&arg[*temp]);
+		if (type != WHITESPACE && type != PIPE)
+			break ;
+		else if (type == PIPE)
+			return (1);
+		else 
+			(*temp)++;
+	}
+	return (0);
+}
+
+int	pipe_parsing(t_minishell *mini, char *arg)
 {
 	int		i;
 	int		temp;
@@ -12,29 +40,8 @@ int	pipe_parsing(t_minishell *mini, char *arg) //TODO: Shorten this
 		if (arg[i] == '|')
 		{
 			temp = i - 1;
-			while (temp >= 0)
-			{
-				type = get_type(&arg[temp]);
-				if (type != WHITESPACE && type != PIPE) 
-					break ;
-				else if (type == PIPE)
-					return (parsing_error(mini), 1);
-				else
-					temp--;
-			}
-			if (!arg[i + 1] || arg[0] == '|')
+			if (check_pipe(arg, &i, &temp, type) == 1)
 				return (parsing_error(mini), 1);
-			temp = i + 1;
-			while (arg[temp])
-			{
-				type = get_type(&arg[temp]);
-				if (type != WHITESPACE && type != PIPE)
-					break ;
-				else if (type == PIPE)
-					return (parsing_error(mini), 1);
-				else 
-					temp++;
-			}
 		}
 		i++;
 	}
@@ -56,8 +63,10 @@ void	read_input(t_minishell *mini)
 			continue ;
 		}
 		mini->token = tokenize(mini, mini->arg);
+		if (!mini->token)
+			continue ;
 		count_heredoc(mini);
-		set_heredoc_flag(mini); //TODO: place after redir parse
+		set_heredoc_flag(mini);
 		if (mini->token)
 		{
 			//time_to_execute(mini);

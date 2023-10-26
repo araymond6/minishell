@@ -37,8 +37,7 @@ int	count_type3(char *arg, int *i, int *count, t_type type)
 	if (type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
 			arg[*i + 1] == '?' || arg[*i + 1] == '_'))
 	{
-		(*i)++; //TODO: fix substitution (prob not here, in get_tokens)
-		//error string: $PATH.allobonjour123ldkjdlkjdfglkjfglkj
+		(*i)++;
 		type = get_type(arg);
 		while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
 			(*i)++;
@@ -77,8 +76,8 @@ int	count_type(char *arg, int *i, int *count, t_type type)
 			type = get_type(&arg[*i]);
 		}
 	}
-	else if ((type == DOLLAR_SIGN && (arg[*i + 1] != '?' || arg[*i + 1] != '_' \
-		|| !ft_isalnum(arg[*i + 1]))) || \
+	else if ((type == DOLLAR_SIGN && (arg[*i + 1] != '?' && arg[*i + 1] != '_' \
+		&& !ft_isalnum(arg[*i + 1]))) || \
 		type == REDIRECT_INPUT || type == REDIRECT_OUTPUT)
 	{
 		(*i)++;

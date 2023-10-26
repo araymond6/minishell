@@ -52,7 +52,7 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		{
 			while (tokens->type == STRING && arg[i[0]])
 			{
-				tokens->token[i[1]++] = arg[i[0]++]; //TODO: figure out why this is not working
+				tokens->token[i[1]++] = arg[i[0]++];
 				tokens->type = get_type(&arg[i[0]]);
 			}
 		}
@@ -90,8 +90,8 @@ int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 			return (2);
 		}
 	}
-	else if ((tokens->type == DOLLAR_SIGN && (arg[i[0] + 1] != '?' || \
-		arg[i[0] + 1] != '_' || !ft_isalnum(arg[i[0] + 1]))) || \
+	else if ((tokens->type == DOLLAR_SIGN && (arg[i[0] + 1] != '?' && \
+		arg[i[0] + 1] != '_' && !ft_isalnum(arg[i[0] + 1]))) || \
 		tokens->type == REDIRECT_INPUT || tokens->type == REDIRECT_OUTPUT)
 	{
 		tokens->token[i[1]] = arg[i[0]];

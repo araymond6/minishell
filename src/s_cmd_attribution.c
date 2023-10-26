@@ -10,6 +10,7 @@ void	initialize_s_cmd(t_minishell *mini)
 	mini->s_cmd->path = NULL;
 	mini->s_cmd->cmd_arg = NULL;
 	mini->s_cmd->pids = ft_calloc(mini->cmd_n, sizeof(pid_t));
+	printf("%d\n", mini->cmd_n);
 	mini->s_cmd->pipe = ft_calloc(2 * (mini->cmd_n), sizeof(int));
 	while(n < mini->cmd_n)
 	{
@@ -19,7 +20,7 @@ void	initialize_s_cmd(t_minishell *mini)
 			message_perror("Pipe");
 		}
 		mini->s_cmd->pipe[2 * n] = pipes[0];
-		mini->s_cmd->pipe[(2 * n) -1] = pipes[1];
+		mini->s_cmd->pipe[(2 * n) - 1] = pipes[1];
 		n++;
 	}
 	mini->s_cmd->narg = 0;

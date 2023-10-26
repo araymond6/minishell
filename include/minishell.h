@@ -104,7 +104,7 @@ int		redirection(t_minishell *mini, int i, int j, char c);
 int		select_redirection(t_minishell *mini, int i, int j);
 
 //s_cmd_attribution.c
-void	initialize_s_cmd(t_cmd *cmd);
+void	initialize_s_cmd(t_minishell *mini);
 int		s_cmd_cmd(t_minishell *mini, int i, int j);
 int		s_cmd_arg_cmd_first(t_minishell *mini);
 int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
