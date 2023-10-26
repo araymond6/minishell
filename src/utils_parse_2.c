@@ -10,7 +10,6 @@ void	parsing_error(t_minishell *mini)
 {
 	int	i;
 
-	mini->parse.block_count = 0;
 	mini->exit_code = 2;
 	i = 0;
 	if (mini->cmd)

@@ -42,6 +42,7 @@ static char	*heredoc_get_sub(t_minishell *mini, char *new, int *i)
 	}
 	if (sub[0] == '\0')
 		return (free(sub), NULL);
+	return (sub);
 }
 
 static char	*heredoc_sub(t_minishell *mini, char *new, int *i)
@@ -54,7 +55,7 @@ static char	*heredoc_sub(t_minishell *mini, char *new, int *i)
 	sub = heredoc_get_sub(mini, new, i);
 	sub = heredoc_get_env(mini, sub);
 	if (!sub)
-		return (1);
+		return (NULL);
 	if (ft_strchr(sub, '='))
 	{
 		while (sub[j] != '=')
@@ -66,8 +67,8 @@ static char	*heredoc_sub(t_minishell *mini, char *new, int *i)
 	free(temp);
 	free(sub);
 	if (!new)
-		return (malloc_error(mini, NULL), 1);
-	return (0);
+		return (malloc_error(mini, NULL), NULL);
+	return (new);
 }
 
 char	*heredoc_substitution(t_minishell *mini)

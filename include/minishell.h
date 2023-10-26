@@ -67,6 +67,7 @@ typedef struct s_minishell
 	char				*arg;
 	char				*path;
 	char				**envp;
+	char				**cmd;
 	int					envpset;
 	int					token_count;
 	struct s_token		*token;
@@ -99,7 +100,8 @@ int		process(t_minishell *mini);
 //here_doc.c
 int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
-char	*heredoc_count(t_minishell *mini, char *new_line);
+char	*heredoc_substitution(t_minishell *mini);
+void	count_heredoc(t_minishell *mini);
 
 //parsing_exec.c
 int		parsing_command(t_minishell *mini, int i);
@@ -150,6 +152,7 @@ int		count_2darray(char **table);
 int		whitespace_check(char *str);
 void	set_signal_for_process(t_minishell *mini);
 void	signal_reset(t_minishell *mini);
+void	print_tokens(t_token *tokens, int token_count);
 
 // buildins and start of exec
 int		x_comm(t_minishell *mini);
@@ -187,5 +190,6 @@ int		count_tokens(t_minishell *mini, char *arg);
 int		new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
 char	*get_exit_code(t_minishell *mini);
 t_type	get_type(char *arg);
+int		pipe_parsing(t_minishell *mini, char *arg);
 
 #endif

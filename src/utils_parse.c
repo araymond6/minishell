@@ -41,6 +41,7 @@ void	clear_mini(t_minishell *mini)
 		while (i < mini->token_count)
 			free(mini->token[i++].token);
 		free(mini->token);
+		mini->token = NULL;
 	}
 }
 

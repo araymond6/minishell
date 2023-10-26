@@ -1,9 +1,10 @@
 #include "../include/minishell.h"
 
-int	pipe_parsing(char *arg)
+int	pipe_parsing(t_minishell *mini, char *arg) //TODO: Shorten this
 {
-	int	i;
-	int	temp;
+	int		i;
+	int		temp;
+	t_type	type;
 
 	i = 0;
 	while (arg[i])
@@ -13,21 +14,31 @@ int	pipe_parsing(char *arg)
 			temp = i - 1;
 			while (temp >= 0)
 			{
-				if (get_type(&arg[temp]) != WHITESPACE) //TODO: finish pipe parsing
+				type = get_type(&arg[temp]);
+				if (type != WHITESPACE && type != PIPE) 
 					break ;
-				temp--;
+				else if (type == PIPE)
+					return (parsing_error(mini), 1);
+				else
+					temp--;
 			}
+			if (!arg[i + 1] || arg[0] == '|')
+				return (parsing_error(mini), 1);
 			temp = i + 1;
 			while (arg[temp])
 			{
-				if (get_type(&arg[temp]) != WHITESPACE)
+				type = get_type(&arg[temp]);
+				if (type != WHITESPACE && type != PIPE)
 					break ;
+				else if (type == PIPE)
+					return (parsing_error(mini), 1);
 				else 
-				temp++;
+					temp++;
 			}
 		}
 		i++;
 	}
+	return (0);
 }
 
 void	read_input(t_minishell *mini)
@@ -38,21 +49,17 @@ void	read_input(t_minishell *mini)
 		mini->arg = readline("\033[92mminishell % \033[0m");
 		if (mini->arg == NULL)
 			break ;
-		if (mini->arg[0] == '\0' || whitespace_check(mini->arg) || pipe_parsing(mini->arg))
+		add_history(mini->arg);
+		if (mini->arg[0] == '\0' || whitespace_check(mini->arg) == 1 || pipe_parsing(mini, mini->arg) == 1)
 		{
 			free(mini->arg);
 			continue ;
 		}
-		add_history(mini->arg);
 		mini->token = tokenize(mini, mini->arg);
+		count_heredoc(mini);
+		set_heredoc_flag(mini); //TODO: place after redir parse
 		if (mini->token)
 		{
-			int i = 0;
-
-			while (i < mini->token_count)
-			{
-				printf("%s\n", mini->token[i++].token);
-			}
 			// if (create_list(mini) == 0)
 			// 	x_comm(mini);
 		}

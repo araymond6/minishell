@@ -37,8 +37,8 @@ int	whitespace_check(char *str)
 		type = get_type(str + i);
 	}
 	if (str[i] == '\0')
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 void	skip_whitespace(char *arg, int *i)
@@ -70,4 +70,18 @@ int	ft_atoll(const char *str)
 	return (sign * nb);
 }
 
-void	
+void	print_tokens(t_token *tokens, int token_count)
+{
+	int	i;
+
+	i = 0;
+	if (tokens)
+	{
+		while (i < token_count)
+		{
+			printf("token[%d]: %s; type: %d; cmd_n: %d; inquote: %d\n", i, tokens[i].token, tokens[i].type, tokens[i].cmd_n, tokens[i].inquote);
+			i++;
+		}
+		printf("token_count: %d\n", token_count);
+	}
+}

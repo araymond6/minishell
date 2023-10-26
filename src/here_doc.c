@@ -1,5 +1,18 @@
 #include "../include/minishell.h"
 
+void	count_heredoc(t_minishell *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->token_count)
+	{
+		if (mini->token[i].type == HERE_DOC)
+			mini->heredoc_count++;
+		i++;
+	}
+}
+
 static void	redir_loop(t_minishell *mini)
 {
 	int	i;
@@ -10,9 +23,9 @@ static void	redir_loop(t_minishell *mini)
 		if (mini->token[i].type == HERE_DOC) // heredoc flags to test
 		{
 			if (mini->token[i + 1].inquote == 1)
-				mini->heredoc_flag[mini->token_count++] = 1;
+				mini->heredoc_flag[mini->heredoc_count++] = 1;
 			else
-				mini->token_count++;
+				mini->heredoc_count++;
 		}
 		i++;
 	}
@@ -70,7 +83,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make t
 		return (close(fd), message_perror("2.1"));
 	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		new_line = heredoc_substitution(mini, new_line);
+		new_line = heredoc_substitution(mini);
 		if (!new_line)
 		{
 			mini->arg = NULL;
