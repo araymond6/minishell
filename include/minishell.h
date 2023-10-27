@@ -30,7 +30,7 @@ typedef struct s_cmd
 	char			**cmd_arg;
 	char			**file;
 	int				nredir;
-	int				*pipe;
+	int				pipe[2];
 	int				narg;
 	int				*status;
 	int				fd_stdin;

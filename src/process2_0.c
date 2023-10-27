@@ -2,13 +2,15 @@
 
 int	parent2(t_minishell *mini, int n)
 {
-	if(n != 1)
-	{
-		if (dup2(mini->s_cmd->pipe[2 * (n - 1)], STDIN_FILENO) == -1)
-			message_perror("Impossible to read in the pipe");
-	}
+	if (dup2(mini->s_cmd->pipe[0], STDIN_FILENO) == -1)
+		message_perror("Impossible to read in the pipe");
+	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
+		message_perror("Impossible to read in the pipe");
+	close(mini->s_cmd->pipe[0]);
+	close(mini->s_cmd->pipe[1]);
 	return (0);
 }
+
 
 int	forker2(t_minishell *mini)
 {
@@ -29,7 +31,7 @@ int	forker2(t_minishell *mini)
 			null_command2(mini, n);
 		}
 		else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
-			exec_buildin2(mini, n);     //les redirection ne fonctionne pas dans les builds in 
+			exec_buildin2(mini, n);
 		else
 			exec_bash_cmd(mini, n);
 		n++;

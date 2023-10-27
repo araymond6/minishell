@@ -62,17 +62,6 @@ void	child_closenfree(t_minishell *mini)
 		free_array(mini->s_cmd->cmd_arg);
 		mini->s_cmd->cmd_arg = NULL;
 	}
-	while(i <= mini->cmd_n)
-	{
-		close(mini->s_cmd->pipe[2 * (i - 1)]);
-		close(mini->s_cmd->pipe[2 * (i - 1) + 1]);
-		i++;
-	}
-	if(mini->s_cmd->pipe)
-	{
-		free(mini->s_cmd->pipe);
-		mini->s_cmd->pipe = NULL;
-	}
 	if(mini->s_cmd->status)
 	{
 		free(mini->s_cmd->status);

@@ -17,11 +17,6 @@ void	free_scmd(t_cmd *cmd)
 			free_array(cmd->cmd_arg);
 			cmd->cmd_arg = NULL;
 		}
-		if(cmd->pipe)
-		{
-			free(cmd->pipe);
-			cmd->pipe = NULL;
-		}
 		if(cmd->status)
 		{
 			free(cmd->status);
@@ -64,11 +59,14 @@ int free_exit(t_minishell *mini)
 	return(0);
 }
 
+
 int	ft_exit(t_minishell *mini)
 {
 	int			nb_arg;
-
+	
 	nb_arg = 0;
+	if(mini->cmd_n != 1)
+		return(0);
 	while (mini->s_cmd->cmd_arg[nb_arg])
 		nb_arg++;
 	if (nb_arg == 1)
@@ -76,8 +74,12 @@ int	ft_exit(t_minishell *mini)
 	if (nb_arg == 2)
 	{
 		if (is_valid_exit_code(mini) == 1)
-			return (printf("Not a numeric argument\n"), 1);
-		mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
+		{
+			printf("Not a numeric argument\n");
+			mini->exit_code = 255;
+		}
+		else
+			mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
 		free_exit(mini);
 	}
 	else if (nb_arg > 2)

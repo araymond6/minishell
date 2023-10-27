@@ -6,14 +6,9 @@ void	null_command2(t_minishell *mini, int n)
 
 	i = 0;
 	manual_redirection(mini, n);
-	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-		message_perror("Error restoring stdout");
-	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-		message_perror("Error restoring stdin");
 	clear_s_cmd(mini->s_cmd);//
 }
 
-//les build_in nont jamais besoin d<aller lire le resultat de la commande avant donc pas besoin de changer le stdin pour le pipe
 void exec_buildin2(t_minishell *mini, int n)
 {
 	int i;
@@ -21,10 +16,6 @@ void exec_buildin2(t_minishell *mini, int n)
 	i = 0;
 	manual_redirection(mini, n);
 	execute_buildin(mini);
-	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-		message_perror("Impossible to reassign the STDOUT");
-	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-		message_perror("Impossible to reassign the STDIN");
 	clear_s_cmd(mini->s_cmd);
 }
 

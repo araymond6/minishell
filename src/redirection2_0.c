@@ -10,8 +10,7 @@ void redirect_input(t_minishell *mini, int i)
 		message_perror(mini->token[i].token);
 		return ;
 	}
-	if(dup2(fd, STDIN_FILENO) < 0)
-		message_perror(mini->token[i].token);
+	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
 void redirect_here_doc(void)
@@ -24,8 +23,6 @@ void redirect_here_doc(void)
 		message_perror("Here_doc");
 		return ;
 	}
-	if(dup2(fd, STDIN_FILENO) < 0)
-		message_perror("Here_doc");
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
@@ -39,8 +36,7 @@ void redirect_output(t_minishell *mini, int i)
 		message_perror(mini->token[i].token);
 		return ;
 	}
-	if(dup2(fd, STDOUT_FILENO) < 0)
-		message_perror(mini->token[i].token);
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
 void redirect_append(t_minishell *mini, int i)
@@ -53,8 +49,7 @@ void redirect_append(t_minishell *mini, int i)
 		message_perror(mini->token[i].token);
 		return ;
 	}
-	if(dup2(fd, STDOUT_FILENO) < 0)
-		message_perror(mini->token[i].token);
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
 
@@ -96,12 +91,14 @@ void	manual_redirection(t_minishell *mini, int n)
 	}
 	if(n < mini->cmd_n && output_append == 0)
 	{
-		if (dup2(mini->s_cmd->pipe[2 * (n - 1) + 1], STDOUT_FILENO) == -1)
+		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
 			message_perror("Impossible to write in the pipe");
 	}
-	if(n != 1 && output_append == 0)
+	if(n == mini->cmd_n && output_append == 0)
 	{
-		if (dup2(mini->s_cmd->pipe[2 * (n - 1)], STDIN_FILENO) == -1)
-			message_perror("Impossible to read in the pipe");
+		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
+			message_perror("Impossible to write in the pipe");
 	}
+	close(mini->s_cmd->pipe[1]);
+	close(mini->s_cmd->pipe[0]);
 }

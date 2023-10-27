@@ -21,8 +21,6 @@ char	*child_path_execve(char *string)
 		new_path_execve[i] = string[i];
 		i++;
 	}
-	free(string);
-	string = NULL;
 	return(new_path_execve);
 }
 
