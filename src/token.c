@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/27 10:47:11 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:57:22 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_type	get_type(char *arg)
 		return (DOUBLE_QUOTE);
 	else if (arg[0] == '|')
 		return (PIPE);
-	else if (arg[0] == '$')
+	else if (arg[0] == '$' && (arg[1] == '?' || arg[1] == '_' || ft_isalnum(arg[1])))
 		return (DOLLAR_SIGN);
 	else if (arg[0] == ' ' || arg[0] == '\t' || arg[0] == '\n' || \
 			arg[0] == '\v' || arg[0] == '\f' || arg[0] == '\r')

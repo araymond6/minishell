@@ -2,8 +2,7 @@
 
 int	get_token_type3(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
-	if ((tokens->type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
-			arg[*i + 1] == '?' || arg[*i + 1] == '_')))
+	if (tokens->type == DOLLAR_SIGN)
 	{
 		if (new_substitution(mini, tokens, arg, i) == 1)
 			return (1);
@@ -29,6 +28,7 @@ int	str_loop2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		else
 		{
 			tokens->token[i[1]++] = arg[i[0]++];
+			printf("%s\n", tokens->token);
 		}
 		tokens->type = get_type(&arg[i[0]]);
 	}
@@ -90,9 +90,7 @@ int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 			return (2);
 		}
 	}
-	else if ((tokens->type == DOLLAR_SIGN && (arg[i[0] + 1] != '?' && \
-		arg[i[0] + 1] != '_' && !ft_isalnum(arg[i[0] + 1]))) || \
-		tokens->type == REDIRECT_INPUT || tokens->type == REDIRECT_OUTPUT)
+	else if (tokens->type == REDIRECT_INPUT || tokens->type == REDIRECT_OUTPUT)
 	{
 		tokens->token[i[1]] = arg[i[0]];
 		i[0]++;
@@ -126,12 +124,12 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 			tokens[t].token = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
 			if (!tokens[t].token)
 				return (malloc_error(mini, NULL), 1);
+			i[1] = 0;
 		}
 		tokens[t].cmd_n = mini->cmd_n;
 		rtn = get_token_type(mini, &tokens[t], arg, i);
 		if (rtn == 1)
 			return (1);
-		i[1] = 0;
 	}
 	return (0);
 }
