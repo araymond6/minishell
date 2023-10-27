@@ -24,24 +24,27 @@ int	count_2darray(char **table)
 }
 
 // checks for space and tabs to see if it's ONLY that
-int	spacentabs_check(char *str)
+int	whitespace_check(char *str)
 {
-	int	i;
+	t_type	type;
+	int		i;
 
 	i = 0;
-	while (str[i])
+	type = get_type(str + i);
+	while (type == WHITESPACE)
 	{
-		while (str[i] == ' ')
-			i++;
-		while (str[i] == '\t')
-			i++;
-		while (str[i] == '\n')
-			i++;
-		if (str[i] != ' ' && str[i] != '\t' && \
-		str[i] != '\n' && str[i] != '\0')
-			return (0);
+		i++;
+		type = get_type(str + i);
 	}
-	return (1);
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
+
+void	skip_whitespace(char *arg, int *i)
+{
+	while (get_type(&arg[*i]) == WHITESPACE)
+		(*i)++;
 }
 
 int	ft_atoll(const char *str)
@@ -65,4 +68,20 @@ int	ft_atoll(const char *str)
 		i++;
 	}
 	return (sign * nb);
+}
+
+void	print_tokens(t_token *tokens, int token_count)
+{
+	int	i;
+
+	i = 0;
+	if (tokens)
+	{
+		while (i < token_count)
+		{
+			printf("token[%d]: %s; type: %d; cmd_n: %d; inquote: %d\n", i, tokens[i].token, tokens[i].type, tokens[i].cmd_n, tokens[i].inquote);
+			i++;
+		}
+		printf("token_count: %d\n", token_count);
+	}
 }

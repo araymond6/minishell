@@ -15,8 +15,7 @@ void	join_path_command2(char **path, char *command)
 	{
 		path1 = path[i_path];
 		path[i_path] = ft_strjoin(path1, "/");
-		free(path1);
-		path1 = NULL;
+		path1 = free_n_null(path1);
 		i_path++;
 	}
 	i_path = 0;
@@ -24,8 +23,7 @@ void	join_path_command2(char **path, char *command)
 	{
 		path1 = path[i_path];
 		path[i_path] = ft_strjoin(path1, command);
-		free(path1);
-		path1 = NULL;
+		path1 = free_n_null(path1);
 		i_path++;
 	}
 }

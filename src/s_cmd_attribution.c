@@ -3,8 +3,7 @@
 //initialize s_cmd
 void	initialize_s_cmd(t_minishell *mini)
 {
-	int n;
-	int pipes[2];
+	int	n;
 
 	n = 0;
 	mini->s_cmd->path = NULL;

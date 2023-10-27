@@ -16,37 +16,39 @@ void	all_here_doc2(t_minishell *mini)
 	}
 }
 
-static void	redir_loop(t_minishell *mini, int i)
+void	count_heredoc(t_minishell *mini)
 {
-	int j;
+	int	i;
 
-	j = 0;
-	while(mini->cmd[i][j])
+	i = 0;
+	while (i < mini->token_count)
 	{
-		if (mini->cmd[i][j] == '<')
+		if (mini->token[i].type == HERE_DOC)
+			mini->heredoc_count++;
+		i++;
+	}
+}
+
+static void	redir_loop(t_minishell *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->token_count)
+	{
+		if (mini->token[i].type == HERE_DOC) // heredoc flags to test
 		{
-			j++;
-			if (mini->cmd[i][j] == '<')
-			{
-				j++;
-				if (mini->cmd[i][j] == ' ' || mini->cmd[i][j] == '\t')
-					j++;
-				while (mini->cmd[i][j] != ' ' && mini->cmd[i][j])
-				{
-					if (mini->cmd[i][j] == '\'' || mini->cmd[i][j] == '\"')
-						mini->heredoc_flag[mini->heredoc_count] = 1;
-					j++;
-				}
+			if (mini->token[i + 1].inquote == 1)
+				mini->heredoc_flag[mini->heredoc_count++] = 1;
+			else
 				mini->heredoc_count++;
-			}
 		}
-		else
-			j++;
+		i++;
 	}
 }
 
 // sets flags for heredoc behaviour
-int	set_flag(t_minishell *mini)
+int	set_heredoc_flag(t_minishell *mini)
 {
 	int	i;
 
@@ -55,32 +57,32 @@ int	set_flag(t_minishell *mini)
 	if (!mini->heredoc_flag)
 		return (1);
 	mini->heredoc_count = 0;
-	while (mini->cmd[i])
-	{
-		redir_loop(mini, i);
-		i++;
-	}
+	redir_loop(mini);
 	return (0);
 }
 
-static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make this cleaner cause wtf me
+static int	read_write(t_minishell *mini, char *delimiter, int fd)
 {
 	char	*new_line;
 	int		i;
 
+	(void) mini;
 	i = 0;
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (close(fd), message_perror("2.1"));
-	if (mini->heredoc_flag[mini->heredoc_count] == 0)
+	/*if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		//new_line = heredoc_count(mini, new_line);
+		new_line = heredoc_substitution(mini);
 		if (!new_line)
 		{
 			mini->arg = NULL;
 			return (1);
 		}
-	}
+	}*/
+	dprintf(1, "new_line : %s\n", new_line);
+	dprintf(1, "delimiter : %s\n", delimiter);
+	dprintf(1, "len : %lu\n", ft_strlen(delimiter) + 1);
 	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;
 	else
@@ -90,6 +92,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd) //TODO: Make t
 	}
 	free(new_line);
 	new_line = NULL;
+	dprintf(1, "i : %d\n", i);
 	return (i);
 }
 

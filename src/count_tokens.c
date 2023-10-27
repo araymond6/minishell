@@ -34,13 +34,18 @@ int	count_string_loop(char *arg, int *i, t_type type, t_type quote_type)
 
 int	count_type3(char *arg, int *i, int *count, t_type type)
 {
-	if ((type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
-			arg[*i + 1] == '?' || arg[*i + 1] == '_')))
+	if (type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
+			arg[*i + 1] == '?' || arg[*i + 1] == '_'))
 	{
 		(*i)++;
 		type = get_type(arg);
-		while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
+		if (arg[*i] == '?')
 			(*i)++;
+		else
+		{
+			while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
+				(*i)++;
+		}
 		(*count)++;
 	}
 	return (0);
@@ -48,8 +53,6 @@ int	count_type3(char *arg, int *i, int *count, t_type type)
 
 int	count_type2(char *arg, int *i, int *count, t_type type)
 {
-	t_type	quote_type;
-
 	if (type == APPEND || type == HERE_DOC)
 	{
 		*i += 2;
@@ -76,8 +79,8 @@ int	count_type(char *arg, int *i, int *count, t_type type)
 			type = get_type(&arg[*i]);
 		}
 	}
-	else if ((type == DOLLAR_SIGN && (arg[*i + 1] != '?' || arg[*i + 1] != '_' \
-		|| !ft_isalnum(arg[*i + 1]))) || \
+	else if ((type == DOLLAR_SIGN && (arg[*i + 1] != '?' && arg[*i + 1] != '_' \
+		&& !ft_isalnum(arg[*i + 1]))) || \
 		type == REDIRECT_INPUT || type == REDIRECT_OUTPUT)
 	{
 		(*i)++;
@@ -93,7 +96,6 @@ int	count_type(char *arg, int *i, int *count, t_type type)
 int	count_tokens(t_minishell *mini, char *arg)
 {
 	t_type	type;
-	t_type	quote_type;
 	int		count;
 	int		i;
 

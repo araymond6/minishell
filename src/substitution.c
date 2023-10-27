@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static char	*get_substitute(t_minishell *mini, t_token *tokens, char *arg, char *sub)
+static char	*get_substitute(t_minishell *mini, char *sub)
 {
 	char *temp;
 
@@ -15,14 +15,14 @@ static char	*get_substitute(t_minishell *mini, t_token *tokens, char *arg, char 
 	{
 		temp = sub;
 		sub = check_env(mini, temp);
-		free(temp);
 		if (!sub)
 			return (malloc_error(mini, NULL), NULL);
+		free(temp);
 	}
 	return (sub);
 }
 
-static char	*sub_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
+static char	*sub_loop(t_minishell *mini, char *arg, int *i)
 {
 	char	*sub;
 	int		j;
@@ -37,7 +37,7 @@ static char	*sub_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		if ((arg[i[0]] == '?' && i > 0) || sub[0] == '?')
 			break ;
 	}
-	return (get_substitute(mini, tokens, arg, sub));
+	return (get_substitute(mini, sub));
 }
 
 int	new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i)
@@ -48,13 +48,17 @@ int	new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i)
 
 	j = 0;
 	i[0]++;
-	sub = sub_loop(mini, tokens, arg, i);
+	sub = sub_loop(mini, arg, i);
 	if (sub == NULL)
 		return (1);
-	while (sub[j] != '=')
+	if (ft_strchr(sub, '='))
+	{
+		while (sub[j] != '=')
+			j++;
 		j++;
+	}
 	temp = tokens->token;
-	tokens->token = ft_strjoin(temp, &sub[++j]);
+	tokens->token = ft_strjoin(temp, &sub[j]);
 	free(temp);
 	free(sub);
 	if (!tokens->token)

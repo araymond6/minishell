@@ -59,32 +59,20 @@ typedef enum e_type
 typedef struct s_token
 {
 	char	*token;
-	size_t	len;
 	t_type	type;
 	char	inquote;
-	char	indoublequote;
 	int		cmd_n;
 }	t_token;
-
-typedef struct s_parse
-{
-	int		block_count;
-	int		c;
-	int		sub;
-	int		start_block;
-	int		end_block;
-}	t_parse;
 
 typedef struct s_minishell
 {
 	char				*arg;
 	char				*path;
-	char				**cmd;
 	char				**envp;
+	char				**cmd;
 	int					envpset;
-	struct s_token		*token;
 	int					token_count;
-	struct s_parse		parse;
+	struct s_token		*token;
 	struct sigaction	sigact;
 	struct s_cmd		*s_cmd;
 	unsigned char		exit_code;
@@ -97,9 +85,12 @@ typedef struct s_minishell
 int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 int		here_doc(t_minishell *mini, char *delimiter);
-int		set_flag(t_minishell *mini);
+int		set_heredoc_flag(t_minishell *mini);
+char	*heredoc_substitution(t_minishell *mini);
+void	count_heredoc(t_minishell *mini);
 void	initialize_s_cmd(t_minishell *mini);
 
+//utils_exec.c
 //parsing
 void	read_input(t_minishell *mini);
 char	*env_parsing(t_minishell *mini, int *i, int *j);
@@ -118,9 +109,10 @@ void	sigint_handler(int signal);
 void	free_array(char **array);
 int		message_perror(char *str);
 int		count_2darray(char **table);
-int		spacentabs_check(char *str);
+int		whitespace_check(char *str);
 void	set_signal_for_process(t_minishell *mini);
 void	signal_reset(t_minishell *mini);
+void	print_tokens(t_token *tokens, int token_count);
 
 // buildins and start of exec
 int		ft_cd(t_cmd *cmd);
@@ -159,10 +151,11 @@ char	**child_array_execve(char **array);
 void	child_closenfree(t_minishell *mini);
 void	execve_failed(char *path_execve, char **array_execve);
 void	child2(t_minishell *mini, int n);
-int		parent2(t_minishell *mini, int n);
+int		parent2(t_minishell *mini);
 void	exec_bash_cmd(t_minishell *mini, int n);
 int		forker2(t_minishell *mini);
 void	time_to_execute(t_minishell *mini);
+char	*free_n_null(char *array);
 
 //tokenize and new parsing
 t_token	*tokenize(t_minishell *mini, char *arg);
@@ -173,5 +166,6 @@ char	*get_exit_code(t_minishell *mini);
 t_type	get_type(char *arg);
 int		redir_parsing2(t_minishell *mini);
 void	find_cmd(t_minishell *mini, int n);
+int		pipe_parsing(t_minishell *mini, char *arg);
 
 #endif

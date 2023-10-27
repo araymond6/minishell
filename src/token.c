@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
+/*   Updated: 2023/10/27 13:14:43 by vst-pier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 t_token	*initialize_tokens(t_minishell *mini, int token_count)
@@ -12,7 +24,6 @@ t_token	*initialize_tokens(t_minishell *mini, int token_count)
 		return (malloc_error(mini, NULL), NULL);
 	while (counter < token_count)
 	{
-		token[counter].indoublequote = 0;
 		token[counter].inquote = 0;
 		token[counter].token = NULL;
 		token[counter].type = 0;
@@ -71,5 +82,6 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 	mini->token = tokens;
 	if(redir_parsing2(mini))
 		return (parsing_error(mini), NULL);
+	//print_tokens(tokens, token_count);
 	return (tokens);
 }

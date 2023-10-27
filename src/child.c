@@ -5,41 +5,47 @@ void	child_path(t_minishell *mini)
 	find_path2(mini);
 	free(mini->s_cmd->cmd_arg[0]);
 	mini->s_cmd->cmd_arg[0] = NULL;
-	mini->s_cmd->cmd_arg[0] = ft_calloc(ft_strlen(mini->s_cmd->path) + 1, sizeof(char));
-	ft_strlcpy(mini->s_cmd->cmd_arg[0], mini->s_cmd->path, ft_strlen(mini->s_cmd->path) + 1);
+	mini->s_cmd->cmd_arg[0] = \
+		ft_calloc(ft_strlen(mini->s_cmd->path) + 1, sizeof(char));
+	ft_strlcpy(mini->s_cmd->cmd_arg[0],
+		mini->s_cmd->path, ft_strlen(mini->s_cmd->path) + 1);
 }
 
 char	*child_path_execve(char *string)
 {
 	char	*new_path_execve;
-	int i;
+	int		i;
 
 	i = 0;
+	if (!string)
+		return (NULL);
 	new_path_execve = ft_calloc(ft_strlen(string) + 1, sizeof(char));
-	while(string[i])
+	if (!new_path_execve)
+		return (NULL);
+	while (string[i])
 	{
 		new_path_execve[i] = string[i];
 		i++;
 	}
-	return(new_path_execve);
+	return (new_path_execve);
 }
 
 char	**child_array_execve(char **array)
 {
 	char	**new_array_execve;
-	int i;
-	int j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	while(array[i])
+	while (array[i])
 		i++;
 	new_array_execve = ft_calloc(i + 1, sizeof(char *));
 	i = 0;
-	while(array[i])
+	while (array[i])
 	{
 		new_array_execve[i] = ft_calloc(ft_strlen(array[i]) + 1, sizeof(char));
-		while(array[i][j])
+		while (array[i][j])
 		{
 			new_array_execve[i][j] = array[i][j];
 			j++;
@@ -49,7 +55,7 @@ char	**child_array_execve(char **array)
 	}
 	free_array(array);
 	array = NULL;
-	return(new_array_execve);
+	return (new_array_execve);
 }
 
 void	child2(t_minishell *mini, int n)
@@ -67,6 +73,10 @@ void	child2(t_minishell *mini, int n)
 	array_execve = child_array_execve(mini->s_cmd->cmd_arg);
 	mini->s_cmd->cmd_arg = NULL;
 	child_closenfree(mini);
+	if(path_execve == NULL)
+		execve_failed(path_execve, array_execve);
+	if(path_execve[0] == '\0')
+		execve_failed(path_execve, array_execve);
 	execve(path_execve, array_execve, mini->envp);
 	execve_failed(path_execve, array_execve);
 }

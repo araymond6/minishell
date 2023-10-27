@@ -1,53 +1,99 @@
 #include "../include/minishell.h"
 
-/*static char	*heredoc_sub(t_minishell *mini, char *new_line)
+static char	*heredoc_get_env(t_minishell *mini, char *sub)
 {
-	char	*new_sub;
-	int		j;
-	int		i;
-	int		error;
+	char	*temp;
 
-	new_sub = ft_calloc(ft_strlen(mini->arg) + 1 + mini->parse.sub, sizeof(char));
-	if (!new_sub)
+	if (!sub)
 		return (NULL);
-	i = 0;
-	j = 0;
-	error = 0;
-	while (mini->arg[i])
+	if (sub[0] == '?')
 	{
-		if (mini->arg[i] == '$')
-			error = sub_dollar(mini, &i, &j, new_sub);
-		else
-			new_sub[j++] = mini->arg[i++];
-		if (error == 1)
-			return (free(new_sub), NULL);
+		free(sub);
+		sub = get_exit_code(mini);
+		if (!sub)
+			return (malloc_error(mini, NULL), NULL);
 	}
-	free(new_line);
-	mini->arg = NULL;
-	return (new_sub);
+	else
+	{
+		temp = sub;
+		sub = check_env(mini, temp);
+		free(temp);
+		if (!sub)
+			return (malloc_error(mini, NULL), NULL);
+	}
+	return (sub);
 }
 
-char	*heredoc_count(t_minishell *mini, char *new_line)
+static char	*heredoc_get_sub(t_minishell *mini, int *i)
 {
-	char	*new_sub;
+	char	*sub;
+	int		j;
+
+	j = 0;
+	i++;
+	sub = ft_calloc(ft_strlen(&mini->arg[*i]) + 1, sizeof(char));
+	if (!sub)
+		return (malloc_error(mini, NULL), NULL);
+	while ((ft_isalnum(mini->arg[*i]) || mini->arg[*i] == '?' || mini->arg[*i] == '_') && mini->arg[*i])
+	{
+		sub[j++] = mini->arg[(*i)++];
+		if ((mini->arg[*i] == '?') || sub[0] == '?')
+			break ;
+	}
+	if (sub[0] == '\0')
+		return (free(sub), NULL);
+	return (sub);
+}
+
+static char	*heredoc_sub(t_minishell *mini, char *new, int *i)
+{
+	char	*sub;
+	char	*temp;
+	int		j;
+	
+	j = 0;
+	sub = heredoc_get_sub(mini, i);
+	sub = heredoc_get_env(mini, sub);
+	if (!sub)
+		return (NULL);
+	if (ft_strchr(sub, '='))
+	{
+		while (sub[j] != '=')
+			j++;
+		j++;
+	}
+	temp = new;
+	new = ft_strjoin(temp, &sub[j]);
+	free(temp);
+	free(sub);
+	if (!new)
+		return (malloc_error(mini, NULL), NULL);
+	return (new);
+}
+
+char	*heredoc_substitution(t_minishell *mini)
+{
+	char	*new;
 	int		i;
-	int		error;
+	int		j;
 
 	i = 0;
-	error = 0;
-	if (mini->arg)
-		free(mini->arg);
-	mini->arg = new_line;
-	mini->parse.sub = 0;
+	j = 0;
+	new = ft_calloc(ft_strlen(mini->arg) + 1, sizeof(char));
+	if (!new)
 	while (mini->arg[i])
 	{
 		if (mini->arg[i] == '$')
-			error = count_sub_dollar(mini, &i);
-		else
+		{
 			i++;
-		if (error == 1)
-			return (free(new_line), NULL);
+			new = heredoc_sub(mini, new, &i);
+			if (!new)
+				return (NULL);
+			new = ft_realloc(new, ft_strlen(new), ft_strlen(new) \
+			+ ft_strlen(&mini->arg[i]) + 1);
+		}
+		else
+			new[j++] = mini->arg[i++];
 	}
-	new_sub = heredoc_sub(mini, new_line);
-	return (new_sub);
-}*/
+	return (new);
+}

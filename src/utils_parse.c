@@ -31,21 +31,27 @@ void	clear_mini(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	ft_bzero(&mini->parse, sizeof(t_parse));
 	if (mini->arg)
 	{
 		free(mini->arg);
 		mini->arg = NULL;
 	}
-	if (mini->cmd != NULL)
-		free_array(mini->cmd);
 	if (mini->token)
 	{
 		while (i < mini->token_count)
-			free(mini->token[i++].token);
+		{
+			if (mini->token[i].token)
+				free(mini->token[i++].token);
+		}
 		free(mini->token);
+		mini->token = NULL;
 	}
-	mini->cmd = NULL;
+	if (mini->heredoc_flag)
+	{
+		free(mini->heredoc_flag);
+		mini->heredoc_flag = NULL;
+	}
+	mini->heredoc_count = 0;
 }
 
 // sets error code to 1, prints error message 
