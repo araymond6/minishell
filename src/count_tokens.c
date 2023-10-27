@@ -18,6 +18,7 @@ int	count_string_loop(char *arg, int *i, t_type type, t_type quote_type)
 			if (type != quote_type) //TODO: Keep doing tests like .$ALLO. .$USER. both in double quotes and without them
 				return (-1);
 			(*i)++;
+			type = get_type(&arg[*i]);
 		}
 		else if (type == STRING)
 		{
@@ -27,15 +28,13 @@ int	count_string_loop(char *arg, int *i, t_type type, t_type quote_type)
 				type = get_type(&arg[*i]);
 			}
 		}
-		type = get_type(&arg[*i]);
 	}
 	return (0);
 }
 
 int	count_type3(char *arg, int *i, int *count, t_type type)
 {
-	if (type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
-			arg[*i + 1] == '?' || arg[*i + 1] == '_'))
+	if (type == DOLLAR_SIGN)
 	{
 		(*i)++;
 		type = get_type(arg);
@@ -64,7 +63,10 @@ int	count_type2(char *arg, int *i, int *count, t_type type)
 	{
 		if (count_string_loop(arg, i, type, 0) == -1)
 			return (-1);
-		(*count)++;
+		type = get_type(&arg[*i]);
+		if ((type != STRING && type != SINGLE_QUOTE && \
+			type != DOUBLE_QUOTE && type != DOLLAR_SIGN) || !arg[*i])
+			(*count)++;
 	}
 	else
 		return (count_type3(arg, i, count, type));
@@ -104,7 +106,6 @@ int	count_tokens(t_minishell *mini, char *arg)
 	while (arg[i])
 	{
 		type = get_type(&arg[i]);
-		printf("type: %d\n", type);
 		if (count_type(arg, &i, &count, type) == -1)
 			return (parsing_error(mini), -1);
 	}

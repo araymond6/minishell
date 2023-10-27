@@ -6,6 +6,14 @@ int	get_token_type3(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	{
 		if (new_substitution(mini, tokens, arg, i) == 1)
 			return (1);
+		tokens->token = ft_realloc(tokens->token, ft_strlen(tokens->token),
+			ft_strlen(tokens->token) + ft_strlen(&arg[i[0]]));
+		if (!tokens->token)
+			return (malloc_error(mini, NULL), 1);
+		tokens->type = get_type(&arg[i[0]]);
+		if (tokens->type == STRING || tokens->type == SINGLE_QUOTE \
+		|| tokens->type == DOUBLE_QUOTE)
+			return (2);
 	}
 	return (0);
 }
@@ -28,7 +36,6 @@ int	str_loop2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		else
 		{
 			tokens->token[i[1]++] = arg[i[0]++];
-			printf("%s\n", tokens->token);
 		}
 		tokens->type = get_type(&arg[i[0]]);
 	}
@@ -54,6 +61,8 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 			{
 				tokens->token[i[1]++] = arg[i[0]++];
 				tokens->type = get_type(&arg[i[0]]);
+				if (tokens->type == DOLLAR_SIGN)
+					return (2);
 			}
 		}
 	}
@@ -63,6 +72,8 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 
 int	get_token_type2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
+	int	rtn;
+
 	if (tokens->type == APPEND || tokens->type == HERE_DOC)// 
 	{
 		tokens->token[i[1]++] = arg[i[0]++];
@@ -71,8 +82,11 @@ int	get_token_type2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	else if (tokens->type == STRING || tokens->type == SINGLE_QUOTE \
 		|| tokens->type == DOUBLE_QUOTE)
 	{
-		if (get_token_str_loop(mini, tokens, arg, i) == 1)
+		rtn = get_token_str_loop(mini, tokens, arg, i);
+		if (rtn == 1)
 			return (1);
+		if (rtn == 2)
+			return (2);
 	}
 	else
 		return (get_token_type3(mini, tokens, arg, i));
@@ -118,7 +132,7 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 	rtn = 0;
 	while (arg[i[0]])
 	{
-		if (rtn != 2)
+		if (rtn != 2) //TODO: gerer $"allo" (devrait donner allo seulement)
 		{
 			t++;
 			tokens[t].token = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
@@ -126,6 +140,7 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 				return (malloc_error(mini, NULL), 1);
 			i[1] = 0;
 		}
+		printf("%c\n", arg[i[0]]);
 		tokens[t].cmd_n = mini->cmd_n;
 		rtn = get_token_type(mini, &tokens[t], arg, i);
 		if (rtn == 1)

@@ -79,7 +79,8 @@ void	print_tokens(t_token *tokens, int token_count)
 	{
 		while (i < token_count)
 		{
-			printf("token[%d]: %s; type: %d; cmd_n: %d; inquote: %d\n", i, tokens[i].token, tokens[i].type, tokens[i].cmd_n, tokens[i].inquote);
+			printf("token[%d]: %s\n", i, tokens[i].token);
+			printf(";type: %d; cmd_n: %d; inquote: %d\n", tokens[i].type, tokens[i].cmd_n, tokens[i].inquote);
 			i++;
 		}
 		printf("token_count: %d\n", token_count);
