@@ -40,7 +40,6 @@ int	forker2(t_minishell *mini)
 void	time_to_execute(t_minishell *mini)
 {
 	int		i;
-	int		cmd_n;
 
 	i = 0;
 	mini->s_cmd = ft_calloc(1, sizeof(t_cmd));

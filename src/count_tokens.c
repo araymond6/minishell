@@ -39,8 +39,13 @@ int	count_type3(char *arg, int *i, int *count, t_type type)
 	{
 		(*i)++;
 		type = get_type(arg);
-		while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
+		if (arg[*i] == '?')
 			(*i)++;
+		else
+		{
+			while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
+				(*i)++;
+		}
 		(*count)++;
 	}
 	return (0);
@@ -48,8 +53,6 @@ int	count_type3(char *arg, int *i, int *count, t_type type)
 
 int	count_type2(char *arg, int *i, int *count, t_type type)
 {
-	t_type	quote_type;
-
 	if (type == APPEND || type == HERE_DOC)
 	{
 		*i += 2;
@@ -93,7 +96,6 @@ int	count_type(char *arg, int *i, int *count, t_type type)
 int	count_tokens(t_minishell *mini, char *arg)
 {
 	t_type	type;
-	t_type	quote_type;
 	int		count;
 	int		i;
 

@@ -35,6 +35,7 @@ int	pipe_parsing(t_minishell *mini, char *arg)
 	t_type	type;
 
 	i = 0;
+	type = 0;
 	while (arg[i])
 	{
 		if (arg[i] == '|')
@@ -64,7 +65,10 @@ void	read_input(t_minishell *mini)
 		}
 		mini->token = tokenize(mini, mini->arg);
 		if (!mini->token)
+		{
+			clear_mini(mini);
 			continue ;
+		}
 		count_heredoc(mini);
 		set_heredoc_flag(mini);
 		if (mini->token)

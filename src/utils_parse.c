@@ -39,10 +39,19 @@ void	clear_mini(t_minishell *mini)
 	if (mini->token)
 	{
 		while (i < mini->token_count)
-			free(mini->token[i++].token);
+		{
+			if (mini->token[i].token)
+				free(mini->token[i++].token);
+		}
 		free(mini->token);
 		mini->token = NULL;
 	}
+	if (mini->heredoc_flag)
+	{
+		free(mini->heredoc_flag);
+		mini->heredoc_flag = NULL;
+	}
+	mini->heredoc_count = 0;
 }
 
 // sets error code to 1, prints error message 

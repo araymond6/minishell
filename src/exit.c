@@ -2,8 +2,6 @@
 
 void	free_scmd(t_cmd *cmd)
 {
-	t_cmd	*temp;
-
 	//TODO remettre a jour ave la struc au complet
 	if (cmd)
 	{

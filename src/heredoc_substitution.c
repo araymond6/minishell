@@ -24,7 +24,7 @@ static char	*heredoc_get_env(t_minishell *mini, char *sub)
 	return (sub);
 }
 
-static char	*heredoc_get_sub(t_minishell *mini, char *new, int *i)
+static char	*heredoc_get_sub(t_minishell *mini, int *i)
 {
 	char	*sub;
 	int		j;
@@ -52,7 +52,7 @@ static char	*heredoc_sub(t_minishell *mini, char *new, int *i)
 	int		j;
 	
 	j = 0;
-	sub = heredoc_get_sub(mini, new, i);
+	sub = heredoc_get_sub(mini, i);
 	sub = heredoc_get_env(mini, sub);
 	if (!sub)
 		return (NULL);
