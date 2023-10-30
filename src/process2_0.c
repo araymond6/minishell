@@ -22,15 +22,15 @@ int	forker2(t_minishell *mini)
 		if (pipe(mini->s_cmd->pipe) == -1)
 			message_perror("Impossible to create a pipe");
 		if (mini->s_cmd->cmd_arg == NULL)
-			null_command2(mini, n);
+			null_command2(mini, n); ////////
 		else if (mini->s_cmd->cmd_arg[0] == NULL)
 		{
 			free(mini->s_cmd->cmd_arg);
 			mini->s_cmd->cmd_arg = NULL;
-			null_command2(mini, n);
+			null_command2(mini, n); ///////
 		}
 		else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
-			exec_buildin2(mini, n);
+			exec_buildin2(mini, n); ///////
 		else
 			exec_bash_cmd(mini, n);
 		n++;
@@ -49,10 +49,19 @@ void	time_to_execute(t_minishell *mini)
 	forker2(mini);
 	while (i < mini->cmd_n)
 	{
-		waitpid(mini->s_cmd->pids[i], &mini->s_cmd->status[i], 0);
-		i++;
+		if (mini->s_cmd->pids[i] != 0)
+		{
+			dprintf(2, "pid[%d] = %d\n", i, mini->s_cmd->pids[i]);
+			waitpid(mini->s_cmd->pids[i], &mini->s_cmd->status[i], 0);
+			dprintf(2, "pid[%d] = %d\n", i, mini->s_cmd->pids[i]);
+			i++;
+		}
+		else
+			continue ;
 	}
 	dup2(mini->s_cmd->fd_stdin, STDIN_FILENO);
 	dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO);
+	close(mini->s_cmd->fd_stdin);
+	close(mini->s_cmd->fd_stdout);
 	free_scmd(mini->s_cmd);
 }

@@ -63,6 +63,7 @@ void	child2(t_minishell *mini, int n)
 	char	*path_execve;
 	char	**array_execve;
 
+	array_execve = NULL;
 	mini->sigact.sa_handler = sigint_handler;
 	signal(SIGQUIT, SIG_DFL);
 	sigaction(SIGINT, &mini->sigact, NULL);
@@ -70,13 +71,13 @@ void	child2(t_minishell *mini, int n)
 	child_path(mini);
 	manual_redirection(mini, n);
 	path_execve = child_path_execve(mini->s_cmd->path);
-	if(array_execve)
+	if (!array_execve)
 		array_execve = child_array_execve(mini->s_cmd->cmd_arg);
 	mini->s_cmd->cmd_arg = NULL;
 	child_closenfree(mini);
-	if(path_execve == NULL)
+	if (path_execve == NULL)
 		execve_failed(path_execve, array_execve);
-	if(path_execve[0] == '\0')
+	if (path_execve[0] == '\0')
 		execve_failed(path_execve, array_execve);
 	execve(path_execve, array_execve, mini->envp);
 	execve_failed(path_execve, array_execve);

@@ -51,7 +51,7 @@ void	execve_failed(char *path_execve, char **array_execve)
 
 void	child_closenfree(t_minishell *mini)
 {
-	if(mini->s_cmd)
+	if (mini->s_cmd)
 	{
 		if (mini->s_cmd->path)
 		{
@@ -102,8 +102,6 @@ void	free_scmd(t_cmd *cmd)
 			free(cmd->pids);
 			cmd->pids = NULL;
 		}
-		close(cmd->fd_stdin);
-		close(cmd->fd_stdout);
 		free(cmd);
 		cmd = NULL;
 	}
