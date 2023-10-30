@@ -2,12 +2,12 @@
 
 void	clear_s_cmd(t_cmd *cmd)
 {
-	if(cmd->path)
+	if (cmd->path)
 	{
 		free(cmd->path);
 		cmd->path = NULL;
 	}
-	if(cmd->cmd_arg)
+	if (cmd->cmd_arg)
 	{
 		free_array(cmd->cmd_arg);
 		cmd->cmd_arg = NULL;
@@ -40,49 +40,78 @@ int	message_perror(char *str)
 	return (EXIT_FAILURE);
 }
 
-void execve_failed(char *path_execve, char **array_execve)
+void	execve_failed(char *path_execve, char **array_execve)
 {
 	free(path_execve);
 	free_array(array_execve);
+	
 	message_perror("Impossible to execute the command");
+	exit(1);
 }
 
 void	child_closenfree(t_minishell *mini)
 {
-	int i;
+	if(mini->s_cmd)
+	{
+		if (mini->s_cmd->path)
+		{
+			free(mini->s_cmd->path);
+			mini->s_cmd->path = NULL;
+		}
+		if (mini->s_cmd->cmd_arg)
+		{
+			free_array(mini->s_cmd->cmd_arg);
+			mini->s_cmd->cmd_arg = NULL;
+		}
+		if (mini->s_cmd->status)
+		{
+			free(mini->s_cmd->status);
+			mini->s_cmd->status = NULL;
+		}
+		close(mini->s_cmd->fd_stdin);
+		close(mini->s_cmd->fd_stdout);
+		if (mini->s_cmd->pids)
+		{
+			free(mini->s_cmd->pids);
+			mini->s_cmd->pids = NULL;
+		}
+		free(mini->s_cmd);
+		mini->s_cmd = NULL;
+		clear_mini(mini);
+	}
+}
 
-	i = 1;
-	if (mini->s_cmd->path)
+void	free_scmd(t_cmd *cmd)
+{
+	if (cmd)
 	{
-		free(mini->s_cmd->path);
-		mini->s_cmd->path = NULL;
+		if (cmd->path)
+			cmd->path = free_n_null(cmd->path);
+		if (cmd->cmd_arg)
+		{
+			free_array(cmd->cmd_arg);
+			cmd->cmd_arg = NULL;
+		}
+		if (cmd->status)
+		{
+			free(cmd->status);
+			cmd->redir = NULL;
+		}
+		if (cmd->pids)
+		{
+			free(cmd->pids);
+			cmd->pids = NULL;
+		}
+		close(cmd->fd_stdin);
+		close(cmd->fd_stdout);
+		free(cmd);
+		cmd = NULL;
 	}
-	if (mini->s_cmd->cmd_arg)
-	{
-		free_array(mini->s_cmd->cmd_arg);
-		mini->s_cmd->cmd_arg = NULL;
-	}
-	while(i <= mini->cmd_n)
-	{
-		close(mini->s_cmd->pipe[2 * (i - 1)]);
-		close(mini->s_cmd->pipe[2 * (i - 1) + 1]);
-		i++;
-	}
-	if(mini->s_cmd->pipe)
-	{
-		free(mini->s_cmd->pipe);
-		mini->s_cmd->pipe = NULL;
-	}
-	if(mini->s_cmd->status)
-	{
-		free(mini->s_cmd->status);
-		mini->s_cmd->status = NULL;
-	}
-	close(mini->s_cmd->fd_stdin);
-	close(mini->s_cmd->fd_stdout);
-	if(mini->s_cmd->pids)
-	{
-		free(mini->s_cmd->pids);
-		mini->s_cmd->pids = NULL;
-	}
+}
+
+char	*free_n_null(char *array)
+{
+	free(array);
+	array = NULL;
+	return (NULL);
 }

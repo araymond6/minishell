@@ -4,9 +4,12 @@ int	ft_pwd(void)
 {
 	char	absolute_path[200];
 
+	dprintf(2, "pwd0\n");
 	if (getcwd(absolute_path, 200) == NULL)
 		return (message_perror("pwd :"));
+	dprintf(2, "pwd1\n");
 	printf("%s\n", absolute_path);
+	dprintf(2, "pwd2\n");
 	return (0);
 }
 
@@ -23,6 +26,7 @@ void	p_echo(char **str, int r, int n)
 {
 	int	i;
 
+	(void) str;
 	i = 0;
 	while (str[r] != NULL)
 	{
@@ -50,7 +54,7 @@ int	ft_echo(t_cmd *cmd)
 	n = 0;
 	if (!cmd->cmd_arg[r])
 		return (printf("\n"), 0);
-	while (ft_strncmp(cmd->cmd_arg[r], "-n", 2) == 0 && n != 2)
+	while (ft_strncmp(cmd->cmd_arg[r], "-n", 2) == 0 && n != 2 && cmd->cmd_arg[r])
 	{
 		while (cmd->cmd_arg[r][i] == 'n')
 			i++;
@@ -58,10 +62,10 @@ int	ft_echo(t_cmd *cmd)
 		{
 			r++;
 			n = 1;
+			i = 2;
 		}
 		else
 			n = 2;
-		i = 2;
 	}
 	p_echo(cmd->cmd_arg, r, n);
 	return (0);

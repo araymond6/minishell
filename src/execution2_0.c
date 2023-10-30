@@ -2,29 +2,38 @@
 
 void	null_command2(t_minishell *mini, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	manual_redirection(mini, n);
-	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-		message_perror("Error restoring stdout");
-	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-		message_perror("Error restoring stdin");
-	clear_s_cmd(mini->s_cmd);//
+	clear_s_cmd(mini->s_cmd);
 }
 
-//les build_in nont jamais besoin d<aller lire le resultat de la commande avant donc pas besoin de changer le stdin pour le pipe
-void exec_buildin2(t_minishell *mini, int n)
+void	exec_buildin2(t_minishell *mini, int n)
 {
-	int i;
+	int	i;
+	int	output_append;
+	int	input_here_doc;
 
 	i = 0;
-	manual_redirection(mini, n);
+	output_append = 0;
+	input_here_doc = 0;
+	if (n < mini->cmd_n)
+	{
+		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
+			message_perror("Impossible to write in the pipe");
+	}
+	else if (n == mini->cmd_n && mini->cmd_n != 1)
+	{
+		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
+			message_perror("Impossible to write in the pipe");
+	}
+	while (i < mini->token_count && mini->token[i].cmd_n != n)
+		i++;
+	manual_redirection_loop(mini, n, i);
 	execute_buildin(mini);
-	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-		message_perror("Impossible to reassign the STDOUT");
-	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-		message_perror("Impossible to reassign the STDIN");
+	close(mini->s_cmd->pipe[0]);
+	close(mini->s_cmd->pipe[1]);
 	clear_s_cmd(mini->s_cmd);
 }
 
@@ -40,5 +49,6 @@ void	exec_bash_cmd(t_minishell *mini, int n)
 	else if (mini->s_cmd->pids[n - 1] == 0)
 		child2(mini, n);
 	else
-		parent2(mini, n);
+		parent2(mini);
+	clear_s_cmd(mini->s_cmd);
 }

@@ -30,7 +30,7 @@ typedef struct s_cmd
 	char			**cmd_arg;
 	char			**file;
 	int				nredir;
-	int				*pipe;
+	int				pipe[2];
 	int				narg;
 	int				*status;
 	int				fd_stdin;
@@ -88,30 +88,7 @@ int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
 char	*heredoc_substitution(t_minishell *mini);
 void	count_heredoc(t_minishell *mini);
-
-//parsing_exec.c
-int		parsing_command(t_minishell *mini, int i);
-int		create_list(t_minishell *mini);
-
-//path.c
-void	join_path_command(char **path, char *command);
-char	*test_path(char **path);
-int		find_path(t_minishell *mini);
-
-//redirections.c
-int		redir_count(t_minishell *mini, char *cmd);
-int		redirection(t_minishell *mini, int i, int j, char c);
-int		select_redirection(t_minishell *mini, int i, int j);
-
-//s_cmd_attribution.c
 void	initialize_s_cmd(t_minishell *mini);
-int		s_cmd_cmd(t_minishell *mini, int i, int j);
-int		s_cmd_arg_cmd_first(t_minishell *mini);
-int		s_cmd_arg_cmd_middle(t_minishell *mini, int i, int j, int k);
-int		s_cmd_arg_cmd_end(t_minishell *mini, int i, int j, int k);
-
-//utils_exec_2.c
-int		nbr_arg(t_minishell *mini, int i, int j);
 
 //utils_exec.c
 //parsing
@@ -174,10 +151,11 @@ char	**child_array_execve(char **array);
 void	child_closenfree(t_minishell *mini);
 void	execve_failed(char *path_execve, char **array_execve);
 void	child2(t_minishell *mini, int n);
-int		parent2(t_minishell *mini, int n);
+int		parent2(t_minishell *mini);
 void	exec_bash_cmd(t_minishell *mini, int n);
 int		forker2(t_minishell *mini);
 void	time_to_execute(t_minishell *mini);
+char	*free_n_null(char *array);
 
 //tokenize and new parsing
 t_token	*tokenize(t_minishell *mini, char *arg);
@@ -189,6 +167,8 @@ t_type	get_type(char *arg);
 int		redir_parsing2(t_minishell *mini);
 void	find_cmd(t_minishell *mini, int n);
 int		pipe_parsing(t_minishell *mini, char *arg);
+void	manual_redirection_loop(t_minishell *mini, int n, int i);
+void	manual_redirection(t_minishell *mini, int n);
 int		do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
 
 #endif

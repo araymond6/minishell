@@ -1,41 +1,5 @@
 #include "../include/minishell.h"
 
-void	free_scmd(t_cmd *cmd)
-{
-	//TODO remettre a jour ave la struc au complet
-	if (cmd)
-	{
-		if(cmd->path)
-		{
-			free(cmd->path);
-			cmd->redir = NULL;
-		}
-		if(cmd->cmd_arg)
-		{
-			free_array(cmd->cmd_arg);
-			cmd->cmd_arg = NULL;
-		}
-		if(cmd->pipe)
-		{
-			free(cmd->pipe);
-			cmd->pipe = NULL;
-		}
-		if(cmd->status)
-		{
-			free(cmd->status);
-			cmd->redir = NULL;
-		}
-		if(cmd->pids)
-		{
-			free(cmd->pids);
-			cmd->pids = NULL;
-		}
-		close(cmd->fd_stdin);
-		close(cmd->fd_stdout);
-		cmd = NULL;
-	}
-}
-
 int	is_valid_exit_code(t_minishell *mini)
 {
 	int	i;
@@ -55,34 +19,52 @@ int	is_valid_exit_code(t_minishell *mini)
 	return (0);
 }
 
-int free_exit(t_minishell *mini)
+int	ft_exit_2plus_arg(t_minishell *mini, int nb_arg)
 {
-	free_scmd(mini->s_cmd);
-	exit_program(mini);
-	return(0);
+	if (nb_arg > 2)
+	{
+		if (is_valid_exit_code(mini) == 0)
+			return (printf("Too many arguments\n"), 1);
+		free_scmd(mini->s_cmd);
+		exit_program(mini);
+	}
+	return (0);
+}
+
+void	ft_exit_1_arg(t_minishell *mini, int nb_arg)
+{
+	if (nb_arg == 2)
+	{
+		if (is_valid_exit_code(mini) == 1)
+		{
+			printf("Not a numeric argument\n");
+			mini->exit_code = 255;
+		}
+		else
+			mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
+		free_scmd(mini->s_cmd);
+		exit_program(mini);
+	}
 }
 
 int	ft_exit(t_minishell *mini)
 {
-	int			nb_arg;
+	int	nb_arg;
 
 	nb_arg = 0;
+	close(mini->s_cmd->pipe[1]);
+	close(mini->s_cmd->pipe[0]);
+	if (mini->cmd_n != 1)
+		return (0);
 	while (mini->s_cmd->cmd_arg[nb_arg])
 		nb_arg++;
 	if (nb_arg == 1)
-		free_exit(mini);
-	if (nb_arg == 2)
 	{
-		if (is_valid_exit_code(mini) == 1)
-			return (printf("Not a numeric argument\n"), 1);
-		mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
-		free_exit(mini);
+		free_scmd(mini->s_cmd);
+		exit_program(mini);
 	}
-	else if (nb_arg > 2)
-	{
-		if (is_valid_exit_code(mini) == 0)
-			return (printf("Too many arguments\n"), 1);
-		free_exit(mini);
-	}
+	ft_exit_1_arg(mini, nb_arg);
+	if (ft_exit_2plus_arg(mini, nb_arg))
+		return (1);
 	return (0);
 }
