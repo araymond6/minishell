@@ -8,21 +8,7 @@ void	parse_exit(t_minishell *mini)
 
 void	parsing_error(t_minishell *mini)
 {
-	int	i;
-
 	mini->exit_code = 2;
-	i = 0;
-	if (mini->cmd)
-	{
-		while (mini->cmd[i])
-		{
-			free(mini->cmd[i]);
-			mini->cmd[i] = NULL;
-			i++;
-		}
-		free(mini->cmd);
-		mini->cmd = NULL;
-	}
 	clear_mini(mini);
 	if (write(STDOUT_FILENO, "parse error\n", 12) == -1)
 		parse_exit(mini);

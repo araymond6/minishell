@@ -69,7 +69,6 @@ typedef struct s_minishell
 	char				*arg;
 	char				*path;
 	char				**envp;
-	char				**cmd;
 	int					envpset;
 	int					token_count;
 	struct s_token		*token;
