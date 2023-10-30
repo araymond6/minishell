@@ -30,7 +30,6 @@ static char	*heredoc_get_sub(t_minishell *mini, int *i)
 	int		j;
 
 	j = 0;
-	i++;
 	sub = ft_calloc(ft_strlen(&mini->arg[*i]) + 1, sizeof(char));
 	if (!sub)
 		return (malloc_error(mini, NULL), NULL);
@@ -39,6 +38,7 @@ static char	*heredoc_get_sub(t_minishell *mini, int *i)
 		sub[j++] = mini->arg[(*i)++];
 		if ((mini->arg[*i] == '?') || sub[0] == '?')
 			break ;
+		printf("sub: %s\n", sub);
 	}
 	if (sub[0] == '\0')
 		return (free(sub), NULL);
@@ -71,7 +71,7 @@ static char	*heredoc_sub(t_minishell *mini, char *new, int *i)
 	return (new);
 }
 
-char	*heredoc_substitution(t_minishell *mini)
+char	*heredoc_substitution(t_minishell *mini, char *new_line)
 {
 	char	*new;
 	int		i;
@@ -79,8 +79,10 @@ char	*heredoc_substitution(t_minishell *mini)
 
 	i = 0;
 	j = 0;
+	mini->arg = new_line;
 	new = ft_calloc(ft_strlen(mini->arg) + 1, sizeof(char));
 	if (!new)
+		return (malloc_error(mini, NULL), NULL);
 	while (mini->arg[i])
 	{
 		if (mini->arg[i] == '$')
@@ -91,6 +93,7 @@ char	*heredoc_substitution(t_minishell *mini)
 				return (NULL);
 			new = ft_realloc(new, ft_strlen(new), ft_strlen(new) \
 			+ ft_strlen(&mini->arg[i]) + 1);
+			j = ft_strlen(new);
 		}
 		else
 			new[j++] = mini->arg[i++];

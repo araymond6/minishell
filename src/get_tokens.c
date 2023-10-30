@@ -134,7 +134,6 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 				return (malloc_error(mini, NULL), 1);
 			i[1] = 0;
 		}
-		printf("%c\n", arg[i[0]]);
 		tokens[t].cmd_n = mini->cmd_n;
 		rtn = get_token_type(mini, &tokens[t], arg, i);
 		if (rtn == 1)

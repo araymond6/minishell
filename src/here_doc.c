@@ -5,12 +5,14 @@ void	all_here_doc2(t_minishell *mini)
 	int	i;
 
 	i = 0;
+	mini->heredoc_count = 0;
 	while (i < mini->token_count)
 	{
 		if (mini->token[i].type == HERE_DOC)
 		{
 			i++;
 			here_doc(mini, mini->token[i].token);
+			mini->heredoc_count++;
 		}
 		i++;
 	}
@@ -71,15 +73,16 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	new_line = readline("\033[92mHERE_DOC > % \033[0m");
 	if (!new_line)
 		return (close(fd), message_perror("2.1"));
-	/*if (mini->heredoc_flag[mini->heredoc_count] == 0)
+	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
-		new_line = heredoc_substitution(mini);
+		new_line = heredoc_substitution(mini, new_line);
 		if (!new_line)
 		{
 			mini->arg = NULL;
 			return (1);
 		}
-	}*/
+	}
+	dprintf(2, "new_line: %s\n", new_line);
 	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;
 	else

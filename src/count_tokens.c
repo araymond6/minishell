@@ -37,7 +37,7 @@ int	count_type3(char *arg, int *i, int *count, t_type type)
 	if (type == DOLLAR_SIGN)
 	{
 		(*i)++;
-		type = get_type(arg);
+		type = get_type(&arg[*i]);
 		if (arg[*i] == '?')
 			(*i)++;
 		else
@@ -45,8 +45,8 @@ int	count_type3(char *arg, int *i, int *count, t_type type)
 			while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
 				(*i)++;
 		}
-		type = get_type(arg);
-		if (type != STRING && type != SINGLE_QUOTE && type != DOUBLE_QUOTE)
+		type = get_type(&arg[*i]);
+		if ((type != STRING && type != SINGLE_QUOTE && type != DOUBLE_QUOTE && type != DOLLAR_SIGN) || arg[*i] == 0)
 			(*count)++;
 	}
 	return (0);
