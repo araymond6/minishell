@@ -71,6 +71,7 @@ void	read_input(t_minishell *mini)
 		}
 		count_heredoc(mini);
 		set_heredoc_flag(mini);
+		print_tokens(mini->token, mini->token_count);
 		if (mini->token)
 			time_to_execute(mini);
 		clear_mini(mini);

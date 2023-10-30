@@ -8,21 +8,7 @@ void	parse_exit(t_minishell *mini)
 
 void	parsing_error(t_minishell *mini)
 {
-	int	i;
-
 	mini->exit_code = 2;
-	i = 0;
-	if (mini->cmd)
-	{
-		while (mini->cmd[i])
-		{
-			free(mini->cmd[i]);
-			mini->cmd[i] = NULL;
-			i++;
-		}
-		free(mini->cmd);
-		mini->cmd = NULL;
-	}
 	clear_mini(mini);
 	if (write(STDOUT_FILENO, "parse error\n", 12) == -1)
 		parse_exit(mini);
@@ -52,7 +38,7 @@ static char	*while_env(t_minishell *mini, char *new)
 		}
 		(i)++;
 	}
-	return (NULL);
+	return (free(new), ft_strdup(""));
 }
 
 // checks our minishell's envp for the env variable, returns char* if found;
@@ -70,6 +56,6 @@ char	*check_env(t_minishell *mini, char *arg)
 	}
 	new = while_env(mini, new);
 	if (!new)
-		return (ft_strdup(""));
+		return (NULL);
 	return (new);
 }

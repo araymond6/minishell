@@ -2,29 +2,30 @@
 
 int	get_token_type3(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
-	if ((tokens->type == DOLLAR_SIGN && (ft_isalnum(arg[*i + 1]) || \
-			arg[*i + 1] == '?' || arg[*i + 1] == '_')))
+	int	error;
+
+	error = 0;
+	if (tokens->type == DOLLAR_SIGN)
 	{
-		if (new_substitution(mini, tokens, arg, i) == 1)
-			return (1);
+		error = do_substitution(mini, tokens, arg, i);
 	}
-	return (0);
+	return (error);
 }
 
 int	str_loop2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
-	t_type quote_type;
+	t_type	quote_type;
+	int		error;
 
 	quote_type = tokens->type;
+	error = 0;
 	i[0]++;
 	tokens->type = get_type(&arg[i[0]]);
 	while (tokens->type != quote_type && arg[i[0]])
 	{
-		if (tokens->type == DOLLAR_SIGN && quote_type == DOUBLE_QUOTE && (ft_isalnum(arg[i[0] + 1]) || \
-			arg[i[0] + 1] == '?' || arg[i[0] + 1] == '_'))
+		if (tokens->type == DOLLAR_SIGN && quote_type == DOUBLE_QUOTE)
 		{
-			if (new_substitution(mini, tokens, arg, i) == 1)
-				return (1);
+			error = do_substitution(mini, tokens, arg, i);
 		}
 		else
 		{
@@ -54,6 +55,8 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 			{
 				tokens->token[i[1]++] = arg[i[0]++];
 				tokens->type = get_type(&arg[i[0]]);
+				if (tokens->type == DOLLAR_SIGN)
+					return (2);
 			}
 		}
 	}
@@ -63,6 +66,8 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 
 int	get_token_type2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
+	int	rtn;
+
 	if (tokens->type == APPEND || tokens->type == HERE_DOC)// 
 	{
 		tokens->token[i[1]++] = arg[i[0]++];
@@ -71,8 +76,11 @@ int	get_token_type2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	else if (tokens->type == STRING || tokens->type == SINGLE_QUOTE \
 		|| tokens->type == DOUBLE_QUOTE)
 	{
-		if (get_token_str_loop(mini, tokens, arg, i) == 1)
+		rtn = get_token_str_loop(mini, tokens, arg, i);
+		if (rtn == 1)
 			return (1);
+		if (rtn == 2)
+			return (2);
 	}
 	else
 		return (get_token_type3(mini, tokens, arg, i));
@@ -90,9 +98,7 @@ int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 			return (2);
 		}
 	}
-	else if ((tokens->type == DOLLAR_SIGN && (arg[i[0] + 1] != '?' && \
-		arg[i[0] + 1] != '_' && !ft_isalnum(arg[i[0] + 1]))) || \
-		tokens->type == REDIRECT_INPUT || tokens->type == REDIRECT_OUTPUT)
+	else if (tokens->type == REDIRECT_INPUT || tokens->type == REDIRECT_OUTPUT)
 	{
 		tokens->token[i[1]] = arg[i[0]];
 		i[0]++;
@@ -120,18 +126,18 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 	rtn = 0;
 	while (arg[i[0]])
 	{
-		if (rtn != 2)
+		if (rtn != 2) //TODO: gerer $"allo" (devrait donner allo seulement)
 		{
 			t++;
 			tokens[t].token = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
 			if (!tokens[t].token)
 				return (malloc_error(mini, NULL), 1);
+			i[1] = 0;
 		}
 		tokens[t].cmd_n = mini->cmd_n;
 		rtn = get_token_type(mini, &tokens[t], arg, i);
 		if (rtn == 1)
 			return (1);
-		i[1] = 0;
 	}
 	return (0);
 }

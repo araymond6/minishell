@@ -69,7 +69,6 @@ typedef struct s_minishell
 	char				*arg;
 	char				*path;
 	char				**envp;
-	char				**cmd;
 	int					envpset;
 	int					token_count;
 	struct s_token		*token;
@@ -86,7 +85,7 @@ int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
-char	*heredoc_substitution(t_minishell *mini);
+char	*heredoc_substitution(t_minishell *mini, char *new_line);
 void	count_heredoc(t_minishell *mini);
 void	initialize_s_cmd(t_minishell *mini);
 
@@ -169,5 +168,6 @@ void	find_cmd(t_minishell *mini, int n);
 int		pipe_parsing(t_minishell *mini, char *arg);
 void	manual_redirection_loop(t_minishell *mini, int n, int i);
 void	manual_redirection(t_minishell *mini, int n);
+int		do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
 
 #endif

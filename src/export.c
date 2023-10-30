@@ -84,7 +84,7 @@ static int	add_to_table(t_minishell *mini, char **table, int *i, int *j)
 
 	param = 0;
 	table[*j] = ft_calloc(sizeof(char), \
-	ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1); // do error check
+	ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1);
 	if (!table[*j])
 	{
 		table[*j] = NULL;
