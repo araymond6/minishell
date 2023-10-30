@@ -189,5 +189,6 @@ t_type	get_type(char *arg);
 int		redir_parsing2(t_minishell *mini);
 void	find_cmd(t_minishell *mini, int n);
 int		pipe_parsing(t_minishell *mini, char *arg);
+int		do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
 
 #endif

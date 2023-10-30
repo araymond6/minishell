@@ -51,7 +51,7 @@ static char	*while_env(t_minishell *mini, char *new)
 		}
 		(i)++;
 	}
-	return (NULL);
+	return (free(new), ft_strdup(""));
 }
 
 // checks our minishell's envp for the env variable, returns char* if found;
@@ -69,6 +69,6 @@ char	*check_env(t_minishell *mini, char *arg)
 	}
 	new = while_env(mini, new);
 	if (!new)
-		return (ft_strdup(""));
+		return (NULL);
 	return (new);
 }

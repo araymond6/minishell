@@ -28,7 +28,7 @@ static char	*sub_loop(t_minishell *mini, char *arg, int *i)
 	int		j;
 
 	j = 0;
-	sub = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
+	sub = ft_calloc(ft_strlen(&arg[i[0]]) + 1, sizeof(char));
 	if (!sub)
 		return (malloc_error(mini, NULL), NULL);
 	while ((ft_isalnum(arg[i[0]]) || arg[i[0]] == '?' || arg[i[0]] == '_') && arg[i[0]])
