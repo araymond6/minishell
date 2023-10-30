@@ -4,12 +4,9 @@ int	ft_pwd(void)
 {
 	char	absolute_path[200];
 
-	dprintf(2, "pwd0\n");
 	if (getcwd(absolute_path, 200) == NULL)
 		return (message_perror("pwd :"));
-	dprintf(2, "pwd1\n");
 	printf("%s\n", absolute_path);
-	dprintf(2, "pwd2\n");
 	return (0);
 }
 

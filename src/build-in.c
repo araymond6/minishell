@@ -15,7 +15,6 @@ int	isbuildin(char *isbuildin)
 
 int	execute_buildin(t_minishell *mini)
 {
-	dprintf(2, "BI\n");
 	if (ft_strncmp(mini->s_cmd->cmd_arg[0], "echo", 5) == 0)
 		return (ft_echo(mini->s_cmd));
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "cd", 3) == 0)
@@ -30,6 +29,5 @@ int	execute_buildin(t_minishell *mini)
 		return (ft_unset(mini));
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) == 0)
 		ft_exit(mini);
-	dprintf(2, "BI\n");
 	return (0);
 }
