@@ -12,10 +12,28 @@ void	null_command2(t_minishell *mini, int n)
 void	exec_buildin2(t_minishell *mini, int n)
 {
 	int	i;
+	int	output_append;
+	int	input_here_doc;
 
 	i = 0;
-	manual_redirection(mini, n);
+	output_append = 0;
+	input_here_doc = 0;
+	if (n < mini->cmd_n)
+	{
+		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
+			message_perror("Impossible to write in the pipe");
+	}
+	else if (n == mini->cmd_n && mini->cmd_n != 1)
+	{
+		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
+			message_perror("Impossible to write in the pipe");
+	}
+	while (i < mini->token_count && mini->token[i].cmd_n != n)
+		i++;
+	manual_redirection_loop(mini, n, i);
 	execute_buildin(mini);
+	close(mini->s_cmd->pipe[0]);
+	close(mini->s_cmd->pipe[1]);
 	clear_s_cmd(mini->s_cmd);
 }
 

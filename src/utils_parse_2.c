@@ -23,6 +23,7 @@ void	parsing_error(t_minishell *mini)
 		free(mini->cmd);
 		mini->cmd = NULL;
 	}
+	clear_mini(mini);
 	if (write(STDOUT_FILENO, "parse error\n", 12) == -1)
 		parse_exit(mini);
 }

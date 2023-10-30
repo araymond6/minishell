@@ -73,7 +73,7 @@ void	manual_redirection_loop(t_minishell *mini, int n, int i)
 			redirect_append(mini, ++i);
 		i++;
 	}
-}
+} 
 
 void	manual_redirection(t_minishell *mini, int n)
 {
@@ -84,12 +84,14 @@ void	manual_redirection(t_minishell *mini, int n)
 	i = 0;
 	output_append = 0;
 	input_here_doc = 0;
+	close(mini->s_cmd->pipe[0]);
 	if (n < mini->cmd_n)
 	{
 		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
 			message_perror("Impossible to write in the pipe");
 	}
-	else if (n == mini->cmd_n && mini->cmd_n != 1)
+	close(mini->s_cmd->pipe[1]);
+	if (n == mini->cmd_n && mini->cmd_n != 1)
 	{
 		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
 			message_perror("Impossible to write in the pipe");
@@ -97,6 +99,4 @@ void	manual_redirection(t_minishell *mini, int n)
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;
 	manual_redirection_loop(mini, n, i);
-	close(mini->s_cmd->pipe[1]);
-	close(mini->s_cmd->pipe[0]);
 }

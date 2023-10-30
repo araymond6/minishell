@@ -52,6 +52,8 @@ int	ft_exit(t_minishell *mini)
 	int	nb_arg;
 
 	nb_arg = 0;
+	close(mini->s_cmd->pipe[1]);
+	close(mini->s_cmd->pipe[0]);
 	if (mini->cmd_n != 1)
 		return (0);
 	while (mini->s_cmd->cmd_arg[nb_arg])

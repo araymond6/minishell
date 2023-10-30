@@ -80,9 +80,6 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 			return (1);
 		}
 	}*/
-	dprintf(1, "new_line : %s\n", new_line);
-	dprintf(1, "delimiter : %s\n", delimiter);
-	dprintf(1, "len : %lu\n", ft_strlen(delimiter) + 1);
 	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;
 	else
@@ -92,7 +89,6 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	}
 	free(new_line);
 	new_line = NULL;
-	dprintf(1, "i : %d\n", i);
 	return (i);
 }
 

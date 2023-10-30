@@ -4,9 +4,12 @@ int	ft_pwd(void)
 {
 	char	absolute_path[200];
 
+	dprintf(2, "pwd0\n");
 	if (getcwd(absolute_path, 200) == NULL)
 		return (message_perror("pwd :"));
+	dprintf(2, "pwd1\n");
 	printf("%s\n", absolute_path);
+	dprintf(2, "pwd2\n");
 	return (0);
 }
 
@@ -57,13 +60,12 @@ int	ft_echo(t_cmd *cmd)
 			i++;
 		if (cmd->cmd_arg[r][i] == 0)
 		{
-			write(1, "la", 3);
+			r++;
 			n = 1;
+			i = 2;
 		}
 		else
 			n = 2;
-		i = 2;
-		r++;
 	}
 	p_echo(cmd->cmd_arg, r, n);
 	return (0);
