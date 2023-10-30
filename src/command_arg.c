@@ -20,7 +20,6 @@ void	nb_of_arg_lopp(int i, int n, t_minishell *mini)
 			}
 			return ;
 		}
-		i++;
 	}
 }
 
@@ -60,6 +59,8 @@ void	find_cmd(t_minishell *mini, int n)
 	i = 0;
 	nb_of_arg(mini, n);
 	mini->s_cmd->cmd_arg = ft_calloc(mini->s_cmd->narg + 1, sizeof(char *));
+	if(!mini->s_cmd->cmd_arg)
+		return;
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;
 	while (i < mini->token_count && mini->token[i].cmd_n == n)
@@ -71,6 +72,5 @@ void	find_cmd(t_minishell *mini, int n)
 			i += 2;
 		else
 			return (cpy_cmd(mini, n, i));
-		i++;
 	}
 }

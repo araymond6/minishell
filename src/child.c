@@ -70,7 +70,8 @@ void	child2(t_minishell *mini, int n)
 	child_path(mini);
 	manual_redirection(mini, n);
 	path_execve = child_path_execve(mini->s_cmd->path);
-	array_execve = child_array_execve(mini->s_cmd->cmd_arg);
+	if(array_execve)
+		array_execve = child_array_execve(mini->s_cmd->cmd_arg);
 	mini->s_cmd->cmd_arg = NULL;
 	child_closenfree(mini);
 	if(path_execve == NULL)

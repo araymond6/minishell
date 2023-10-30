@@ -12,12 +12,8 @@ void	null_command2(t_minishell *mini, int n)
 void	exec_buildin2(t_minishell *mini, int n)
 {
 	int	i;
-	int	output_append;
-	int	input_here_doc;
 
 	i = 0;
-	output_append = 0;
-	input_here_doc = 0;
 	if (n < mini->cmd_n)
 	{
 		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
