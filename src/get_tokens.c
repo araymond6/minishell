@@ -57,7 +57,7 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 				tokens->type = get_type(&arg[i[0]]);
 			}
 		}
-		if (tokens->type == DOLLAR_SIGN)
+		if (tokens->type == DOLLAR_SIGN || whitespace_check(&arg[i[0]]))
 			return (2);
 	}
 	tokens->type = STRING;
@@ -99,6 +99,7 @@ int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		}
 		if (arg[i[0]])
 			return (2);
+		return (0);
 	}
 	else if (tokens->type == REDIRECT_INPUT || tokens->type == REDIRECT_OUTPUT)
 	{
@@ -128,6 +129,7 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 	rtn = 0;
 	while (arg[i[0]])
 	{
+		printf("c: %c\n", arg[i[0]]);
 		if (rtn != 2) //TODO: gerer $"allo" (devrait donner allo seulement)
 		{ //TODO: gérer [git add src/ Makefile]
 			t++;

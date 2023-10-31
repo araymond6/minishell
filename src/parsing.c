@@ -12,7 +12,7 @@ static int	check_pipe(char *arg, int *i, int *temp, t_type type)
 		else
 			(*temp)--;
 	}
-	if (!arg[*i + 1] || arg[0] == '|')
+	if (!arg[*i + 1] || arg[0] == '|' || *temp == -1)
 		return (1);
 	*temp = *i + 1;
 	while (arg[*temp])
@@ -24,6 +24,8 @@ static int	check_pipe(char *arg, int *i, int *temp, t_type type)
 			return (1);
 		else 
 			(*temp)++;
+		if (arg[*temp] == 0)
+			return (1);
 	}
 	return (0);
 }
