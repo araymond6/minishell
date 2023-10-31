@@ -18,19 +18,6 @@ void	all_here_doc2(t_minishell *mini)
 	}
 }
 
-void	count_heredoc(t_minishell *mini)
-{
-	int	i;
-
-	i = 0;
-	while (i < mini->token_count)
-	{
-		if (mini->token[i].type == HERE_DOC)
-			mini->heredoc_count++;
-		i++;
-	}
-}
-
 static void	redir_loop(t_minishell *mini)
 {
 	int	i;
@@ -38,7 +25,7 @@ static void	redir_loop(t_minishell *mini)
 	i = 0;
 	while (i < mini->token_count)
 	{
-		if (mini->token[i].type == HERE_DOC) // heredoc flags to test
+		if (mini->token[i].type == HERE_DOC) // TODO: heredoc flags to test
 		{
 			if (mini->token[i + 1].inquote == 1)
 				mini->heredoc_flag[mini->heredoc_count++] = 1;
@@ -77,10 +64,7 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	{
 		new_line = heredoc_substitution(mini, new_line);
 		if (!new_line)
-		{
-			mini->arg = NULL;
 			return (1);
-		}
 	}
 	if (ft_strncmp(delimiter, new_line, (ft_strlen(delimiter) + 1)) == 0)
 		i = 1;

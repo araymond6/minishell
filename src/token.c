@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/31 12:02:55 by araymond         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:13:31 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ t_type	get_type(char *arg)
 		return (DOUBLE_QUOTE);
 	else if (arg[0] == '|')
 		return (PIPE);
-	else if (arg[0] == '$' && (arg[1] == '?' || arg[1] == '_' || ft_isalnum(arg[1])))
+	else if (arg[0] == '$' && (arg[1] == '?' || arg[1] == '_' || \
+			ft_isalnum(arg[1]) || arg[1] == '\'' || arg[1] == '\"'))
 		return (DOLLAR_SIGN);
 	else if (arg[0] == ' ' || arg[0] == '\t' || arg[0] == '\n' || \
 			arg[0] == '\v' || arg[0] == '\f' || arg[0] == '\r')
@@ -74,14 +75,13 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 
 	mini->cmd_n = 1;
 	token_count = count_tokens(mini, arg);
-	printf("token_count: %d\n", token_count);
 	if (token_count == -1)
 		return (NULL);
 	tokens = initialize_tokens(mini, token_count);
 	if (get_tokens(mini, tokens, arg) == 1)
 		return (parsing_error(mini), NULL);
 	mini->token = tokens;
-	if(redir_parsing2(mini))
+	if (redir_parsing2(mini))
 		return (parsing_error(mini), NULL);
 	return (tokens);
 }

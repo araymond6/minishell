@@ -20,12 +20,10 @@ static int	check_pipe(char *arg, int *i, int *temp, t_type type)
 		type = get_type(&arg[*temp]);
 		if (type != WHITESPACE && type != PIPE)
 			break ;
-		else if (type == PIPE)
+		else if (type == PIPE || arg[*temp] == 0)
 			return (1);
 		else 
 			(*temp)++;
-		if (arg[*temp] == 0)
-			return (1);
 	}
 	return (0);
 }
@@ -60,7 +58,8 @@ void	read_input(t_minishell *mini)
 		if (mini->arg == NULL)
 			break ;
 		add_history(mini->arg);
-		if (mini->arg[0] == '\0' || whitespace_check(mini->arg) == 1 || pipe_parsing(mini, mini->arg) == 1)
+		if (mini->arg[0] == '\0' || whitespace_check(mini->arg) == 1
+			|| pipe_parsing(mini, mini->arg) == 1)
 		{
 			free(mini->arg);
 			continue ;
@@ -73,7 +72,6 @@ void	read_input(t_minishell *mini)
 		}
 		count_heredoc(mini);
 		set_heredoc_flag(mini);
-		print_tokens(mini->token, mini->token_count);
 		if (mini->token)
 			time_to_execute(mini);
 		clear_mini(mini);

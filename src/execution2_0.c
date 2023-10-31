@@ -22,6 +22,7 @@ int exec_buildin2_pipe(t_minishell *mini, int n)
 	}
 	close(mini->s_cmd->pipe[0]);
 	close(mini->s_cmd->pipe[1]);
+	return (0);
 }
 
 void	exec_buildin2(t_minishell *mini, int n)

@@ -2,7 +2,7 @@
 
 static char	*get_substitute(t_minishell *mini, char *sub)
 {
-	char *temp;
+	char	*temp;
 
 	if (sub[0] == '?')
 	{
@@ -31,7 +31,8 @@ static char	*sub_loop(t_minishell *mini, char *arg, int *i)
 	sub = ft_calloc(ft_strlen(&arg[i[0]]) + 1, sizeof(char));
 	if (!sub)
 		return (malloc_error(mini, NULL), NULL);
-	while ((ft_isalnum(arg[i[0]]) || arg[i[0]] == '?' || arg[i[0]] == '_') && arg[i[0]])
+	while ((ft_isalnum(arg[i[0]]) || arg[i[0]] == '?'
+			|| arg[i[0]] == '_') && arg[i[0]])
 	{
 		sub[j++] = arg[i[0]++];
 		if ((arg[i[0]] == '?' && i > 0) || sub[0] == '?')

@@ -58,3 +58,29 @@ void	print_env(t_minishell *mini)
 		i++;
 	}
 }
+
+char	*env_parsing(t_minishell *mini, int *i, int *j)
+{
+	char	*str;
+
+	str = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1, sizeof(char));
+	if (!str)
+		return (malloc_error(mini, NULL), NULL);
+	while (mini->s_cmd->cmd_arg[*i][*j] && mini->s_cmd->cmd_arg[*i][*j] != '=')
+	{
+		if (!ft_isalnum(mini->s_cmd->cmd_arg[*i][*j]))
+		{
+			if (mini->s_cmd->cmd_arg[*i][*j] != '_')
+			{
+				free(str);
+				printf("export: \"%s\": not a valid identifier\n", \
+				mini->s_cmd->cmd_arg[*i]);
+				mini->exit_code = 1;
+				return (NULL);
+			}
+		}
+		str[*j] = mini->s_cmd->cmd_arg[*i][*j];
+		(*j)++;
+	}
+	return (str);
+}
