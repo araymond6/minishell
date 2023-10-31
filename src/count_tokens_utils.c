@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int	quote_loop(char *arg, int *i, t_type type, t_type quote_type)
+static int	quote_loop(char *arg, int *i, t_type type, t_type quote_type)
 {
 	quote_type = type;
 	(*i)++;

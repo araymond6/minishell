@@ -11,9 +11,11 @@ static int	quotestr_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	tokens->type = get_type(&arg[i[0]]);
 	while (tokens->type != quote_type && arg[i[0]])
 	{
-		if (tokens->type == DOLLAR_SIGN && quote_type == DOUBLE_QUOTE)
+		if ((tokens->type == DOLLAR_SIGN && arg[i[0] + 1] != '\"') && quote_type == DOUBLE_QUOTE)
 		{
 			error = do_substitution(mini, tokens, arg, i);
+			if (error == 1)
+				return (error);
 		}
 		else
 		{
@@ -33,9 +35,9 @@ int	get_token_str_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	{
 		if (tokens->type == SINGLE_QUOTE || tokens->type == DOUBLE_QUOTE)
 		{
+			tokens->inquote = 1;
 			if (quotestr_loop(mini, tokens, arg, i))
 				return (1);
-			tokens->inquote = 1;
 		}
 		else if (tokens->type == STRING)
 		{

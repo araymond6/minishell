@@ -31,10 +31,7 @@ static int	unset_parsing(t_minishell *mini, int *i)
 	while (mini->envp[j])
 	{
 		if (!ft_strncmp(mini->envp[j], str, ft_strlen(str)))
-		{
-			free(str);
-			return (j);
-		}
+			return (free(str), j);
 		j++;
 	}
 	free(str);

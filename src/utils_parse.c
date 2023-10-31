@@ -81,7 +81,7 @@ int	do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		return (malloc_error(mini, NULL), 1);
 	tokens->type = get_type(&arg[i[0]]);
 	if (tokens->type == STRING || tokens->type == SINGLE_QUOTE \
-	|| tokens->type == DOUBLE_QUOTE)
+	|| tokens->type == DOUBLE_QUOTE || tokens->type == DOLLAR_SIGN)
 		return (2);
 	return (0);
 }
