@@ -51,9 +51,7 @@ void	time_to_execute(t_minishell *mini)
 	{
 		if (mini->s_cmd->pids[i] != 0)
 		{
-			dprintf(2, "pid[%d] = %d\n", i, mini->s_cmd->pids[i]);
 			waitpid(mini->s_cmd->pids[i], &mini->s_cmd->status[i], 0);
-			dprintf(2, "pid[%d] = %d\n", i, mini->s_cmd->pids[i]);
 			i++;
 		}
 		else

@@ -38,7 +38,6 @@ static char	*heredoc_get_sub(t_minishell *mini, int *i)
 		sub[j++] = mini->arg[(*i)++];
 		if ((mini->arg[*i] == '?') || sub[0] == '?')
 			break ;
-		printf("sub: %s\n", sub);
 	}
 	if (sub[0] == '\0')
 		return (free(sub), NULL);

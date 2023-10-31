@@ -5,7 +5,7 @@ int	set_table(t_minishell *mini, char **table, int *j, int *k)
 	int	l;
 
 	l = 0;
-	table[*j] = ft_calloc(sizeof(char), ft_strlen(mini->envp[*k]) + 1); //TODO: leak here when "export x" -> "x"
+	table[*j] = ft_calloc(sizeof(char), ft_strlen(mini->envp[*k]) + 1);
 	if (!table[*j])
 		return (1);
 	while (mini->envp[*k][l])
