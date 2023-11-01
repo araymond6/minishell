@@ -92,7 +92,7 @@ char	*heredoc_substitution(t_minishell *mini, char *new_line)
 
 	i = 0;
 	j = 0;
-	new = ft_calloc(ft_strlen(new_line) + 1, sizeof(char)); //TODO: change so $"" works 
+	new = ft_calloc(ft_strlen(new_line) + 1, sizeof(char));
 	if (!new)
 		return (malloc_error(mini, NULL), NULL);
 	while (new_line[i])

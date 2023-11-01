@@ -1,8 +1,8 @@
 #include "../include/minishell.h"
 
-void	set_flag(t_minishell *mini, t_token *tokens)
+void	set_flag(t_minishell *mini, t_token tokens)
 {
-	if (tokens->type == HERE_DOC)
+	if (tokens.type == HERE_DOC)
 		mini->prev_heredoc = 1;
 	else
 		mini->prev_heredoc = 0;

@@ -26,7 +26,7 @@ static void	redir_loop(t_minishell *mini)
 	i = 0;
 	while (i < mini->token_count)
 	{
-		if (mini->token[i].type == HERE_DOC) // TODO: heredoc flags to test
+		if (mini->token[i].type == HERE_DOC)
 		{
 			if (mini->token[i + 1].inquote == 1)
 				mini->heredoc_flag[mini->heredoc_count++] = 1;

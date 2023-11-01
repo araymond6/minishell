@@ -23,6 +23,12 @@ int	forker2(t_minishell *mini)
 			message_perror("Impossible to create a pipe");
 		if (mini->s_cmd->cmd_arg == NULL)
 			null_command2(mini, n);
+		else if (mini->s_cmd->cmd_arg[0] == NULL)
+		{
+			free(mini->s_cmd->cmd_arg);
+			mini->s_cmd->cmd_arg = NULL;
+			null_command2(mini, n);
+		}
 		else if (mini->s_cmd->cmd_arg[0][0] == 0)
 		{
 			free(mini->s_cmd->cmd_arg);
