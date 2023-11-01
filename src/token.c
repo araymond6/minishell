@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/01 11:27:00 by vst-pier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 t_token	*initialize_tokens(t_minishell *mini, int token_count)
@@ -77,11 +65,10 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 	token_count = count_tokens(mini, arg);
 	if (token_count == -1)
 		return (NULL);
-	tokens = initialize_tokens(mini, token_count); //TODO: make ["$lol"lol""] work
+	tokens = initialize_tokens(mini, token_count);
 	if (get_tokens(mini, tokens, arg) == 1)
 		return (parsing_error(mini), NULL);
 	mini->token = tokens;
-	//print_tokens(mini->token, mini->token_count);
 	if (redir_parsing2(mini))
 		return (parsing_error(mini), NULL);
 	return (tokens);

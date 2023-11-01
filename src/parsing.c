@@ -54,7 +54,7 @@ void	read_input(t_minishell *mini)
 	while (1)
 	{
 		signal_reset(mini);
-		mini->arg = readline("\033[92mminishell % \033[0m");
+		mini->arg = readline("minishell % ");
 		if (mini->arg == NULL)
 			break ;
 		add_history(mini->arg);

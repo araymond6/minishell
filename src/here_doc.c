@@ -10,9 +10,11 @@ void	all_here_doc2(t_minishell *mini)
 	{
 		if (mini->token[i].type == HERE_DOC)
 		{
+			set_signal_for_process(mini);
 			i++;
 			here_doc(mini, mini->token[i].token);
 			mini->heredoc_count++;
+			signal_reset(mini);
 		}
 		i++;
 	}
@@ -57,9 +59,9 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 
 	(void) mini;
 	i = 0;
-	new_line = readline("\033[92mHERE_DOC > % \033[0m");
+	new_line = readline("HERE_DOC > % ");
 	if (!new_line)
-		return (close(fd), message_perror("2.1"));
+		return (close(fd), 1);
 	if (mini->heredoc_flag[mini->heredoc_count] == 0)
 	{
 		new_line = heredoc_substitution(mini, new_line);
