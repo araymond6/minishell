@@ -1,5 +1,13 @@
 #include "../include/minishell.h"
 
+void	set_flag(t_minishell *mini, t_token *tokens)
+{
+	if (tokens->type == HERE_DOC)
+		mini->prev_heredoc = 1;
+	else
+		mini->prev_heredoc = 0;
+}
+
 static int	quote_loop(char *arg, int *i, t_type type, t_type quote_type)
 {
 	quote_type = type;

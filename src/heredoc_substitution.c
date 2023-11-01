@@ -97,7 +97,8 @@ char	*heredoc_substitution(t_minishell *mini, char *new_line)
 		return (malloc_error(mini, NULL), NULL);
 	while (new_line[i])
 	{
-		if (new_line[i] == '$')
+		if (get_type(&new_line[i]) == DOLLAR_SIGN && \
+			new_line[i + 1] != '\"' && new_line[i + 1] != '\'')
 		{
 			i++;
 			new = heredoc_sub(mini, new, &i, new_line);

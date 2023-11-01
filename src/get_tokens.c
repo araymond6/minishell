@@ -49,6 +49,8 @@ int	get_token_type2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
 	tokens->type = get_type(&arg[i[0]]);
+	if (tokens->type == DOLLAR_SIGN && mini->prev_heredoc == 1)
+		tokens->type = STRING;
 	if (tokens->type == WHITESPACE)
 	{
 		while (tokens->type == WHITESPACE && arg[i[0]])
@@ -83,7 +85,8 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 	while (arg[i[0]])
 	{
 		if (rtn != 2)
-		{
+		{ // TODO: make it so no sub if $ is after '<<' and isn't followed by a quote
+			set_flag(mini, &tokens[t]);
 			t++;
 			tokens[t].token = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
 			if (!tokens[t].token)

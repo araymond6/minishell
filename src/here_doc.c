@@ -59,10 +59,12 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 
 	(void) mini;
 	i = 0;
+	printf("delim: %s\n", delimiter);
 	new_line = readline("HERE_DOC > % ");
 	if (!new_line)
 		return (close(fd), 1);
-	if (mini->heredoc_flag[mini->heredoc_count] == 0)
+	if (mini->heredoc_flag[mini->heredoc_count] == 0 && \
+		ft_strncmp(delimiter, new_line, ft_strlen(delimiter) + 1) != 0)
 	{
 		new_line = heredoc_substitution(mini, new_line);
 		if (!new_line)
