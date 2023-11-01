@@ -13,5 +13,4 @@ void	initialize_s_cmd(t_minishell *mini)
 	mini->s_cmd->status = ft_calloc(mini->cmd_n, sizeof(int));
 	mini->s_cmd->fd_stdin = dup(STDIN_FILENO);
 	mini->s_cmd->fd_stdout = dup(STDOUT_FILENO);
-	//mini->s_cmd->pids[0] = 1;
 }
