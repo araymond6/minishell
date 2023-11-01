@@ -76,6 +76,7 @@ typedef struct s_minishell
 	unsigned char		exit_code;
 	char				*heredoc_flag;
 	int					heredoc_count;
+	int					prev_heredoc;
 	int					count;
 	int					cmd_n;
 }	t_minishell;
@@ -172,5 +173,6 @@ int		get_token_str_loop(t_minishell *mini, \
 		t_token *tokens, char *arg, int *i);
 int		count_string_loop(char *arg, int *i, t_type type, t_type quote_type);
 void	print_tokens(t_token *tokens, int token_count); // remove this
+void	set_flag(t_minishell *mini, t_token *tokens);
 
 #endif

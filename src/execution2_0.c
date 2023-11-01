@@ -25,13 +25,11 @@ void	exec_buildin2(t_minishell *mini, int n)
 		message_perror("Impossible to read in the pipe");
 	if (n < mini->cmd_n)
 	{
-		dprintf(2, "n < mini->cmd_n\n");
 		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
 			message_perror("Impossible to write in the pipe");
 	}
 	else if (n == mini->cmd_n && mini->cmd_n != 1)
 	{
-		dprintf(2, "n = mini->cmd_n\n");
 		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
 			message_perror("Impossible to write in the pipe");
 	}
