@@ -59,7 +59,6 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 
 	(void) mini;
 	i = 0;
-	printf("delim: %s\n", delimiter);
 	new_line = readline("HERE_DOC > % ");
 	if (!new_line)
 		return (close(fd), 1);
