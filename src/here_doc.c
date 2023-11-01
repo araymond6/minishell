@@ -10,7 +10,6 @@ void	all_here_doc2(t_minishell *mini)
 	{
 		if (mini->token[i].type == HERE_DOC)
 		{
-			set_signal_for_process(mini);
 			i++;
 			here_doc(mini, mini->token[i].token);
 			mini->heredoc_count++;

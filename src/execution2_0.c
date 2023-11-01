@@ -47,7 +47,6 @@ void	exec_bash_cmd(t_minishell *mini, int n)
 	int	i;
 
 	i = 0;
-	set_signal_for_process(mini);
 	while(mini->s_cmd->pids[i] != 0 && i < mini->cmd_n)
 		i++;
 	mini->s_cmd->pids[i] = fork();

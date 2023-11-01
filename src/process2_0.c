@@ -47,6 +47,7 @@ void	time_to_execute(t_minishell *mini)
 	mini->s_cmd = ft_calloc(1, sizeof(t_cmd));
 	initialize_s_cmd(mini);
 	all_here_doc2(mini);
+	set_signal_for_process(mini);
 	forker2(mini);
 	while (i < mini->cmd_n)
 	{
