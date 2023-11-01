@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-//initialize s_cmd
+//TODO verifier les callocs
 void	initialize_s_cmd(t_minishell *mini)
 {
 	int	n;

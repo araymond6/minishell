@@ -51,7 +51,8 @@ int	ft_echo(t_cmd *cmd)
 	n = 0;
 	if (!cmd->cmd_arg[r])
 		return (printf("\n"), 0);
-	while (ft_strncmp(cmd->cmd_arg[r], "-n", 2) == 0 && n != 2 && cmd->cmd_arg[r])
+	while (ft_strncmp(cmd->cmd_arg[r], "-n", 2) == 0
+		&& n != 2 && cmd->cmd_arg[r])
 	{
 		while (cmd->cmd_arg[r][i] == 'n')
 			i++;

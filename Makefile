@@ -39,6 +39,7 @@ SRCS =	build-in.c \
 		execution2_0.c \
 		process2_0.c \
 		redirection2_0.c \
+		manual_redirection.c \
 		parsing_check2_0.c \
 		command_arg.c \
 		get_tokens_utils.c \

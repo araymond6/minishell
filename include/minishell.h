@@ -172,5 +172,6 @@ int		get_token_str_loop(t_minishell *mini, \
 		t_token *tokens, char *arg, int *i);
 int		count_string_loop(char *arg, int *i, t_type type, t_type quote_type);
 void	print_tokens(t_token *tokens, int token_count); // remove this
+void	redirect_the_output(t_minishell *mini, int n);
 
 #endif
