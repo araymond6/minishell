@@ -41,8 +41,7 @@ SRCS =	build-in.c \
 		redirection2_0.c \
 		parsing_check2_0.c \
 		command_arg.c \
-		get_tokens_utils.c \
-		count_tokens_utils.c \
+		token_utils.c \
 		substitution.c 
 		
 VPATH = $(SRC_DIR) $(INC_DIR) $(OBJ_DIR)
