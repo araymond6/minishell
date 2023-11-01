@@ -1,31 +1,5 @@
 #include "../include/minishell.h"
 
-char	*env_parsing(t_minishell *mini, int *i, int *j)
-{
-	char	*str;
-
-	str = ft_calloc(ft_strlen(mini->s_cmd->cmd_arg[*i]) + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	while (mini->s_cmd->cmd_arg[*i][*j] && mini->s_cmd->cmd_arg[*i][*j] != '=')
-	{
-		if (!ft_isalnum(mini->s_cmd->cmd_arg[*i][*j]))
-		{
-			if (mini->s_cmd->cmd_arg[*i][*j] != '_')
-			{
-				free(str);
-				printf("export: \"%s\": not a valid identifier\n", \
-				mini->s_cmd->cmd_arg[*i]);
-				mini->exit_code = 1;
-				return (NULL);
-			}
-		}
-		str[*j] = mini->s_cmd->cmd_arg[*i][*j];
-		(*j)++;
-	}
-	return (str);
-}
-
 /* everything after the '=' is good, any non alnum 
 char is wrong if before '=' except '_'
  returns -1 if not good and >=0 if VAR exists already. 

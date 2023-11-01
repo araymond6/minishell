@@ -1,52 +1,22 @@
 #include "../include/minishell.h"
 
-
-int	count_string_loop(char *arg, int *i, t_type type, t_type quote_type)
-{
-	while ((type == STRING || type == SINGLE_QUOTE || type == DOUBLE_QUOTE) && arg[*i])
-	{
-		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
-		{
-			quote_type = type;
-			(*i)++;
-			type = get_type(&arg[*i]);
-			while (type != quote_type && arg[*i])
-			{
-				(*i)++;
-				type = get_type(&arg[*i]);
-			}
-			if (type != quote_type) //TODO: Keep doing tests like .$ALLO. .$USER. both in double quotes and without them
-				return (-1);
-			(*i)++;
-			type = get_type(&arg[*i]);
-		}
-		else if (type == STRING)
-		{
-			while (type == STRING && arg[*i])
-			{
-				(*i)++;
-				type = get_type(&arg[*i]);
-			}
-		}
-	}
-	return (0);
-}
-
 int	count_type3(char *arg, int *i, int *count, t_type type)
 {
 	if (type == DOLLAR_SIGN)
 	{
 		(*i)++;
-		type = get_type(&arg[*i]);
 		if (arg[*i] == '?')
 			(*i)++;
+		else if (arg[*i] == '\"' || arg[*i] == '\'')
+			return (0);
 		else
 		{
 			while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
 				(*i)++;
 		}
 		type = get_type(&arg[*i]);
-		if ((type != STRING && type != SINGLE_QUOTE && type != DOUBLE_QUOTE && type != DOLLAR_SIGN) || arg[*i] == 0)
+		if ((type != STRING && type != SINGLE_QUOTE && \
+			type != DOUBLE_QUOTE && type != DOLLAR_SIGN) || arg[*i] == 0)
 			(*count)++;
 	}
 	return (0);

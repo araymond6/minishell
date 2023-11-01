@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 # define ERROR 1
 # define SUCCESS 0
 # define READLINE_LIBRARY
@@ -41,19 +41,18 @@ typedef struct s_cmd
 	int				*pids;
 }	t_cmd;
 
-
 typedef enum e_type
 {
-	WHITESPACE = 0, // space, tabs or newlines
-	STRING = 1, // words or letters
-	PIPE = 2, // |
-	DOLLAR_SIGN = 3, // $
-	SINGLE_QUOTE = 4, // '
-	DOUBLE_QUOTE = 5, // "
-	APPEND = 6, // >>
-	HERE_DOC = 7, // <<
-	REDIRECT_OUTPUT = 8, // >
-	REDIRECT_INPUT = 9, // <
+	WHITESPACE = 0,
+	STRING = 1,
+	PIPE = 2,
+	DOLLAR_SIGN = 3,
+	SINGLE_QUOTE = 4,
+	DOUBLE_QUOTE = 5,
+	APPEND = 6,
+	HERE_DOC = 7,
+	REDIRECT_OUTPUT = 8,
+	REDIRECT_INPUT = 9,
 }	t_type;
 
 typedef struct s_token
@@ -111,7 +110,7 @@ int		count_2darray(char **table);
 int		whitespace_check(char *str);
 void	set_signal_for_process(t_minishell *mini);
 void	signal_reset(t_minishell *mini);
-void	print_tokens(t_token *tokens, int token_count);
+//void	print_tokens(t_token *tokens, int token_count);
 
 // buildins and start of exec
 int		ft_cd(t_cmd *cmd);
@@ -169,5 +168,9 @@ int		pipe_parsing(t_minishell *mini, char *arg);
 void	manual_redirection_loop(t_minishell *mini, int n, int i);
 void	manual_redirection(t_minishell *mini, int n);
 int		do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
+int		get_token_str_loop(t_minishell *mini, \
+		t_token *tokens, char *arg, int *i);
+int		count_string_loop(char *arg, int *i, t_type type, t_type quote_type);
+void	print_tokens(t_token *tokens, int token_count); // remove this
 
 #endif
