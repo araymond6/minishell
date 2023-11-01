@@ -13,15 +13,6 @@ void	null_command2(t_minishell *mini, int n)
 
 int exec_buildin2_pipe(t_minishell *mini, int n)
 {
-	if (dup2(mini->s_cmd->pipe[0], STDIN_FILENO) == -1)
-		message_perror("Impossible to read in the pipe");
-	if (n < mini->cmd_n)
-	{
-		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
-			message_perror("Impossible to write in the pipe");
-	}
-	close(mini->s_cmd->pipe[0]);
-	close(mini->s_cmd->pipe[1]);
 	return (0);
 }
 
@@ -30,14 +21,24 @@ void	exec_buildin2(t_minishell *mini, int n)
 	int	i;
 
 	i = 0;
-	if (n == mini->cmd_n && mini->cmd_n != 1)
+	if (dup2(mini->s_cmd->pipe[0], STDIN_FILENO) == -1)
+		message_perror("Impossible to read in the pipe");
+	if (n < mini->cmd_n)
 	{
+		dprintf(2, "n < mini->cmd_n\n");
+		if (dup2(mini->s_cmd->pipe[1], STDOUT_FILENO) == -1)
+			message_perror("Impossible to write in the pipe");
+	}
+	else if (n == mini->cmd_n && mini->cmd_n != 1)
+	{
+		dprintf(2, "n = mini->cmd_n\n");
 		if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
 			message_perror("Impossible to write in the pipe");
 	}
+	close(mini->s_cmd->pipe[0]);
+	close(mini->s_cmd->pipe[1]);
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;
-	exec_buildin2_pipe(mini, n);
 	manual_redirection_loop(mini, n, i);
 	execute_buildin(mini);
 	clear_s_cmd(mini->s_cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/31 16:06:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:27:00 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 	if (get_tokens(mini, tokens, arg) == 1)
 		return (parsing_error(mini), NULL);
 	mini->token = tokens;
-	print_tokens(mini->token, mini->token_count);
+	//print_tokens(mini->token, mini->token_count);
 	if (redir_parsing2(mini))
 		return (parsing_error(mini), NULL);
 	return (tokens);
