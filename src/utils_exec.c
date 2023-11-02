@@ -1,20 +1,5 @@
 #include "../include/minishell.h"
 
-void	clear_s_cmd(t_cmd *cmd)
-{
-	if (cmd->path)
-	{
-		free(cmd->path);
-		cmd->path = NULL;
-	}
-	if (cmd->cmd_arg)
-	{
-		free_array(cmd->cmd_arg);
-		cmd->cmd_arg = NULL;
-	}
-	cmd->narg = 0;
-}
-
 //free an array
 void	free_array(char **array)
 {
@@ -75,26 +60,7 @@ void	child_closenfree(t_minishell *mini)
 	}
 }
 
-void	free_scmd(t_cmd *cmd)
-{
-	if (cmd)
-	{
-		if (cmd->path)
-			cmd->path = free_n_null(cmd->path);
-		if (cmd->cmd_arg)
-		{
-			free_array(cmd->cmd_arg);
-			cmd->cmd_arg = NULL;
-		}
-		if (cmd->pids)
-		{
-			free(cmd->pids);
-			cmd->pids = NULL;
-		}
-		free(cmd);
-		cmd = NULL;
-	}
-}
+
 
 char	*free_n_null(char *array)
 {

@@ -43,13 +43,13 @@ char	**child_array_execve(char **array)
 	while (array[i])
 		i++;
 	new_array_execve = ft_calloc(i + 1, sizeof(char *));
-	if(!new_array_execve)
-		return(NULL);
+	if (!new_array_execve)
+		return (NULL);
 	i = 0;
 	while (array[i])
 	{
 		new_array_execve[i] = ft_calloc(ft_strlen(array[i]) + 1, sizeof(char));
-		if(!new_array_execve[i])
+		if (!new_array_execve[i])
 		{
 			free_array(new_array_execve);
 			new_array_execve = NULL;
