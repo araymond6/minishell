@@ -19,7 +19,6 @@ int	all_here_doc2(t_minishell *mini)
 			{
 				i++;
 				here_doc(mini, mini->token[i].token);
-				mini->heredoc_count++;
 				free_scmd(mini->s_cmd);
 				clear_mini(mini);
 				signal_reset(mini);
@@ -27,6 +26,7 @@ int	all_here_doc2(t_minishell *mini)
 			else
 			{
 				i++;
+				mini->heredoc_count++;
 				waitpid(pidhd, &status, 0);
 				mini->exit_code = status;
 				if (mini->exit_code != 0)
