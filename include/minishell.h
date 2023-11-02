@@ -87,6 +87,8 @@ int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
 char	*heredoc_substitution(t_minishell *mini, char *new_line);
 void	count_heredoc(t_minishell *mini);
+char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line);
+char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line);
 void	initialize_s_cmd(t_minishell *mini);
 
 //utils_exec.c

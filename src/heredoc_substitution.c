@@ -58,7 +58,7 @@ static char	*heredoc_get_sub(t_minishell *mini, int *i, char *new_line)
 	return (sub);
 }
 
-static char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line)
+char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line)
 {
 	char	*sub;
 	char	*temp;
@@ -101,11 +101,10 @@ char	*heredoc_substitution(t_minishell *mini, char *new_line)
 			new_line[i + 1] != '\"' && new_line[i + 1] != '\'')
 		{
 			i++;
-			new = heredoc_sub(mini, new, &i, new_line);
+			if (heredoc_extra(mini, new, &i, new_line) == NULL)
+				return (NULL);
 			if (!new)
 				return (NULL);
-			new = ft_realloc(new, ft_strlen(new), ft_strlen(new) \
-			+ ft_strlen(&new_line[i]) + 1);
 			j = ft_strlen(new);
 		}
 		else

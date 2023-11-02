@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+
+
 void	all_here_doc2(t_minishell *mini)
 {
 	int	i;

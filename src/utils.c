@@ -1,5 +1,17 @@
 #include "../include/minishell.h"
 
+char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line)
+{
+	new = heredoc_sub(mini, new, i, new_line);
+	if (!new)
+		return (NULL);
+	new = ft_realloc(new, ft_strlen(new), ft_strlen(new) \
+	+ ft_strlen(&new_line[*i]) + 1);
+	if (!new)
+		return (NULL);
+	return (new);
+}
+
 // clears history, frees mini's used resources and exits program
 void	exit_program(t_minishell *mini)
 {
