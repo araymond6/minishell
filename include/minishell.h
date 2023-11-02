@@ -141,7 +141,7 @@ void	redirect_here_doc(void);
 void	redirect_output(t_minishell *mini, int i);
 void	redirect_append(t_minishell *mini, int i);
 void	manual_redirection(t_minishell *mini, int n);
-void	all_here_doc2(t_minishell *mini);
+int		all_here_doc2(t_minishell *mini);
 void	clear_s_cmd(t_cmd *cmd);
 void	join_path_command2(char **path, char *command);
 char	*test_path2(char **path);
@@ -175,6 +175,7 @@ int		get_token_str_loop(t_minishell *mini, \
 		t_token *tokens, char *arg, int *i);
 int		count_string_loop(char *arg, int *i, t_type type, t_type quote_type);
 void	print_tokens(t_token *tokens, int token_count); // remove this
+void	redirect_the_output(t_minishell *mini, int n);
 void	set_flag(t_minishell *mini, t_token tokens);
 
 #endif

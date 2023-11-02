@@ -7,6 +7,8 @@ void	child_path(t_minishell *mini)
 	mini->s_cmd->cmd_arg[0] = NULL;
 	mini->s_cmd->cmd_arg[0] = \
 		ft_calloc(ft_strlen(mini->s_cmd->path) + 1, sizeof(char));
+	if (!mini->s_cmd->cmd_arg[0])
+		mini->s_cmd->cmd_arg[0] = NULL;
 	ft_strlcpy(mini->s_cmd->cmd_arg[0],
 		mini->s_cmd->path, ft_strlen(mini->s_cmd->path) + 1);
 }
@@ -41,10 +43,18 @@ char	**child_array_execve(char **array)
 	while (array[i])
 		i++;
 	new_array_execve = ft_calloc(i + 1, sizeof(char *));
+	if (!new_array_execve)
+		return (NULL);
 	i = 0;
 	while (array[i])
 	{
 		new_array_execve[i] = ft_calloc(ft_strlen(array[i]) + 1, sizeof(char));
+		if (!new_array_execve[i])
+		{
+			free_array(new_array_execve);
+			new_array_execve = NULL;
+			return (NULL);
+		}
 		while (array[i][j])
 		{
 			new_array_execve[i][j] = array[i][j];

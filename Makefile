@@ -2,7 +2,7 @@ NAME = minishell
 LIBFT = $(LIB_DIR)/libft.a
 
 CC = gcc
-CFLAGS = -g #-fsanitize=address #-Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
 
 LFLAGS = -lreadline -lncurses
 
@@ -17,7 +17,7 @@ RLINE = $(RL_DIR)/libreadline.a
 SRCS =	build-in.c \
 		here_doc.c \
 		path.c \
-		s_cmd_attribution.c \
+		utils_exec2.c \
 		utils_exec.c \
 		main.c \
 		parsing.c \
@@ -39,6 +39,7 @@ SRCS =	build-in.c \
 		execution2_0.c \
 		process2_0.c \
 		redirection2_0.c \
+		manual_redirection.c \
 		parsing_check2_0.c \
 		command_arg.c \
 		token_utils.c \

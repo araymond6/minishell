@@ -9,6 +9,13 @@ int	parent2(t_minishell *mini)
 	return (0);
 }
 
+void	free_n_nullcommand(t_minishell *mini, int n)
+{
+	free(mini->s_cmd->cmd_arg);
+	mini->s_cmd->cmd_arg = NULL;
+	null_command2(mini, n);
+}
+
 int	forker2(t_minishell *mini)
 {
 	int	r;
@@ -30,12 +37,8 @@ int	forker2(t_minishell *mini)
 			null_command2(mini, n);
 		}
 		else if (mini->s_cmd->cmd_arg[0][0] == 0)
-		{
-			free(mini->s_cmd->cmd_arg);
-			mini->s_cmd->cmd_arg = NULL;
-			null_command2(mini, n);
-		}
-		else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0)
+			free_n_nullcommand(mini, n);
+		else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0 && mini->cmd_n == 1)
 			exec_buildin2(mini, n);
 		else
 			exec_bash_cmd(mini, n);
@@ -51,8 +54,12 @@ void	time_to_execute(t_minishell *mini)
 
 	i = 0;
 	mini->s_cmd = ft_calloc(1, sizeof(t_cmd));
-	initialize_s_cmd(mini);
-	all_here_doc2(mini);
+	if(!mini->s_cmd)
+		return ;
+	if(initialize_s_cmd(mini) == 1)
+		return ;
+	if (all_here_doc2(mini) == 1)
+		return ;
 	set_signal_for_process(mini);
 	forker2(mini);
 	while (i < mini->cmd_n)
@@ -63,9 +70,11 @@ void	time_to_execute(t_minishell *mini)
 		}
 		i++;
 	}
-	dup2(mini->s_cmd->fd_stdin, STDIN_FILENO);
-	dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO);
+	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
+		message_perror("Impossible to restore stdin");
 	close(mini->s_cmd->fd_stdin);
+	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
+		message_perror("Impossible to restore stdout");
 	close(mini->s_cmd->fd_stdout);
 	free_scmd(mini->s_cmd);
 }

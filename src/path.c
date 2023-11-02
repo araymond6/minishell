@@ -63,6 +63,8 @@ void	find_path2(t_minishell *mini)
 		len = ft_strlen(mini->s_cmd->cmd_arg[0]);
 		mini->s_cmd->path = ft_calloc((len + 1), sizeof(char));
 		if (!mini->s_cmd->path)
+				mini->s_cmd->path = NULL;
+		if (!mini->s_cmd->path)
 		{
 			message_perror("Malloc error");
 			return ;
