@@ -101,9 +101,8 @@ char	*heredoc_substitution(t_minishell *mini, char *new_line)
 			new_line[i + 1] != '\"' && new_line[i + 1] != '\'')
 		{
 			i++;
-			if (heredoc_extra(mini, new, &i, new_line) == NULL)
-				return (NULL);
-			if (!new)
+			new = heredoc_extra(mini, new, &i, new_line);
+			if (new == NULL)
 				return (NULL);
 			j = ft_strlen(new);
 		}

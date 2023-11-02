@@ -74,10 +74,6 @@ void	child2(t_minishell *mini, int n)
 	char	**array_execve;
 
 	array_execve = NULL;
-	mini->sigact.sa_handler = sigint_handler;
-	signal(SIGQUIT, SIG_DFL);
-	sigaction(SIGINT, &mini->sigact, NULL);
-	mini->sigact.sa_handler = signal_handler;
 	child_path(mini);
 	manual_redirection(mini, n);
 	path_execve = child_path_execve(mini->s_cmd->path);

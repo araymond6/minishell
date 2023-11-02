@@ -77,10 +77,12 @@ typedef struct s_minishell
 	char				*heredoc_flag;
 	int					heredoc_count;
 	int					prev_heredoc;
+	int					in_heredoc;
 	int					count;
 	int					cmd_n;
 }	t_minishell;
 
+t_minishell	*minishell(t_minishell *mini);
 int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 int		here_doc(t_minishell *mini, char *delimiter);
@@ -89,7 +91,8 @@ char	*heredoc_substitution(t_minishell *mini, char *new_line);
 void	count_heredoc(t_minishell *mini);
 char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line);
 char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line);
-void	initialize_s_cmd(t_minishell *mini);
+void	signal_heredoc(t_minishell *mini);
+int		initialize_s_cmd(t_minishell *mini);
 
 //utils_exec.c
 //parsing
@@ -174,7 +177,6 @@ int		do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
 int		get_token_str_loop(t_minishell *mini, \
 		t_token *tokens, char *arg, int *i);
 int		count_string_loop(char *arg, int *i, t_type type, t_type quote_type);
-void	print_tokens(t_token *tokens, int token_count); // remove this
 void	redirect_the_output(t_minishell *mini, int n);
 void	set_flag(t_minishell *mini, t_token tokens);
 

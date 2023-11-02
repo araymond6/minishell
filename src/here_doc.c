@@ -7,6 +7,9 @@ int	all_here_doc2(t_minishell *mini)
 	int		status;
 
 	i = 0;
+	mini->in_heredoc = 1;
+	minishell(mini); //TODO: make heredoc signals the way ele-sage does it
+	signal_heredoc(mini);
 	mini->heredoc_count = 0;
 	while (i < mini->token_count)
 	{
@@ -21,7 +24,6 @@ int	all_here_doc2(t_minishell *mini)
 				here_doc(mini, mini->token[i].token);
 				free_scmd(mini->s_cmd);
 				clear_mini(mini);
-				signal_reset(mini);
 			}
 			else
 			{
@@ -35,6 +37,7 @@ int	all_here_doc2(t_minishell *mini)
 		}
 		i++;
 	}
+	
 	return (0);
 }
 
