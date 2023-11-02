@@ -45,7 +45,6 @@ void	execve_failed(char *path_execve, char **array_execve)
 	message_perror("Impossible to execute the command: ");
 	free(path_execve);
 	free_array(array_execve);
-	
 	exit(1);
 }
 
@@ -62,11 +61,6 @@ void	child_closenfree(t_minishell *mini)
 		{
 			free_array(mini->s_cmd->cmd_arg);
 			mini->s_cmd->cmd_arg = NULL;
-		}
-		if (mini->s_cmd->status)
-		{
-			free(mini->s_cmd->status);
-			mini->s_cmd->status = NULL;
 		}
 		close(mini->s_cmd->fd_stdin);
 		close(mini->s_cmd->fd_stdout);
@@ -91,11 +85,6 @@ void	free_scmd(t_cmd *cmd)
 		{
 			free_array(cmd->cmd_arg);
 			cmd->cmd_arg = NULL;
-		}
-		if (cmd->status)
-		{
-			free(cmd->status);
-			cmd->redir = NULL;
 		}
 		if (cmd->pids)
 		{

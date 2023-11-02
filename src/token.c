@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 11:43:51 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/01 15:48:58 by araymond         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 t_token	*initialize_tokens(t_minishell *mini, int token_count)
@@ -81,7 +69,6 @@ t_token	*tokenize(t_minishell *mini, char *arg)
 	if (get_tokens(mini, tokens, arg) == 1)
 		return (parsing_error(mini), NULL);
 	mini->token = tokens;
-	print_tokens(mini->token, mini->token_count);
 	if (redir_parsing2(mini))
 		return (parsing_error(mini), NULL);
 	return (tokens);
