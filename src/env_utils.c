@@ -73,7 +73,7 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 			if (mini->s_cmd->cmd_arg[*i][*j] != '_')
 			{
 				free(str);
-				printf("export: \"%s\": not a valid identifier\n", \
+				printf("\"%s\": not a valid identifier\n", \
 				mini->s_cmd->cmd_arg[*i]);
 				mini->exit_code = 1;
 				return (NULL);

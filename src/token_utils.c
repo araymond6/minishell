@@ -58,7 +58,8 @@ static int	quotestr_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	tokens->type = get_type(&arg[i[0]]);
 	while (tokens->type != quote_type && arg[i[0]])
 	{
-		if ((tokens->type == DOLLAR_SIGN && arg[i[0] + 1] != '\"') && quote_type == DOUBLE_QUOTE)
+		if ((tokens->type == DOLLAR_SIGN && arg[i[0] + 1] \
+			!= '\"') && quote_type == DOUBLE_QUOTE)
 		{
 			error = do_substitution(mini, tokens, arg, i);
 			if (error == 1)
