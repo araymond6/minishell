@@ -45,6 +45,11 @@ void	cpy_cmd(t_minishell *mini, int n, int i)
 	{
 		mini->s_cmd->cmd_arg[r] = \
 			ft_calloc(ft_strlen(mini->token[i].token) + 1, sizeof(char));
+		if(!mini->s_cmd->cmd_arg[r])
+		{
+			malloc_error(mini, mini->s_cmd->cmd_arg);
+			return ;
+		}
 		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token,
 			ft_strlen(mini->token[i].token) + 1);
 		i++;
@@ -60,7 +65,11 @@ void	find_cmd(t_minishell *mini, int n)
 	nb_of_arg(mini, n);
 	mini->s_cmd->cmd_arg = ft_calloc(mini->s_cmd->narg + 1, sizeof(char *));
 	if (!mini->s_cmd->cmd_arg)
+	{
+		malloc_error(mini, NULL);
+		mini->s_cmd->cmd_arg = NULL;
 		return ;
+	}
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;
 	while (i < mini->token_count && mini->token[i].cmd_n == n)
