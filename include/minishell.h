@@ -139,7 +139,7 @@ void	redirect_here_doc(void);
 void	redirect_output(t_minishell *mini, int i);
 void	redirect_append(t_minishell *mini, int i);
 void	manual_redirection(t_minishell *mini, int n);
-void	all_here_doc2(t_minishell *mini);
+int		all_here_doc2(t_minishell *mini);
 void	clear_s_cmd(t_cmd *cmd);
 void	join_path_command2(char **path, char *command);
 char	*test_path2(char **path);

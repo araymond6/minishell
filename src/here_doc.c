@@ -1,8 +1,10 @@
 #include "../include/minishell.h"
 
-void	all_here_doc2(t_minishell *mini)
+int	all_here_doc2(t_minishell *mini)
 {
-	int	i;
+	int		i;
+	pid_t	pidhd;
+	int		status;
 
 	i = 0;
 	mini->heredoc_count = 0;
@@ -10,13 +12,30 @@ void	all_here_doc2(t_minishell *mini)
 	{
 		if (mini->token[i].type == HERE_DOC)
 		{
-			i++;
-			here_doc(mini, mini->token[i].token);
-			mini->heredoc_count++;
-			signal_reset(mini);
+			pidhd = fork();
+			if (pidhd < 0)
+				return (free_scmd(mini->s_cmd), 1);
+			else if (pidhd == 0)
+			{
+				i++;
+				here_doc(mini, mini->token[i].token);
+				mini->heredoc_count++;
+				free_scmd(mini->s_cmd);
+				clear_mini(mini);
+				signal_reset(mini);
+			}
+			else
+			{
+				i++;
+				waitpid(pidhd, &status, 0);
+				mini->exit_code = status;
+				if (mini->exit_code != 0)
+					return (free_scmd(mini->s_cmd), 1);
+			}
 		}
 		i++;
 	}
+	return (0);
 }
 
 static void	redir_loop(t_minishell *mini)
