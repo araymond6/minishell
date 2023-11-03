@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:19 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,11 @@ void	cpy_cmd(t_minishell *mini, int n, int i)
 			malloc_error(mini, mini->s_cmd->cmd_arg);
 			return ;
 		}
-		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token,
-			ft_strlen(mini->token[i].token) + 1);
+		if (mini->token[i].inquote == 0 && mini->token[i].token[0] == 0)
+			mini->s_cmd->cmd_arg[r] = NULL;
+		else
+			ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token,
+				ft_strlen(mini->token[i].token) + 1);
 		i++;
 		r++;
 	}

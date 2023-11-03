@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ int	parent2(t_minishell *mini)
 	return (0);
 }
 
-void	free_n_nullcommand(t_minishell *mini, int n)
-{
-	free(mini->s_cmd->cmd_arg);
-	mini->s_cmd->cmd_arg = NULL;
-	null_command2(mini, n);
-}
-
 void	check_type_of_command(t_minishell *mini, int n)
 {
 	if (pipe(mini->s_cmd->pipe) == -1)
@@ -40,8 +33,6 @@ void	check_type_of_command(t_minishell *mini, int n)
 		mini->s_cmd->cmd_arg = NULL;
 		null_command2(mini, n);
 	}
-	else if (mini->s_cmd->cmd_arg[0][0] == 0)
-		free_n_nullcommand(mini, n);
 	else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0 && mini->cmd_n == 1)
 		exec_buildin2(mini, n);
 	else
