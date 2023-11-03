@@ -76,5 +76,6 @@ void	time_to_execute(t_minishell *mini)
 	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
 		message_perror("Impossible to restore stdout");
 	close(mini->s_cmd->fd_stdout);
+	supp_here_doc_file(mini);
 	free_scmd(mini->s_cmd);
 }

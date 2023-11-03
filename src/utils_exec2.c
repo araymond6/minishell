@@ -1,5 +1,26 @@
 #include "../include/minishell.h"
 
+void	supp_here_doc_file(t_minishell *mini)
+{
+	int		n;
+	char	*new_file_name;
+
+	n = 0;
+	mini->heredoc_count = 0;
+	while (n < mini->token_count)
+	{
+		if (mini->token[n].type == HERE_DOC)
+		{
+			new_file_name = create_here_doc_name(mini);
+			dprintf(2, "%s\n", new_file_name);
+			unlink(new_file_name);
+			free(new_file_name);
+			mini->heredoc_count++;
+		}
+		n++;
+	}
+}
+
 int	initialize_s_cmd(t_minishell *mini)
 {
 	int	n;
