@@ -52,6 +52,7 @@ void	clear_mini(t_minishell *mini)
 		mini->heredoc_flag = NULL;
 	}
 	mini->heredoc_count = 0;
+	mini->sigint = 0;
 }
 
 // sets error code to 1, prints error message 

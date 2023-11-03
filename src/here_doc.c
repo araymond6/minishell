@@ -8,10 +8,9 @@ void	all_here_doc2(t_minishell *mini)
 	mini->heredoc_count = 0;
 	while (i < mini->token_count)
 	{
-		if (mini->token[i].type == HERE_DOC)
+		if (mini->token[i].type == HERE_DOC && mini->sigint == 0)
 		{
 			i++;
-			set_signal_for_heredoc(mini);
 			here_doc(mini, mini->token[i].token);
 			mini->heredoc_count++;
 			signal_reset(mini);
@@ -57,10 +56,10 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	char	*new_line;
 	int		i;
 
-	(void) mini;
 	i = 0;
+	minishell(mini);
 	new_line = readline("HERE_DOC > % ");
-	if (!new_line || new_line[0] == '\0')
+	if (!new_line || minishell(NULL)->sigint == 1)
 		return (close(fd), 1);
 	if (mini->heredoc_flag[mini->heredoc_count] == 0 && \
 		ft_strncmp(delimiter, new_line, ft_strlen(delimiter) + 1) != 0)
@@ -87,6 +86,7 @@ int	here_doc(t_minishell *mini, char *delimiter)
 	int		fd;
 	int		i;
 
+	set_signal_for_heredoc(mini);
 	i = 0;
 	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)

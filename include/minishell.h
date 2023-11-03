@@ -79,8 +79,10 @@ typedef struct s_minishell
 	int					prev_heredoc;
 	int					count;
 	int					cmd_n;
+	int					sigint;
 }	t_minishell;
 
+t_minishell *minishell(t_minishell *mini);
 int		isbuildin(char *isbuildin);
 int		execute_buildin(t_minishell *mini);
 int		here_doc(t_minishell *mini, char *delimiter);

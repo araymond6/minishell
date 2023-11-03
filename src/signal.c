@@ -4,6 +4,7 @@ void	signal_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
+		minishell(NULL)->sigint = 1;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_on_new_line();
 	}
