@@ -1,16 +1,19 @@
 #include "../include/minishell.h"
 
-void	count_heredoc(t_minishell *mini)
+int	count_heredoc(t_minishell *mini)
 {
 	int	i;
+	int	count;
 
 	i = 0;
+	count = 0;
 	while (i < mini->token_count)
 	{
 		if (mini->token[i].type == HERE_DOC)
-			mini->heredoc_count++;
+			count++;
 		i++;
 	}
+	return (count);
 }
 
 static char	*heredoc_get_env(t_minishell *mini, char *sub)

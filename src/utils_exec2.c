@@ -3,15 +3,17 @@
 void	supp_here_doc_file(t_minishell *mini)
 {
 	int		n;
+	int		i;
 	char	*new_file_name;
 
 	n = 0;
+	i = mini->heredoc_count;
 	mini->heredoc_count = 0;
-	while (n < mini->token_count)
+	while (n < mini->token_count && i > mini->heredoc_count)
 	{
 		if (mini->token[n].type == HERE_DOC)
 		{
-			new_file_name = create_here_doc_name(mini);
+			new_file_name = create_here_doc_name(mini->heredoc_count);
 			unlink(new_file_name);
 			free(new_file_name);
 			mini->heredoc_count++;

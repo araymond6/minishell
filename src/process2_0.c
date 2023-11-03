@@ -61,6 +61,7 @@ void	time_to_execute(t_minishell *mini)
 	if (all_here_doc2(mini) == 1 || mini->sigint == 1)
 	{
 		supp_here_doc_file(mini);
+		free_scmd(mini->s_cmd);
 		return ;
 	}
 	set_signal_for_process(mini);
