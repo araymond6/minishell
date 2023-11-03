@@ -1,5 +1,14 @@
 #include "../include/minishell.h"
 
+t_minishell *minishell(t_minishell *mini)
+{
+	static t_minishell *stat;
+
+	if (mini)
+		stat = mini;
+	return (stat);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	mini;
