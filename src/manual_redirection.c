@@ -22,11 +22,12 @@ void	redirect_here_doc(t_minishell *mini, int i)
 	char	*new_file_name;
 
 	n = 0;
-	mini->heredoc_count == 0;
+	mini->heredoc_count = 0;
 	while (n < i - 1)
 	{
-		if (mini->token[i].type == HERE_DOC)
+		if (mini->token[n].type == HERE_DOC)
 			mini->heredoc_count++;
+		n++;
 	}
 	new_file_name = create_here_doc_name(mini);
 	fd = open(new_file_name, O_RDONLY);

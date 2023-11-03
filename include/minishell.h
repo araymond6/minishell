@@ -87,7 +87,7 @@ int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
 char	*heredoc_substitution(t_minishell *mini, char *new_line);
 void	count_heredoc(t_minishell *mini);
-void	initialize_s_cmd(t_minishell *mini);
+int		initialize_s_cmd(t_minishell *mini);
 char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line);
 char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line);
 
@@ -138,11 +138,10 @@ void	find_cmd(t_minishell *mini, int n);
 void	null_command2(t_minishell *mini, int n);
 void	exec_buildin2(t_minishell *mini, int n);
 void	redirect_input(t_minishell *mini, int i);
-void	redirect_here_doc(void);
-char	*create_here_doc_name(t_minishell *mini)
+void	redirect_here_doc(t_minishell *mini, int i);
+char	*create_here_doc_name(t_minishell *mini);
 void	redirect_output(t_minishell *mini, int i);
 void	redirect_append(t_minishell *mini, int i);
-void	manual_redirection(t_minishell *mini, int n);
 int		all_here_doc2(t_minishell *mini);
 void	clear_s_cmd(t_cmd *cmd);
 void	join_path_command2(char **path, char *command);
