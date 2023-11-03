@@ -18,7 +18,6 @@ void	all_here_doc2(t_minishell *mini)
 		}
 		i++;
 	}
-	mini->heredoc_count = 0;
 }
 
 static void	redir_loop(t_minishell *mini)
