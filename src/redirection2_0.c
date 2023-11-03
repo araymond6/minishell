@@ -7,10 +7,7 @@ void	manual_redirection_loop(t_minishell *mini, int n, int i)
 		if (mini->token[i].type == REDIRECT_INPUT)
 			redirect_input(mini, ++i);
 		else if (mini->token[i].type == HERE_DOC)
-		{
-			i++;
-			redirect_here_doc();
-		}
+			redirect_here_doc(mini, ++i);
 		else if (mini->token[i].type == REDIRECT_OUTPUT)
 			redirect_output(mini, ++i);
 		else if (mini->token[i].type == APPEND)

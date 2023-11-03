@@ -59,7 +59,7 @@ void	exec_bash_cmd(t_minishell *mini, int n)
 	int	i;
 
 	i = 0;
-	while(mini->s_cmd->pids[i] != 0 && i < mini->cmd_n)
+	while (mini->s_cmd->pids[i] != 0 && i < mini->cmd_n)
 		i++;
 	mini->s_cmd->pids[i] = fork();
 	if (mini->s_cmd->pids[i] < 0)

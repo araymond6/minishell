@@ -81,16 +81,36 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	return (i);
 }
 
+char	*create_here_doc_name(t_minishell *mini)
+{
+	char	*file_name;
+	char	*new_file_name;
+
+	file_name = ft_itoa(mini->heredoc_count);
+	if (!file_name)
+		return (printf("Impossible to execute here_doc"), NULL);
+	new_file_name = ft_strjoin(file_name, "..txt");
+	if (!new_file_name)
+		return (printf("Impossible to execute here_doc"), NULL);
+	free(file_name);
+	return (new_file_name);
+}
+
 // function for the << redirection
 int	here_doc(t_minishell *mini, char *delimiter)
 {
 	int		fd;
 	int		i;
+	char	*new_file_name;
 
 	i = 0;
-	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	new_file_name = create_here_doc_name(mini);
+	if (!new_file_name)
+		return (1);
+	fd = open(new_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	free(new_file_name);
 	if (fd == -1)
-		return (close(fd), message_perror("2"));
+		return (close(fd), message_perror("Impossible to execute here_doc"));
 	while (i == 0)
 		i = read_write(mini, delimiter, fd);
 	close(fd);

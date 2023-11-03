@@ -136,6 +136,7 @@ void	null_command2(t_minishell *mini, int n);
 void	exec_buildin2(t_minishell *mini, int n);
 void	redirect_input(t_minishell *mini, int i);
 void	redirect_here_doc(void);
+char	*create_here_doc_name(t_minishell *mini)
 void	redirect_output(t_minishell *mini, int i);
 void	redirect_append(t_minishell *mini, int i);
 void	manual_redirection(t_minishell *mini, int n);

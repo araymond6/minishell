@@ -15,11 +15,22 @@ void	redirect_input(t_minishell *mini, int i)
 	close(fd);
 }
 
-void	redirect_here_doc(void)
+void	redirect_here_doc(t_minishell *mini, int i)
 {
-	int	fd;
+	int		fd;
+	int		n;
+	char	*new_file_name;
 
-	fd = open("here_doc.txt", O_RDONLY);
+	n = 0;
+	mini->heredoc_count == 0;
+	while (n < i - 1)
+	{
+		if (mini->token[i].type == HERE_DOC)
+			mini->heredoc_count++;
+	}
+	new_file_name = create_here_doc_name(mini);
+	fd = open(new_file_name, O_RDONLY);
+	free(new_file_name);
 	if (fd == -1)
 	{
 		message_perror("Here_doc");

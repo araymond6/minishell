@@ -60,8 +60,6 @@ void	child_closenfree(t_minishell *mini)
 	}
 }
 
-
-
 char	*free_n_null(char *array)
 {
 	free(array);
