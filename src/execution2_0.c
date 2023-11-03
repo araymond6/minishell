@@ -11,11 +11,6 @@ void	null_command2(t_minishell *mini, int n)
 	clear_s_cmd(mini->s_cmd);
 }
 
-int exec_buildin2_pipe(t_minishell *mini, int n)
-{
-	return (0);
-}
-
 void	exec_buildin2(t_minishell *mini, int n)
 {
 	int	i;
