@@ -26,6 +26,8 @@ int	ft_exit_2plus_arg(t_minishell *mini, int nb_arg)
 		if (is_valid_exit_code(mini) == 0)
 			return (printf("Too many arguments\n"), 1);
 		supp_here_doc_file(mini);
+		close(mini->s_cmd->fd_stdin);
+		close(mini->s_cmd->fd_stdout);
 		free_scmd(mini->s_cmd);
 		exit_program(mini);
 	}
@@ -44,6 +46,8 @@ void	ft_exit_1_arg(t_minishell *mini, int nb_arg)
 		else
 			mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
 		supp_here_doc_file(mini);
+		close(mini->s_cmd->fd_stdin);
+		close(mini->s_cmd->fd_stdout);
 		free_scmd(mini->s_cmd);
 		exit_program(mini);
 	}
@@ -63,6 +67,8 @@ int	ft_exit(t_minishell *mini)
 	if (nb_arg == 1)
 	{
 		supp_here_doc_file(mini);
+		close(mini->s_cmd->fd_stdin);
+		close(mini->s_cmd->fd_stdout);
 		free_scmd(mini->s_cmd);
 		exit_program(mini);
 	}

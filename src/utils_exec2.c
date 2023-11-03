@@ -12,7 +12,6 @@ void	supp_here_doc_file(t_minishell *mini)
 		if (mini->token[n].type == HERE_DOC)
 		{
 			new_file_name = create_here_doc_name(mini);
-			dprintf(2, "%s\n", new_file_name);
 			unlink(new_file_name);
 			free(new_file_name);
 			mini->heredoc_count++;

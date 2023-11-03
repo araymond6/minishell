@@ -33,6 +33,8 @@ void	manual_redirection(t_minishell *mini, int n)
 			message_perror("Impossible to write in the pipe");
 		close(mini->s_cmd->pipe[1]);
 	}
+	else
+		close(mini->s_cmd->pipe[1]);
 	close(mini->s_cmd->pipe[0]);
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;

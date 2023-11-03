@@ -58,8 +58,11 @@ void	time_to_execute(t_minishell *mini)
 		return ;
 	if (initialize_s_cmd(mini) == 1)
 		return ;
-	if (all_here_doc2(mini) == 1)
+	if (all_here_doc2(mini) == 1 || mini->sigint == 1)
+	{
+		supp_here_doc_file(mini);
 		return ;
+	}
 	set_signal_for_process(mini);
 	forker2(mini);
 	while (i < mini->cmd_n)
