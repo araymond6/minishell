@@ -70,18 +70,15 @@ int	ft_atoll(const char *str)
 	return (sign * nb);
 }
 
-void	print_tokens(t_token *tokens, int token_count)
+char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line)
 {
-	int	i;
-
-	i = 0;
-	if (tokens)
-	{
-		while (i < token_count)
-		{
-			printf("token[%d]: %s; type: %d; cmd_n: %d; inquote: %d\n", i, tokens[i].token, tokens[i].type, tokens[i].cmd_n, tokens[i].inquote);
-			i++;
-		}
-		printf("token_count: %d\n", token_count);
-	}
+	(*i)++;
+	new = heredoc_sub(mini, new, i, new_line);
+	if (!new)
+		return (NULL);
+	new = ft_realloc(new, ft_strlen(new), ft_strlen(new) \
+	+ ft_strlen(&new_line[*i]) + 1);
+	if (!new)
+		return (NULL);
+	return (new);
 }
