@@ -1,17 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:18:23 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:24:36 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
-
-// clears history, frees mini's used resources and exits program
-void	exit_program(t_minishell *mini)
-{
-	int	exit_code;
-
-	exit_code = mini->exit_code;
-	clear_history();
-	clear_mini(mini);
-	if (mini->envpset == 1)
-		free_array(mini->envp);
-	exit(exit_code);
-}
 
 int	count_2darray(char **table)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_exec2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:16:03 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	supp_here_doc_file(t_minishell *mini)
@@ -72,4 +84,19 @@ void	clear_s_cmd(t_cmd *cmd)
 		cmd->cmd_arg = NULL;
 	}
 	cmd->narg = 0;
+}
+
+char	*create_here_doc_name(int count)
+{
+	char	*file_name;
+	char	*new_file_name;
+
+	file_name = ft_itoa(count);
+	if (!file_name)
+		return (printf("Impossible to execute here_doc"), NULL);
+	new_file_name = ft_strjoin(file_name, "..txt");
+	if (!new_file_name)
+		return (printf("Impossible to execute here_doc"), NULL);
+	free(file_name);
+	return (new_file_name);
 }

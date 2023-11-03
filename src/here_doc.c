@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:16:52 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	all_here_doc2(t_minishell *mini)
@@ -79,21 +91,6 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	free(new_line);
 	new_line = NULL;
 	return (i);
-}
-
-char	*create_here_doc_name(int count)
-{
-	char	*file_name;
-	char	*new_file_name;
-
-	file_name = ft_itoa(count);
-	if (!file_name)
-		return (printf("Impossible to execute here_doc"), NULL);
-	new_file_name = ft_strjoin(file_name, "..txt");
-	if (!new_file_name)
-		return (printf("Impossible to execute here_doc"), NULL);
-	free(file_name);
-	return (new_file_name);
 }
 
 // function for the << redirection

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:16:26 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	join_path_command2(char **path, char *command)
@@ -63,7 +75,7 @@ void	find_path2(t_minishell *mini)
 		len = ft_strlen(mini->s_cmd->cmd_arg[0]);
 		mini->s_cmd->path = ft_calloc((len + 1), sizeof(char));
 		if (!mini->s_cmd->path)
-				mini->s_cmd->path = NULL;
+			mini->s_cmd->path = NULL;
 		if (!mini->s_cmd->path)
 		{
 			message_perror("Malloc error");

@@ -1,4 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parse_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:15:57 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
+
+void	signal_reset(t_minishell *mini)
+{
+	mini->sigact.sa_handler = signal_handler;
+	sigaction(SIGINT, &mini->sigact, NULL);
+	sigaction(SIGQUIT, &mini->sigact, NULL);
+}
 
 void	parse_exit(t_minishell *mini)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:18:48 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	signal_heredoc(int signal)
@@ -53,13 +65,6 @@ void	sigint_handler(int signal)
 void	set_signal_for_heredoc(t_minishell *mini)
 {
 	mini->sigact.sa_handler = signal_heredoc;
-	sigaction(SIGINT, &mini->sigact, NULL);
-	sigaction(SIGQUIT, &mini->sigact, NULL);
-}
-
-void	signal_reset(t_minishell *mini)
-{
-	mini->sigact.sa_handler = signal_handler;
 	sigaction(SIGINT, &mini->sigact, NULL);
 	sigaction(SIGQUIT, &mini->sigact, NULL);
 }

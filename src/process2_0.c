@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process2_0.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	parent2(t_minishell *mini)
@@ -16,6 +28,26 @@ void	free_n_nullcommand(t_minishell *mini, int n)
 	null_command2(mini, n);
 }
 
+void	check_type_of_command(t_minishell *mini, int n)
+{
+	if (pipe(mini->s_cmd->pipe) == -1)
+		message_perror("Impossible to create a pipe");
+	if (mini->s_cmd->cmd_arg == NULL)
+		null_command2(mini, n);
+	else if (mini->s_cmd->cmd_arg[0] == NULL)
+	{
+		free(mini->s_cmd->cmd_arg);
+		mini->s_cmd->cmd_arg = NULL;
+		null_command2(mini, n);
+	}
+	else if (mini->s_cmd->cmd_arg[0][0] == 0)
+		free_n_nullcommand(mini, n);
+	else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0 && mini->cmd_n == 1)
+		exec_buildin2(mini, n);
+	else
+		exec_bash_cmd(mini, n);
+}
+
 int	forker2(t_minishell *mini)
 {
 	int	r;
@@ -26,46 +58,18 @@ int	forker2(t_minishell *mini)
 	while (n <= mini->cmd_n)
 	{
 		find_cmd(mini, n);
-		if (pipe(mini->s_cmd->pipe) == -1)
-			message_perror("Impossible to create a pipe");
-		if (mini->s_cmd->cmd_arg == NULL)
-			null_command2(mini, n);
-		else if (mini->s_cmd->cmd_arg[0] == NULL)
-		{
-			free(mini->s_cmd->cmd_arg);
-			mini->s_cmd->cmd_arg = NULL;
-			null_command2(mini, n);
-		}
-		else if (mini->s_cmd->cmd_arg[0][0] == 0)
-			free_n_nullcommand(mini, n);
-		else if (isbuildin(mini->s_cmd->cmd_arg[0]) == 0 && mini->cmd_n == 1)
-			exec_buildin2(mini, n);
-		else
-			exec_bash_cmd(mini, n);
+		check_type_of_command(mini, n);
 		n++;
 	}
 	return (0);
 }
 
-void	time_to_execute(t_minishell *mini)
+void	time_to_wait(t_minishell *mini)
 {
-	int		i;
-	int		status;
+	int	i;
+	int	status;
 
 	i = 0;
-	mini->s_cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!mini->s_cmd)
-		return ;
-	if (initialize_s_cmd(mini) == 1)
-		return ;
-	if (all_here_doc2(mini) == 1 || mini->sigint == 1)
-	{
-		supp_here_doc_file(mini);
-		free_scmd(mini->s_cmd);
-		return ;
-	}
-	set_signal_for_process(mini);
-	forker2(mini);
 	while (i < mini->cmd_n)
 	{
 		if (mini->s_cmd->pids[i] != 0)
@@ -74,12 +78,4 @@ void	time_to_execute(t_minishell *mini)
 		}
 		i++;
 	}
-	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-		message_perror("Impossible to restore stdin");
-	close(mini->s_cmd->fd_stdin);
-	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-		message_perror("Impossible to restore stdout");
-	close(mini->s_cmd->fd_stdout);
-	supp_here_doc_file(mini);
-	free_scmd(mini->s_cmd);
 }

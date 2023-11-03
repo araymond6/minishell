@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_arg.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:17:19 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	nb_of_arg_lopp(int i, int n, t_minishell *mini)
@@ -45,7 +57,7 @@ void	cpy_cmd(t_minishell *mini, int n, int i)
 	{
 		mini->s_cmd->cmd_arg[r] = \
 			ft_calloc(ft_strlen(mini->token[i].token) + 1, sizeof(char));
-		if(!mini->s_cmd->cmd_arg[r])
+		if (!mini->s_cmd->cmd_arg[r])
 		{
 			malloc_error(mini, mini->s_cmd->cmd_arg);
 			return ;

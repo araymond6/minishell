@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 17:18:32 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	set_flag(t_minishell *mini, t_token tokens)
@@ -58,7 +70,8 @@ static int	quotestr_loop(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	tokens->type = get_type(&arg[i[0]]);
 	while (tokens->type != quote_type && arg[i[0]])
 	{
-		if ((tokens->type == DOLLAR_SIGN && arg[i[0] + 1] != '\"') && quote_type == DOUBLE_QUOTE)
+		if ((tokens->type == DOLLAR_SIGN && arg[i[0] + 1] != '\"') \
+			&& quote_type == DOUBLE_QUOTE)
 		{
 			error = do_substitution(mini, tokens, arg, i);
 			if (error == 1)

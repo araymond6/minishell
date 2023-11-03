@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 16:56:18 by araymond          #+#    #+#             */
+/*   Updated: 2023/11/03 17:43:18 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define ERROR 1
-# define SUCCESS 0
 # define READLINE_LIBRARY
 
 # include <stdio.h>
@@ -82,103 +92,105 @@ typedef struct s_minishell
 	int					sigint;
 }	t_minishell;
 
-t_minishell *minishell(t_minishell *mini);
-int		isbuildin(char *isbuildin);
-int		execute_buildin(t_minishell *mini);
-int		here_doc(t_minishell *mini, char *delimiter);
-int		set_heredoc_flag(t_minishell *mini);
-char	*heredoc_substitution(t_minishell *mini, char *new_line);
-int		count_heredoc(t_minishell *mini);
-int		initialize_s_cmd(t_minishell *mini);
-char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line);
-char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line);
+t_minishell	*minishell(t_minishell *mini);
 
-//utils_exec.c
-//parsing
-void	read_input(t_minishell *mini);
-char	*env_parsing(t_minishell *mini, int *i, int *j);
+//execution
+int			isbuildin(char *isbuildin);
+int			execute_buildin(t_minishell *mini);
+int			here_doc(t_minishell *mini, char *delimiter);
+int			set_heredoc_flag(t_minishell *mini);
+char		*heredoc_substitution(t_minishell *mini, char *new_line);
+int			count_heredoc(t_minishell *mini);
+char		*heredoc_extra(t_minishell *mini, char *new, \
+			int *i, char *new_line);
+char		*heredoc_sub(t_minishell *mini, char *new, \
+			int *i, char *new_line);
+void		read_input(t_minishell *mini);
+void		cpy_cmd(t_minishell *mini, int n, int i);
+void		find_cmd(t_minishell *mini, int n);
+void		exec_buildin2(t_minishell *mini, int n);
+void		redirect_input(t_minishell *mini, int i);
+void		redirect_here_doc(t_minishell *mini, int i);
+char		*create_here_doc_name(int count);
+void		redirect_output(t_minishell *mini, int i);
+void		redirect_append(t_minishell *mini, int i);
+int			all_here_doc2(t_minishell *mini);
+void		supp_here_doc_file(t_minishell *mini);
+void		null_command2(t_minishell *mini, int n);
+void		join_path_command2(char **path, char *command);
+char		*test_path2(char **path);
+void		find_path2(t_minishell *mini);
+void		child_path(t_minishell *mini);
+char		*child_path_execve(char *string);
+char		**child_array_execve(char **array);
+void		child_closenfree(t_minishell *mini);
+void		execve_failed(char *path_execve, char **array_execve);
+void		child2(t_minishell *mini, int n);
+int			parent2(t_minishell *mini);
+void		exec_bash_cmd(t_minishell *mini, int n);
+int			forker2(t_minishell *mini);
+void		time_to_execute(t_minishell *mini);
+int			redir_parsing2(t_minishell *mini);
+void		manual_redirection_loop(t_minishell *mini, int n, int i);
+void		manual_redirection(t_minishell *mini, int n);
+void		redirect_the_output(t_minishell *mini, int n);
+void		find_cmd(t_minishell *mini, int n);
+void		time_to_wait(t_minishell *mini);
 
-//errors
-void	parsing_error(t_minishell *mini);
-void	malloc_error(t_minishell *mini, char **to_free);
+//tokens
+t_token		*tokenize(t_minishell *mini, char *arg);
+int			get_tokens(t_minishell *mini, t_token *tokens, char *arg);
+int			count_tokens(t_minishell *mini, char *arg);
+int			new_substitution(t_minishell *mini, t_token *tokens, \
+			char *arg, int *i);
+int			pipe_parsing(t_minishell *mini, char *arg);
+int			do_substitution(t_minishell *mini, t_token *tokens, \
+			char *arg, int *i);
+int			get_token_str_loop(t_minishell *mini, \
+			t_token *tokens, char *arg, int *i);
+int			count_string_loop(char *arg, int *i, \
+			t_type type, t_type quote_type);
+void		set_flag(t_minishell *mini, t_token tokens);
+
+//builtins
+char		*env_parsing(t_minishell *mini, int *i, int *j);
+int			ft_cd(t_cmd *cmd);
+int			ft_pwd(void);
+int			ft_cd(t_cmd *cmd);
+int			ft_echo(t_cmd *cmd);
+int			ft_env(t_minishell *mini);
+int			ft_export(t_minishell *mini);
+int			ft_unset(t_minishell *mini);
+int			while_table(t_minishell *mini, int *j, int *c, char **table);
+int			set_table(t_minishell *mini, char **table, int *j, int *k);
+int			ft_exit(t_minishell *mini);
+void		print_env(t_minishell *mini);
+
+//signals
+void		signal_handler(int signal);
+void		sigint_handler(int signal);
+void		set_signal_for_process(t_minishell *mini);
+void		set_signal_for_heredoc(t_minishell *mini);
+void		signal_reset(t_minishell *mini);
 
 //utils
-void	initialize_mini(t_minishell *mini, char **envp);
-void	clear_mini(t_minishell *mini);
-void	exit_program(t_minishell *mini);
-char	*check_env(t_minishell *mini, char *arg);
-void	signal_handler(int signal);
-void	sigint_handler(int signal);
-void	free_array(char **array);
-int		message_perror(char *str);
-int		count_2darray(char **table);
-int		whitespace_check(char *str);
-void	set_signal_for_process(t_minishell *mini);
-void	set_signal_for_heredoc(t_minishell *mini);
-void	signal_reset(t_minishell *mini);
-//void	print_tokens(t_token *tokens, int token_count);
-
-// buildins and start of exec
-int		ft_cd(t_cmd *cmd);
-int		ft_pwd(void);
-int		ft_cd(t_cmd *cmd);
-int		ft_echo(t_cmd *cmd);
-int		ft_env(t_minishell *mini);
-int		ft_export(t_minishell *mini);
-int		ft_unset(t_minishell *mini);
-int		while_table(t_minishell *mini, int *j, int *c, char **table);
-int		set_table(t_minishell *mini, char **table, int *j, int *k);
-void	free_scmd(t_cmd *cmd);
-int		ft_exit(t_minishell *mini);
-void	print_env(t_minishell *mini);
-int		ft_atoll(const char *str);
-
-//new functions Valerie
-void	nb_of_arg(t_minishell *mini, int n);
-void	cpy_cmd(t_minishell *mini, int n, int i);
-void	find_cmd(t_minishell *mini, int n);
-void	null_command2(t_minishell *mini, int n);
-void	exec_buildin2(t_minishell *mini, int n);
-void	redirect_input(t_minishell *mini, int i);
-void	redirect_here_doc(t_minishell *mini, int i);
-char	*create_here_doc_name(int count);
-void	redirect_output(t_minishell *mini, int i);
-void	redirect_append(t_minishell *mini, int i);
-int		all_here_doc2(t_minishell *mini);
-void	supp_here_doc_file(t_minishell *mini);
-void	clear_s_cmd(t_cmd *cmd);
-void	join_path_command2(char **path, char *command);
-char	*test_path2(char **path);
-void	find_path2(t_minishell *mini);
-void	child_path(t_minishell *mini);
-char	*child_path_execve(char *string);
-char	**child_array_execve(char **array);
-void	child_closenfree(t_minishell *mini);
-void	execve_failed(char *path_execve, char **array_execve);
-void	child2(t_minishell *mini, int n);
-int		parent2(t_minishell *mini);
-void	exec_bash_cmd(t_minishell *mini, int n);
-int		forker2(t_minishell *mini);
-void	time_to_execute(t_minishell *mini);
-char	*free_n_null(char *array);
-
-//tokenize and new parsing
-t_token	*tokenize(t_minishell *mini, char *arg);
-int		get_tokens(t_minishell *mini, t_token *tokens, char *arg);
-int		count_tokens(t_minishell *mini, char *arg);
-int		new_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
-char	*get_exit_code(t_minishell *mini);
-t_type	get_type(char *arg);
-int		redir_parsing2(t_minishell *mini);
-void	find_cmd(t_minishell *mini, int n);
-int		pipe_parsing(t_minishell *mini, char *arg);
-void	manual_redirection_loop(t_minishell *mini, int n, int i);
-void	manual_redirection(t_minishell *mini, int n);
-int		do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i);
-int		get_token_str_loop(t_minishell *mini, \
-		t_token *tokens, char *arg, int *i);
-int		count_string_loop(char *arg, int *i, t_type type, t_type quote_type);
-void	redirect_the_output(t_minishell *mini, int n);
-void	set_flag(t_minishell *mini, t_token tokens);
+int			initialize_s_cmd(t_minishell *mini);
+void		parsing_error(t_minishell *mini);
+void		malloc_error(t_minishell *mini, char **to_free);
+void		initialize_mini(t_minishell *mini, char **envp);
+void		clear_mini(t_minishell *mini);
+void		exit_program(t_minishell *mini);
+char		*check_env(t_minishell *mini, char *arg);
+void		free_array(char **array);
+int			message_perror(char *str);
+int			count_2darray(char **table);
+int			whitespace_check(char *str);
+int			ft_atoll(const char *str);
+void		nb_of_arg(t_minishell *mini, int n);
+void		free_scmd(t_cmd *cmd);
+void		clear_s_cmd(t_cmd *cmd);
+char		*free_n_null(char *array);
+char		*get_exit_code(t_minishell *mini);
+t_type		get_type(char *arg);
 
 #endif
