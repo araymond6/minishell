@@ -44,7 +44,7 @@ int	set_heredoc_flag(t_minishell *mini)
 	int	i;
 
 	i = 0;
-	mini->heredoc_flag = ft_calloc(mini->heredoc_count + 1, sizeof(char));
+	mini->heredoc_flag = ft_calloc(count_heredoc(mini) + 1, sizeof(char));
 	if (!mini->heredoc_flag)
 		return (1);
 	mini->heredoc_count = 0;
@@ -81,12 +81,12 @@ static int	read_write(t_minishell *mini, char *delimiter, int fd)
 	return (i);
 }
 
-char	*create_here_doc_name(t_minishell *mini)
+char	*create_here_doc_name(int count)
 {
 	char	*file_name;
 	char	*new_file_name;
 
-	file_name = ft_itoa(mini->heredoc_count);
+	file_name = ft_itoa(count);
 	if (!file_name)
 		return (printf("Impossible to execute here_doc"), NULL);
 	new_file_name = ft_strjoin(file_name, "..txt");
@@ -105,7 +105,7 @@ int	here_doc(t_minishell *mini, char *delimiter)
 
 	set_signal_for_heredoc(mini);
 	i = 0;
-	new_file_name = create_here_doc_name(mini);
+	new_file_name = create_here_doc_name(mini->heredoc_count);
 	if (!new_file_name)
 		return (1);
 	fd = open(new_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);

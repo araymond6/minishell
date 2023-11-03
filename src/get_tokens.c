@@ -79,15 +79,13 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 	int		rtn;
 
 	i[0] = 0;
-	i[1] = 0;
-	t = -1;
+	t = 0;
 	rtn = 0;
 	while (arg[i[0]])
 	{
 		if (rtn != 2)
 		{
 			set_flag(mini, tokens[t]);
-			t++;
 			tokens[t].token = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
 			if (!tokens[t].token)
 				return (malloc_error(mini, NULL), 1);
@@ -97,6 +95,8 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 		rtn = get_token_type(mini, &tokens[t], arg, i);
 		if (rtn == 1)
 			return (1);
+		if (rtn == 0)
+			t++;
 	}
 	return (0);
 }
