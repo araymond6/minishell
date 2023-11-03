@@ -87,7 +87,9 @@ int		here_doc(t_minishell *mini, char *delimiter);
 int		set_heredoc_flag(t_minishell *mini);
 char	*heredoc_substitution(t_minishell *mini, char *new_line);
 void	count_heredoc(t_minishell *mini);
-int		initialize_s_cmd(t_minishell *mini);
+void	initialize_s_cmd(t_minishell *mini);
+char	*heredoc_extra(t_minishell *mini, char *new, int *i, char *new_line);
+char	*heredoc_sub(t_minishell *mini, char *new, int *i, char *new_line);
 
 //utils_exec.c
 //parsing
@@ -110,6 +112,7 @@ int		message_perror(char *str);
 int		count_2darray(char **table);
 int		whitespace_check(char *str);
 void	set_signal_for_process(t_minishell *mini);
+void	set_signal_for_heredoc(t_minishell *mini);
 void	signal_reset(t_minishell *mini);
 //void	print_tokens(t_token *tokens, int token_count);
 

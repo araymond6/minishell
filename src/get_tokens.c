@@ -85,7 +85,7 @@ int	get_tokens(t_minishell *mini, t_token *tokens, char *arg)
 	while (arg[i[0]])
 	{
 		if (rtn != 2)
-		{ // TODO: make it so no sub if $ is after '<<' and isn't followed by a quote
+		{
 			set_flag(mini, tokens[t]);
 			t++;
 			tokens[t].token = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
