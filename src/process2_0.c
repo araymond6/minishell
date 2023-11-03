@@ -54,9 +54,9 @@ void	time_to_execute(t_minishell *mini)
 
 	i = 0;
 	mini->s_cmd = ft_calloc(1, sizeof(t_cmd));
-	if(!mini->s_cmd)
+	if (!mini->s_cmd)
 		return ;
-	if(initialize_s_cmd(mini) == 1)
+	if (initialize_s_cmd(mini) == 1)
 		return ;
 	if (all_here_doc2(mini) == 1)
 		return ;

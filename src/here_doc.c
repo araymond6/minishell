@@ -3,8 +3,6 @@
 int	all_here_doc2(t_minishell *mini)
 {
 	int		i;
-	pid_t	pidhd;
-	int		status;
 
 	i = 0;
 	mini->heredoc_count = 0;
@@ -12,26 +10,10 @@ int	all_here_doc2(t_minishell *mini)
 	{
 		if (mini->token[i].type == HERE_DOC)
 		{
-			pidhd = fork();
-			if (pidhd < 0)
-				return (free_scmd(mini->s_cmd), 1);
-			else if (pidhd == 0)
-			{
-				i++;
-				here_doc(mini, mini->token[i].token);
-				free_scmd(mini->s_cmd);
-				clear_mini(mini);
-				signal_reset(mini);
-			}
-			else
-			{
-				i++;
-				mini->heredoc_count++;
-				waitpid(pidhd, &status, 0);
-				mini->exit_code = status;
-				if (mini->exit_code != 0)
-					return (free_scmd(mini->s_cmd), 1);
-			}
+			i++;
+			here_doc(mini, mini->token[i].token);
+			mini->heredoc_count++;
+			signal_reset(mini);
 		}
 		i++;
 	}
