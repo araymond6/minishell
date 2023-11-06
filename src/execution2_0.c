@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:07 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 10:36:00 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:10:41 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,5 @@ void	exec_bash_cmd(t_minishell *mini, int n)
 	else if (mini->s_cmd->pids[i] == 0)
 		child2(mini, n);
 	else
-	{
 		parent2(mini);
-		clear_s_cmd(mini->s_cmd);
-	}
 }

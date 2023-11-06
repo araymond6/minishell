@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:06 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:26:47 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int	message_perror(char *str)
 	return (EXIT_FAILURE);
 }
 
-void	execve_failed(char *path_execve, char **array_execve)
+void	execve_failed(t_minishell *mini, char *path_execve, char **array_execve)
 {
 	message_perror("Impossible to execute the command: ");
+	mini->exit_code = 127;
 	free(path_execve);
 	free_array(array_execve);
 	exit(1);

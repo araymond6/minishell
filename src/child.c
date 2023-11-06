@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:22 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:33:20 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,11 @@ void	child2(t_minishell *mini, int n)
 		array_execve = child_array_execve(mini->s_cmd->cmd_arg);
 	mini->s_cmd->cmd_arg = NULL;
 	child_closenfree(mini);
+	mini->exit_code = 0;
 	if (path_execve == NULL)
-		execve_failed(path_execve, array_execve);
+		execve_failed(mini, path_execve, array_execve);
 	if (path_execve[0] == '\0')
-		execve_failed(path_execve, array_execve);
+		execve_failed(mini, path_execve, array_execve);
 	execve(path_execve, array_execve, mini->envp);
-	execve_failed(path_execve, array_execve);
+	execve_failed(mini, path_execve, array_execve);
 }

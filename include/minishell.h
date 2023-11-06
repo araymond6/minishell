@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 16:56:18 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:41:44 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ void		child_path(t_minishell *mini);
 char		*child_path_execve(char *string);
 char		**child_array_execve(char **array);
 void		child_closenfree(t_minishell *mini);
-void		execve_failed(char *path_execve, char **array_execve);
+void		execve_failed(t_minishell *mini, char *path_execve, \
+			char **array_execve);
 void		child2(t_minishell *mini, int n);
 int			parent2(t_minishell *mini);
 void		exec_bash_cmd(t_minishell *mini, int n);
@@ -154,9 +155,8 @@ void		set_flag(t_minishell *mini, t_token tokens);
 
 //builtins
 char		*env_parsing(t_minishell *mini, int *i, int *j);
-int			ft_cd(t_cmd *cmd);
 int			ft_pwd(void);
-int			ft_cd(t_cmd *cmd);
+int			ft_cd(t_minishell *mini, t_cmd *cmd);
 int			ft_echo(t_cmd *cmd);
 int			ft_env(t_minishell *mini);
 int			ft_export(t_minishell *mini);
@@ -192,5 +192,6 @@ void		clear_s_cmd(t_cmd *cmd);
 char		*free_n_null(char *array);
 char		*get_exit_code(t_minishell *mini);
 t_type		get_type(char *arg);
+int			check_redirect_input(t_minishell *mini);
 
 #endif
