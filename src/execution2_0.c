@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:07 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:34:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 10:55:18 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	exec_buildin2(t_minishell *mini, int n)
 			message_perror("Impossible to write in the pipe");
 		close(mini->s_cmd->pipe[1]);
 	}
+	else
+		close(mini->s_cmd->pipe[1]);
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;
 	manual_redirection_loop(mini, n, i);
