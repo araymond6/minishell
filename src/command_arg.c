@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:19 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 16:34:54 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:19:07 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cpy_cmd_loop(t_minishell *mini, int i, int r)
 		return ;
 	}
 	if (mini->token[i].inquote == 0 && mini->token[i].token[0] == 0)
-		mini->s_cmd->cmd_arg[r] = NULL;
+		mini->s_cmd->cmd_arg[r][0] = '\0';
 	else
 	{
 		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token,
