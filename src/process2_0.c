@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:29:49 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 12:00:55 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,33 @@ void	forker2(t_minishell *mini)
 	}
 }
 
-void	time_to_wait(t_minishell *mini)
+static int	check_valid_output(t_minishell *mini, int *i)
 {
-	int				i;
-	int				status;
+	int	fd;
 
-	i = 0;
-	while (i < mini->cmd_n)
+	if (mini->token[*i].type == REDIRECT_OUTPUT)
 	{
-		if (mini->s_cmd->pids[i] != 0)
+		(*i)++;
+		fd = open(mini->token[*i].token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
 		{
-			waitpid(mini->s_cmd->pids[i], &status, 0);
-			if (mini->exit_code != 1)
-			{
-				mini->exit_code = WEXITSTATUS(status);
-				if (mini->s_cmd->cmd_arg)
-				{
-					if (mini->exit_code == 1
-						&& ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) != 0)
-						mini->exit_code = 127;
-				}
-			}
+			message_perror(mini->token[*i].token);
+			return (1);
 		}
-		i++;
+		close(fd);
 	}
+	else if (mini->token[*i].type == APPEND)
+	{
+		(*i)++;
+		fd = open(mini->token[*i].token, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+		{
+			message_perror(mini->token[*i].token);
+			return (1);
+		}
+		close(fd);
+	}
+	return (0);
 }
 
 int	check_redirect_input(t_minishell *mini, int n)
@@ -109,6 +112,8 @@ int	check_redirect_input(t_minishell *mini, int n)
 			}
 			close(fd);
 		}
+		if (check_valid_output(mini, &i) == 1)
+			return (1);
 		i++;
 	}
 	return (0);

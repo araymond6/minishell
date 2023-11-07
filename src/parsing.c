@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:46:03 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 12:00:39 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,31 @@ void	read_input(t_minishell *mini)
 		if (mini->token)
 			time_to_execute(mini);
 		clear_mini(mini);
+	}
+}
+
+void	time_to_wait(t_minishell *mini)
+{
+	int				i;
+	int				status;
+
+	i = 0;
+	while (i < mini->cmd_n)
+	{
+		if (mini->s_cmd->pids[i] != 0)
+		{
+			waitpid(mini->s_cmd->pids[i], &status, 0);
+			if (mini->exit_code != 1)
+			{
+				mini->exit_code = WEXITSTATUS(status);
+				if (mini->s_cmd->cmd_arg)
+				{
+					if (mini->exit_code == 1
+						&& ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) != 0)
+						mini->exit_code = 127;
+				}
+			}
+		}
+		i++;
 	}
 }
