@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 15:41:09 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:00:22 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ int	forker2(t_minishell *mini)
 	{
 		clear_s_cmd(mini->s_cmd);
 		mini->exit_code = 0;
+		if (check_redirect_input(mini, n) == 1)
+		{
+			mini->exit_code = 1;
+			n++;
+			continue ;
+		}
 		find_cmd(mini, n);
 		check_type_of_command(mini, n);
 		n++;
@@ -80,13 +86,16 @@ void	time_to_wait(t_minishell *mini)
 	}
 }
 
-int	check_redirect_input(t_minishell *mini)
+int	check_redirect_input(t_minishell *mini, int n)
 {
 	int	i;
 	int	fd;
 
 	i = 0;
-	while (i < mini->cmd_n)
+
+	while (i < mini->cmd_n && mini->token[i].cmd_n != n)
+		i++;
+	while (i < mini->cmd_n && mini->token[i].cmd_n == n)
 	{
 		if (mini->token[i].type == REDIRECT_INPUT)
 		{

@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 16:56:18 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 08:56:37 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:09:30 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,6 @@ void		clear_s_cmd(t_cmd *cmd);
 char		*free_n_null(char *array);
 char		*get_exit_code(t_minishell *mini);
 t_type		get_type(char *arg);
-int			check_redirect_input(t_minishell *mini);
+int			check_redirect_input(t_minishell *mini, int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:06:57 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:10:46 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	read_input(t_minishell *mini)
 			free(mini->arg);
 			continue ;
 		}
+		mini->arg = heredoc_substitution(mini, mini->arg);
 		mini->token = tokenize(mini, mini->arg);
 		if (!mini->token)
 		{
