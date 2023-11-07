@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 12:44:21 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:41:32 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	check_type_of_command(t_minishell *mini, int n)
 	if (mini->s_cmd->cmd_arg == NULL)
 		null_command2(mini, n);
 	else if (mini->s_cmd->cmd_arg[0] == NULL)
+	{
+		free(mini->s_cmd->cmd_arg);
+		mini->s_cmd->cmd_arg = NULL;
+		null_command2(mini, n);
+	}
+	else if (mini->s_cmd->cmd_arg[0][0] == 0)
 	{
 		free(mini->s_cmd->cmd_arg);
 		mini->s_cmd->cmd_arg = NULL;
