@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:15:41 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:34:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:34:49 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ int	do_substitution(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	type = get_type(&arg[i[0]]);
 	tokens->type = STRING;
 	if (type == STRING || type == SINGLE_QUOTE \
-	|| type == DOUBLE_QUOTE || type == DOLLAR_SIGN)
+	|| type == DOUBLE_QUOTE || type == DOLLAR_SIGN || \
+	whitespace_check(&mini->arg[i[0]]))
+	{
 		return (2);
+	}
 	return (0);
 }

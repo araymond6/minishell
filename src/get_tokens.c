@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:54 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:35:40 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:30:43 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	get_token_type2(t_minishell *mini, t_token *tokens, char *arg, int *i)
 int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 {
 	tokens->type = get_type(&arg[i[0]]);
+	printf("c: %c\n", arg[i[0]]);
 	if (tokens->type == DOLLAR_SIGN && mini->prev_heredoc == 1)
 		tokens->type = STRING;
 	if (tokens->type == WHITESPACE)
@@ -69,6 +70,8 @@ int	get_token_type(t_minishell *mini, t_token *tokens, char *arg, int *i)
 		{
 			i[0]++;
 			tokens->type = get_type(&arg[i[0]]);
+			if (mini->arg[i[0]] == '\0')
+				return (2);
 		}
 		if (arg[i[0]])
 			return (2);
