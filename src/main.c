@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:48 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:55:56 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	reset_stdin_stdout(t_minishell *mini)
+{
+	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
+		message_perror("Impossible to restore stdin");
+	close(mini->s_cmd->fd_stdin);
+	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
+		message_perror("Impossible to restore stdout");
+	close(mini->s_cmd->fd_stdout);
+}
 
 void	time_to_execute(t_minishell *mini)
 {
@@ -21,6 +31,13 @@ void	time_to_execute(t_minishell *mini)
 		return ;
 	if (all_here_doc2(mini) == 1 || mini->sigint == 1)
 	{
+		reset_stdin_stdout(mini);
+		supp_here_doc_file(mini);
+		return ;
+	}
+	if (check_redirect_input(mini) == 1)
+	{
+		reset_stdin_stdout(mini);
 		supp_here_doc_file(mini);
 		free_scmd(mini->s_cmd);
 		return ;
@@ -28,12 +45,7 @@ void	time_to_execute(t_minishell *mini)
 	set_signal_for_process(mini);
 	forker2(mini);
 	time_to_wait(mini);
-	if (dup2(mini->s_cmd->fd_stdin, STDIN_FILENO) == -1)
-		message_perror("Impossible to restore stdin");
-	close(mini->s_cmd->fd_stdin);
-	if (dup2(mini->s_cmd->fd_stdout, STDOUT_FILENO) == -1)
-		message_perror("Impossible to restore stdout");
-	close(mini->s_cmd->fd_stdout);
+	reset_stdin_stdout(mini);
 	supp_here_doc_file(mini);
 	free_scmd(mini->s_cmd);
 }

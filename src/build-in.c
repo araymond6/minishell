@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:26 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:02:01 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	execute_buildin(t_minishell *mini)
 	if (ft_strncmp(mini->s_cmd->cmd_arg[0], "echo", 5) == 0)
 		return (ft_echo(mini->s_cmd));
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "cd", 3) == 0)
-		return (ft_cd(mini->s_cmd));
+		return (ft_cd(mini, mini->s_cmd));
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "pwd", 4) == 0)
 		return (ft_pwd());
 	else if (ft_strncmp(mini->s_cmd->cmd_arg[0], "export", 7) == 0)

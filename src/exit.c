@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:04 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:07:13 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	ft_exit_2plus_arg(t_minishell *mini, int nb_arg)
 	if (nb_arg > 2)
 	{
 		if (is_valid_exit_code(mini) == 0)
+		{
+			mini->exit_code = 1;
 			return (printf("Too many arguments\n"), 1);
+		}
 		supp_here_doc_file(mini);
 		close(mini->s_cmd->fd_stdin);
 		close(mini->s_cmd->fd_stdout);
@@ -56,7 +59,7 @@ void	ft_exit_1_arg(t_minishell *mini, int nb_arg)
 			mini->exit_code = 255;
 		}
 		else
-			mini->exit_code = atol(mini->s_cmd->cmd_arg[1]);
+			mini->exit_code = ft_atoll(mini->s_cmd->cmd_arg[1]);
 		supp_here_doc_file(mini);
 		close(mini->s_cmd->fd_stdin);
 		close(mini->s_cmd->fd_stdout);
@@ -72,8 +75,6 @@ int	ft_exit(t_minishell *mini)
 	nb_arg = 0;
 	close(mini->s_cmd->pipe[1]);
 	close(mini->s_cmd->pipe[0]);
-	if (mini->cmd_n != 1)
-		return (0);
 	while (mini->s_cmd->cmd_arg[nb_arg])
 		nb_arg++;
 	if (nb_arg == 1)

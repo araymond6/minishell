@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:06:57 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ static int	check_pipe(char *arg, int *i, int *temp, t_type type)
 	return (0);
 }
 
+static int	quote_check(t_minishell *mini, char *arg, int *i)
+{
+	if (arg[*i] == '\'')
+	{
+		(*i)++;
+		while (arg[*i] != '\'')
+			(*i)++;
+	}
+	else if (arg[*i] == '\"')
+	{
+		(*i)++;
+		while (arg[*i] != '\"')
+			(*i)++;
+	}
+}
+
 int	pipe_parsing(t_minishell *mini, char *arg)
 {
 	int		i;
@@ -56,6 +72,8 @@ int	pipe_parsing(t_minishell *mini, char *arg)
 			if (check_pipe(arg, &i, &temp, type) == 1)
 				return (parsing_error(mini), 1);
 		}
+		else if (arg[i] == '\'' || arg[i] == '\"')
+			quote_check(mini, arg, &i);
 		i++;
 	}
 	return (0);

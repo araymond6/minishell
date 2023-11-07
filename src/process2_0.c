@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process2_0.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:41:09 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	forker2(t_minishell *mini)
 	n = 1;
 	while (n <= mini->cmd_n)
 	{
+		clear_s_cmd(mini->s_cmd);
+		mini->exit_code = 0;
 		find_cmd(mini, n);
 		check_type_of_command(mini, n);
 		n++;
@@ -57,8 +59,8 @@ int	forker2(t_minishell *mini)
 
 void	time_to_wait(t_minishell *mini)
 {
-	int	i;
-	int	status;
+	int				i;
+	int				status;
 
 	i = 0;
 	while (i < mini->cmd_n)
@@ -66,7 +68,38 @@ void	time_to_wait(t_minishell *mini)
 		if (mini->s_cmd->pids[i] != 0)
 		{
 			waitpid(mini->s_cmd->pids[i], &status, 0);
+			mini->exit_code = WEXITSTATUS(status);
+			if (mini->s_cmd->cmd_arg)
+			{
+				if (mini->exit_code == 1
+					&& ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) != 0)
+					mini->exit_code = 127;
+			}
 		}
 		i++;
 	}
+}
+
+int	check_redirect_input(t_minishell *mini)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	while (i < mini->cmd_n)
+	{
+		if (mini->token[i].type == REDIRECT_INPUT)
+		{
+			i++;
+			fd = open(mini->token[i].token, O_RDONLY);
+			if (fd == -1)
+			{
+				message_perror(mini->token[i].token);
+				return (1);
+			}
+			close(fd);
+		}
+		i++;
+	}
+	return (0);
 }

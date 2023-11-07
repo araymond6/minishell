@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:18:57 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 09:43:49 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,32 @@ int	ft_pwd(void)
 	return (0);
 }
 
-int	ft_cd(t_cmd *cmd)
+int	ft_cd(t_minishell *mini, t_cmd *cmd)
 {
-	if (cmd->cmd_arg[2])
-		return (message_perror("Too many arguments"));
+	int		count ;
+	char	*home;
+
+	count = count_2darray(cmd->cmd_arg);
+	if (count == 1)
+	{
+		home = check_env(mini, "HOME");
+		if (chdir(home + 5) == -1)
+		{
+			if (home)
+				free(home);
+			home = NULL;
+			mini->exit_code = 1;
+			return (message_perror("cd"));
+		}
+		free(home);
+		home = NULL;
+		return (0);
+	}
 	if (chdir(cmd->cmd_arg[1]) == -1)
-		return (message_perror("cd : "));
+	{
+		mini->exit_code = 1;
+		return (message_perror("cd"));
+	}
 	return (0);
 }
 

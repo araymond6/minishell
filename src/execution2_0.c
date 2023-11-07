@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution2_0.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:07 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:10:41 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	exec_buildin2(t_minishell *mini, int n)
 			message_perror("Impossible to write in the pipe");
 		close(mini->s_cmd->pipe[1]);
 	}
+	else
+		close(mini->s_cmd->pipe[1]);
 	while (i < mini->token_count && mini->token[i].cmd_n != n)
 		i++;
 	manual_redirection_loop(mini, n, i);
@@ -85,8 +87,5 @@ void	exec_bash_cmd(t_minishell *mini, int n)
 	else if (mini->s_cmd->pids[i] == 0)
 		child2(mini, n);
 	else
-	{
 		parent2(mini);
-		clear_s_cmd(mini->s_cmd);
-	}
 }
