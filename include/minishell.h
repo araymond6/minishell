@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 16:56:18 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:00:41 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:27:40 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void		execve_failed(t_minishell *mini, char *path_execve, \
 void		child2(t_minishell *mini, int n);
 int			parent2(t_minishell *mini);
 void		exec_bash_cmd(t_minishell *mini, int n);
-int			forker2(t_minishell *mini);
+void		forker2(t_minishell *mini);
 void		time_to_execute(t_minishell *mini);
 int			redir_parsing2(t_minishell *mini);
 void		manual_redirection_loop(t_minishell *mini, int n, int i);
