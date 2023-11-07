@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:54 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:27:15 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:16:53 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_token_type3(t_minishell *mini, t_token *tokens, char *arg, int *i)
 	{
 		if (arg[i[0] + 1] == '\'' || arg[i[0] + 1] == '\"')
 		{
-			i[0]++;
+			i[0]++; //TODO: remove all $substitution, fix single quote substitution
 			return (2);
 		}
 		error = do_substitution(mini, tokens, arg, i);

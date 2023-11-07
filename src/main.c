@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:48 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 15:55:56 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 10:53:26 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ void	time_to_execute(t_minishell *mini)
 	{
 		reset_stdin_stdout(mini);
 		supp_here_doc_file(mini);
-		return ;
-	}
-	if (check_redirect_input(mini) == 1)
-	{
-		reset_stdin_stdout(mini);
-		supp_here_doc_file(mini);
-		free_scmd(mini->s_cmd);
 		return ;
 	}
 	set_signal_for_process(mini);
