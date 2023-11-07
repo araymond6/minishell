@@ -6,11 +6,33 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 12:13:49 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:48:52 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	count_type3(char *arg, int *i, int *count, t_type type)
+{
+	if (type == DOLLAR_SIGN)
+	{
+		(*i)++;
+		if (arg[*i] == '?')
+			(*i)++;
+		else if (arg[*i] == '\"' || arg[*i] == '\'')
+			return (0);
+		else
+		{
+			while (arg[*i] && (arg[*i] == '_' || ft_isalnum(arg[*i])))
+				(*i)++;
+		}
+		type = get_type(&arg[*i]);
+		if ((type != STRING && type != SINGLE_QUOTE && \
+			type != DOUBLE_QUOTE && type != DOLLAR_SIGN) || arg[*i] == 0)
+			(*count)++;
+	}
+	return (0);
+}
 
 int	count_type2(char *arg, int *i, int *count, t_type type)
 {
@@ -28,6 +50,8 @@ int	count_type2(char *arg, int *i, int *count, t_type type)
 			type != DOUBLE_QUOTE && type != DOLLAR_SIGN) || !arg[*i])
 			(*count)++;
 	}
+	else
+		return (count_type3(arg, i, count, type));
 	return (0);
 }
 
