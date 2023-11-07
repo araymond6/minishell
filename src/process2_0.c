@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 12:00:55 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/07 12:44:21 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	forker2(t_minishell *mini)
 		mini->exit_code = 0;
 		if (check_redirect_input(mini, n) == 1)
 		{
+			if (pipe(mini->s_cmd->pipe) == -1)
+				message_perror("Impossible to create a pipe");
+			else
+				parent2(mini);
 			mini->exit_code = 1;
 			n++;
 			continue ;
