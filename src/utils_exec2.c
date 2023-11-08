@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:03 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 13:10:06 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/08 12:09:43 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,13 @@ char	*create_here_doc_name(int count)
 	file_name = ft_itoa(count);
 	if (!file_name)
 		return (printf("Impossible to execute here_doc"), NULL);
-	new_file_name = ft_strjoin(file_name, "..txt");
+	new_file_name = ft_strjoin("/tmp/", file_name);
 	if (!new_file_name)
 		return (printf("Impossible to execute here_doc"), NULL);
 	free(file_name);
-	return (new_file_name);
+	file_name = ft_strjoin(new_file_name, "..txt");
+	if (!file_name)
+		return (printf("Impossible to execute here_doc"), NULL);
+	free(new_file_name);
+	return (file_name);
 }

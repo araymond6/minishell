@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:26 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:34:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/08 12:14:44 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void	join_path_command2(char **path, char *command)
 
 	i_path = 0;
 	if (!path)
-	{
-		message_perror("impossible to find PATH in the envp");
 		return ;
-	}
 	while (path[i_path])
 	{
 		path1 = path[i_path];
@@ -65,10 +62,25 @@ char	*test_path2(char **path)
 	return (NULL);
 }
 
+static void	find_path2_1(t_minishell *mini)
+{
+	char	**tab_path;
+
+	if (mini->path)
+	{
+		tab_path = ft_split(mini->path + 5, ':');
+		join_path_command2(tab_path, mini->s_cmd->cmd_arg[0]);
+		mini->s_cmd->path = test_path2(tab_path);
+		free_array(tab_path);
+		tab_path = NULL;
+	}
+	else
+		mini->s_cmd->path = NULL;
+}
+
 void	find_path2(t_minishell *mini)
 {
 	int		len;
-	char	**tab_path;
 
 	if (access(mini->s_cmd->cmd_arg[0], X_OK) == 0)
 	{
@@ -84,11 +96,5 @@ void	find_path2(t_minishell *mini)
 		ft_strlcpy(mini->s_cmd->path, mini->s_cmd->cmd_arg[0], len + 1);
 	}
 	else
-	{
-		tab_path = ft_split(mini->path + 5, ':');
-		join_path_command2(tab_path, mini->s_cmd->cmd_arg[0]);
-		mini->s_cmd->path = test_path2(tab_path);
-		free_array(tab_path);
-		tab_path = NULL;
-	}
+		find_path2_1(mini);
 }

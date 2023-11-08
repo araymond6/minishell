@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:15:41 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 13:34:49 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:54:30 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	initialize_mini(t_minishell *mini, char **envp)
 	ft_bzero(mini, sizeof(t_minishell));
 	mini->envp = envp;
 	mini->path = get_path(mini);
-	signal_reset(mini);
 }
 
 void	clear_mini(t_minishell *mini)

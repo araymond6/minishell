@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 12:00:39 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/08 12:10:42 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ static void	quote_check(char *arg, int *i)
 	if (arg[*i] == '\'')
 	{
 		(*i)++;
-		while (arg[*i] != '\'')
+		while (arg[*i] != '\'' && arg[*i])
 			(*i)++;
 	}
 	else if (arg[*i] == '\"')
 	{
 		(*i)++;
-		while (arg[*i] != '\"')
+		while (arg[*i] != '\"' && arg[*i])
 			(*i)++;
 	}
 }
