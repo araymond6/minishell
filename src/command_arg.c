@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:19 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 13:19:54 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:26:47 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cpy_cmd_loop(t_minishell *mini, int i, int r)
 		return ;
 	}
 	if (mini->token[i].inquote == 0 && mini->token[i].token[0] == 0)
-		mini->s_cmd->cmd_arg[r][0] = '\0';
+		ft_strlcpy(mini->s_cmd->cmd_arg[r], "", 1);
 	else
 	{
 		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token,
