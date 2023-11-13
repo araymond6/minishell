@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/08 12:10:42 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:25:02 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	pipe_parsing(t_minishell *mini, char *arg)
 		}
 		else if (arg[i] == '\'' || arg[i] == '\"')
 			quote_check(arg, &i);
-		i++;
+		if (arg[i] != '\0')       //TODO
+			i++;
 	}
 	return (0);
 }

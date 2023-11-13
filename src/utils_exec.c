@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:06 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 16:34:39 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/13 08:59:11 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	child_closenfree(t_minishell *mini)
 {
 	if (mini->s_cmd)
 	{
+		close(mini->s_cmd->fd_stdin);
+		close(mini->s_cmd->fd_stdout);
 		if (mini->s_cmd->path)
 		{
 			free(mini->s_cmd->path);
@@ -60,8 +62,6 @@ void	child_closenfree(t_minishell *mini)
 			free_array(mini->s_cmd->cmd_arg);
 			mini->s_cmd->cmd_arg = NULL;
 		}
-		close(mini->s_cmd->fd_stdin);
-		close(mini->s_cmd->fd_stdout);
 		if (mini->s_cmd->pids)
 		{
 			free(mini->s_cmd->pids);
