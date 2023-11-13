@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_arg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:19 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 13:35:59 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:50:54 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cpy_cmd_loop(t_minishell *mini, int i, int r)
 		return ;
 	}
 	if (mini->token[i].inquote == 0 && mini->token[i].token[0] == 0)
-		mini->s_cmd->cmd_arg[r][0] = '\0';
+		ft_strlcpy(mini->s_cmd->cmd_arg[r], "", 1);
 	else
 	{
 		ft_strlcpy(mini->s_cmd->cmd_arg[r], mini->token[i].token,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:04 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:10:25 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:50:26 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ int	ft_exit_2plus_arg(t_minishell *mini, int nb_arg)
 		if (is_valid_exit_code(mini) == 0)
 		{
 			mini->exit_code = 1;
-			return (printf("Too many arguments\n"), 1);
+			return (write(2, "Too many arguments\n", 20), 1);
+		}
+		else
+		{
+			write(2, "Not a numeric argument\n", 24);
+			mini->exit_code = 255;
 		}
 		supp_here_doc_file(mini);
 		close(mini->s_cmd->fd_stdin);
@@ -55,7 +60,7 @@ void	ft_exit_1_arg(t_minishell *mini, int nb_arg)
 	{
 		if (is_valid_exit_code(mini) == 1)
 		{
-			printf("Not a numeric argument\n");
+			write(2, "Not a numeric argument\n", 24);
 			mini->exit_code = 255;
 		}
 		else

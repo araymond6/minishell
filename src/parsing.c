@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 09:25:02 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:43:50 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	pipe_parsing(t_minishell *mini, char *arg)
 		}
 		else if (arg[i] == '\'' || arg[i] == '\"')
 			quote_check(arg, &i);
-		if (arg[i] != '\0')       //TODO
+		if (arg[i] != '\0')       
 			i++;
 	}
 	return (0);
@@ -120,15 +120,7 @@ void	time_to_wait(t_minishell *mini)
 		{
 			waitpid(mini->s_cmd->pids[i], &status, 0);
 			if (mini->exit_code != 1)
-			{
 				mini->exit_code = WEXITSTATUS(status);
-				if (mini->s_cmd->cmd_arg)
-				{
-					if (mini->exit_code == 1
-						&& ft_strncmp(mini->s_cmd->cmd_arg[0], "exit", 5) != 0)
-						mini->exit_code = 127;
-				}
-			}
 		}
 		i++;
 	}
