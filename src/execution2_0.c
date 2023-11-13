@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution2_0.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:07 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 09:25:22 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:04:37 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,11 @@ void	build_in_a_child(t_minishell *mini, int n)
 		j++;
 	manual_redirection_loop(mini, n, j);
 	execute_buildin(mini);
-	clear_mini(mini);       //TODO
-	close(mini->s_cmd->fd_stdin);       //TODO
-	close(mini->s_cmd->fd_stdout);       //TODO
+	if (mini->envpset == 1)
+		free_array(mini->envp);
+	clear_mini(mini);
+	close(mini->s_cmd->fd_stdin);
+	close(mini->s_cmd->fd_stdout);
 	free_scmd(mini->s_cmd);
 	exit(0);
 }

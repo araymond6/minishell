@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 16:56:18 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:32:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:38:06 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "readline/history.h"
 # include "../libft/src/libft.h"
 # include <limits.h>
+# include <errno.h>
 
 typedef struct s_cmd
 {
