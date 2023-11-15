@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 11:43:50 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:08:25 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,12 @@ void	time_to_wait(t_minishell *mini)
 		if (mini->s_cmd->pids[i] != 0)
 		{
 			waitpid(mini->s_cmd->pids[i], &status, 0);
-			if (mini->exit_code != 1)
+			if (WIFEXITED(status) == true)
 				mini->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status) == true)
+				mini->exit_code = 128 + WTERMSIG(status);
+			else
+				mini->exit_code = 128 + WSTOPSIG(status);
 		}
 		i++;
 	}
