@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:04 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 11:50:26 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/15 09:59:35 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int	ft_exit_2plus_arg(t_minishell *mini, int nb_arg)
 		if (is_valid_exit_code(mini) == 0)
 		{
 			mini->exit_code = 1;
+			write(2, "exit\n", 6);
 			return (write(2, "Too many arguments\n", 20), 1);
 		}
 		else
 		{
+			write(2, "exit\n", 6);
 			write(2, "Not a numeric argument\n", 24);
 			mini->exit_code = 255;
 		}
