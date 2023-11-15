@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/15 10:12:34 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:14:46 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,6 @@ int	parent2(t_minishell *mini)
 	close(mini->s_cmd->pipe[0]);
 	close(mini->s_cmd->pipe[1]);
 	return (0);
-}
-
-int	find_first_command(t_minishell *mini, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < mini->token_count && mini->token[i].cmd_n != n)
-	{
-		i++;
-	}
-	while (i < mini->token_count && mini->token[i].cmd_n == n)
-	{
-		if (mini->token[i].type != STRING)
-			i += 2;
-		else
-			return (i);
-	}
-	return (i);
 }
 
 void	check_type_of_command(t_minishell *mini, int n)

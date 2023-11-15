@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:38 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/06 16:35:39 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:15:30 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,23 @@ void	redirect_append(t_minishell *mini, int i)
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		message_perror("Impossible to read in the outfile");
 	close(fd);
+}
+
+int	find_first_command(t_minishell *mini, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->token_count && mini->token[i].cmd_n != n)
+	{
+		i++;
+	}
+	while (i < mini->token_count && mini->token[i].cmd_n == n)
+	{
+		if (mini->token[i].type != STRING)
+			i += 2;
+		else
+			return (i);
+	}
+	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 16:56:18 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 13:26:34 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:15:53 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void		manual_redirection(t_minishell *mini, int n);
 void		redirect_the_output(t_minishell *mini, int n);
 void		find_cmd(t_minishell *mini, int n);
 void		time_to_wait(t_minishell *mini);
+int			find_first_command(t_minishell *mini, int n);
 
 //tokens
 t_token		*tokenize(t_minishell *mini, char *arg);
