@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:12 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:09:55 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:58:42 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static int	unset_error_check(t_minishell *mini, int *i, int *c)
 	ft_isdigit(mini->s_cmd->cmd_arg[*i][0]) || \
 	mini->s_cmd->cmd_arg[*i][0] == '=')
 	{
-		printf("\"%s\": not a valid identifier\n", \
-		mini->s_cmd->cmd_arg[(*i)++]);
+		write(2, "Not a valid identifier\n", 24);
+		(*i)++;
 		return (1);
 	}
 	*c = unset_parsing(mini, i);

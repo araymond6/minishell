@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:18:44 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/03 18:34:33 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:10:41 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static char	*get_substitute(t_minishell *mini, char *sub)
 	{
 		temp = sub;
 		sub = check_env(mini, temp);
+		free(temp);
 		if (!sub)
 			return (malloc_error(mini, NULL), NULL);
-		free(temp);
 	}
 	return (sub);
 }

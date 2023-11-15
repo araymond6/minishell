@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:23:16 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 11:46:42 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:07:52 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,30 @@ int	parent2(t_minishell *mini)
 	return (0);
 }
 
+int	find_first_command(t_minishell *mini, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->token_count && mini->token[i].cmd_n != n)
+	{
+		i++;
+	}
+	while (i < mini->token_count && mini->token[i].cmd_n == n)
+	{
+		if (mini->token[i].type != STRING)
+			i += 2;
+		else
+			return (i);
+	}
+	return (i);
+}
+
 void	check_type_of_command(t_minishell *mini, int n)
 {
+	int	i;
+
+	i = find_first_command(mini, n);
 	if (pipe(mini->s_cmd->pipe) == -1)
 		message_perror("Impossible to create a pipe");
 	if (mini->s_cmd->cmd_arg == NULL)
@@ -33,7 +55,7 @@ void	check_type_of_command(t_minishell *mini, int n)
 		mini->s_cmd->cmd_arg = NULL;
 		null_command2(mini, n);
 	}
-	else if (mini->s_cmd->cmd_arg[0][0] == 0)
+	else if (mini->s_cmd->cmd_arg[0][0] == 0 && mini->token[i].inquote == 0)
 	{
 		free_array(mini->s_cmd->cmd_arg);
 		mini->s_cmd->cmd_arg = NULL;

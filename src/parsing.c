@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 13:08:25 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:05:49 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	pipe_parsing(t_minishell *mini, char *arg)
 		}
 		else if (arg[i] == '\'' || arg[i] == '\"')
 			quote_check(arg, &i);
-		if (arg[i] != '\0')       
+		if (arg[i] != '\0')
 			i++;
 	}
 	return (0);

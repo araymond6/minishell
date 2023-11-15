@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:06 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/13 08:59:11 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:25:16 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	execve_failed(t_minishell *mini, char *path_execve, char **array_execve)
 	mini->exit_code = 127;
 	free(path_execve);
 	free_array(array_execve);
-	exit(1);
+	exit(mini->exit_code);
 }
 
 void	child_closenfree(t_minishell *mini)

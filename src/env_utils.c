@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:09 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:10:19 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:57:18 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ char	*env_parsing(t_minishell *mini, int *i, int *j)
 			if (mini->s_cmd->cmd_arg[*i][*j] != '_')
 			{
 				free(str);
-				printf("\"%s\": not a valid identifier\n", \
-				mini->s_cmd->cmd_arg[*i]);
+				write(2, "Not a valid identifier\n", 24);
 				mini->exit_code = 1;
 				return (NULL);
 			}

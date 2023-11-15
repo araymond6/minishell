@@ -6,7 +6,7 @@
 /*   By: vst-pier <vst-pier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:17:07 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/14 10:59:30 by vst-pier         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:06:17 by vst-pier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	build_in_a_child(t_minishell *mini, int n)
 		j++;
 	manual_redirection_loop(mini, n, j);
 	execute_buildin(mini);
+	if (mini->envpset == 1)
+		free_array(mini->envp);
 	clear_mini(mini);
 	close(mini->s_cmd->fd_stdin);
 	close(mini->s_cmd->fd_stdout);

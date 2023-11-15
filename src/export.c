@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:16:59 by araymond          #+#    #+#             */
-/*   Updated: 2023/11/07 11:10:36 by araymond         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:57:05 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ static int	export_error_check(t_minishell *mini, int *i, int *c)
 	|| ft_isdigit(mini->s_cmd->cmd_arg[*i][0]) || \
 	mini->s_cmd->cmd_arg[*i][0] == '=')
 	{
-		printf("\"%s\": not a valid identifier\n", \
-		mini->s_cmd->cmd_arg[*i]);
+		write(2, "Not a valid identifier\n", 24);
 		mini->exit_code = 1;
 		(*i)++;
 		return (1);
